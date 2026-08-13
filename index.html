@@ -28,6 +28,20 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #475569;
     }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printArea, #printArea * {
+        visibility: visible;
+      }
+      #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
@@ -80,7 +94,6 @@
     <!-- FULL ERP SIDEBAR -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
-        <!-- Logo Header -->
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
           <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
             <i class="fa-solid fa-calculator"></i>
@@ -91,16 +104,16 @@
           </div>
         </div>
 
-        <!-- Dynamic Accordion Navigation Menu -->
+        <!-- Navigation Menu -->
         <nav class="p-3 space-y-1 text-sm">
           
-          <!-- 1. Dashboard -->
+          <!-- Dashboard -->
           <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium transition-all">
             <i class="fa-solid fa-house w-5 text-blue-200"></i>
             <span>Dashboard</span>
           </a>
 
-          <!-- 2. Voucher Management -->
+          <!-- Voucher Management (Sub-menu Working) -->
           <div>
             <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3">
@@ -110,16 +123,16 @@
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuVouchers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" onclick="switchTab('vouchers')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Create Voucher</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Payment Voucher</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Receipt Voucher</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Journal Voucher</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Contra Voucher</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher List</a>
+              <a href="#" onclick="openVoucherForm('ALL')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Create Voucher</a>
+              <a href="#" onclick="openVoucherForm('Payment')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-400">Payment Voucher</a>
+              <a href="#" onclick="openVoucherForm('Receipt')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-400">Receipt Voucher</a>
+              <a href="#" onclick="openVoucherForm('Journal')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-blue-400">Journal Voucher</a>
+              <a href="#" onclick="openVoucherForm('Contra')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-amber-400">Contra Voucher</a>
+              <a href="#" onclick="switchTab('voucherList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 font-semibold text-slate-200">Voucher List</a>
             </div>
           </div>
 
-          <!-- 3. Voucher Approval -->
+          <!-- Other Modules -->
           <div>
             <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3">
@@ -135,41 +148,7 @@
             </div>
           </div>
 
-          <!-- 4. Income -->
-          <div>
-            <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-sack-dollar w-5 text-slate-400"></i>
-                <span>Income</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuIncome" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Entry</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Category</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Report</a>
-            </div>
-          </div>
-
-          <!-- 5. Expense -->
-          <div>
-            <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-money-bill-transfer w-5 text-slate-400"></i>
-                <span>Expense</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuExpense" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Entry</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Category</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Report</a>
-            </div>
-          </div>
-
-          <!-- 6. Accounts / Ledger -->
+          <!-- Accounts / Ledger -->
           <div>
             <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3">
@@ -180,134 +159,16 @@
             </button>
             <div id="menuLedger" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="switchTab('ledgers')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">General Ledger</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Ledger</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Ledger</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Ledger</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Ledger</a>
             </div>
           </div>
-
-          <!-- 7. Cash & Bank -->
-          <div>
-            <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-building-columns w-5 text-slate-400"></i>
-                <span>Cash & Bank</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuCashBank" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Account</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Account</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Deposit / Withdraw</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Deposit / Withdraw</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Reconciliation</a>
-            </div>
-          </div>
-
-          <!-- 8. Customer -->
-          <div>
-            <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-users w-5 text-slate-400"></i>
-                <span>Customer</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuCustomer" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Due</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Payment</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Statement</a>
-            </div>
-          </div>
-
-          <!-- 9. Supplier -->
-          <div>
-            <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-truck-field w-5 text-slate-400"></i>
-                <span>Supplier</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuSupplier" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Due</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Payment</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Statement</a>
-            </div>
-          </div>
-
-          <!-- 10. Reports -->
-          <div>
-            <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-chart-column w-5 text-slate-400"></i>
-                <span>Reports</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuReports" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Daily / Monthly / Yearly</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Profit & Loss</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Balance Sheet</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Receivable / Payable Report</a>
-            </div>
-          </div>
-
-          <!-- 11. Branch / Shop -->
-          <div>
-            <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-store w-5 text-slate-400"></i>
-                <span>Branch / Shop</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuBranch" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Head Office</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 01 to Shop 15</a>
-            </div>
-          </div>
-
-          <!-- 12. User Management -->
-          <div>
-            <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-user-gear w-5 text-slate-400"></i>
-                <span>User Management</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuUsers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users & Roles</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Permissions</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">User Activity</a>
-            </div>
-          </div>
-
-          <!-- 13. Audit Trail & Settings -->
-          <a href="#" onclick="switchTab('audit')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-            <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
-            <span>Audit Trail</span>
-          </a>
-          
-          <a href="#" onclick="switchTab('settings')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-            <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
-            <span>Settings</span>
-          </a>
 
         </nav>
       </div>
 
-      <!-- User Profile Bottom Widget -->
+      <!-- User Profile Widget -->
       <div class="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-950">
         <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold" id="userAvatar">
-            U
-          </div>
+          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold" id="userAvatar">U</div>
           <div class="overflow-hidden">
             <p class="text-xs font-bold text-white truncate" id="userName">Loading...</p>
             <p class="text-[10px] text-slate-400 uppercase font-semibold" id="userRole">Role</p>
@@ -339,7 +200,6 @@
         <!-- 1. Dashboard View -->
         <div id="dashboardView" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase text-slate-400">Total Income</p>
@@ -349,7 +209,6 @@
                 <i class="fa-solid fa-arrow-trend-up"></i>
               </div>
             </div>
-
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase text-slate-400">Total Expense</p>
@@ -359,7 +218,6 @@
                 <i class="fa-solid fa-arrow-trend-down"></i>
               </div>
             </div>
-
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase text-slate-400">Total Receivable</p>
@@ -369,7 +227,6 @@
                 <i class="fa-solid fa-hand-holding-dollar"></i>
               </div>
             </div>
-
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase text-slate-400">Net Profit / Loss</p>
@@ -379,58 +236,97 @@
                 <i class="fa-solid fa-scale-balanced"></i>
               </div>
             </div>
-
           </div>
         </div>
 
-        <!-- 2. Vouchers View -->
+        <!-- 2. Vouchers View (Universal Dynamic Form) -->
         <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-md font-bold text-slate-800 mb-4">Create New Voucher</h3>
-          <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-2xl">
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3>
+              <p class="text-xs text-slate-500">Fill in the voucher details below for 3-step approval workflow.</p>
+            </div>
+            <span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span>
+          </div>
+
+          <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Voucher Type</label>
-                <select id="vType" required class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
-                  <option value="Payment">Payment Voucher</option>
-                  <option value="Receipt">Receipt Voucher</option>
-                  <option value="Journal">Journal Voucher</option>
-                  <option value="Contra">Contra Voucher</option>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Type *</label>
+                <select id="vType" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="Payment">Payment Voucher (বাণিজ্যিক প্রদান)</option>
+                  <option value="Receipt">Receipt Voucher (টাকা গ্রহণ)</option>
+                  <option value="Journal">Journal Voucher (সামঞ্জস্য এন্ট্রি)</option>
+                  <option value="Contra">Contra Voucher (ক্যাশ-ব্যাংক ট্রান্সফার)</option>
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Account Head</label>
-                <input type="text" id="vAccount" required placeholder="e.g. Office Rent / Sales" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Account Head / Category *</label>
+                <input type="text" id="vAccount" required placeholder="e.g. Office Rent / Client Payment" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
               </div>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Amount (BDT)</label>
-                <input type="number" step="0.01" id="vAmount" required placeholder="0.00" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label>
+                <input type="number" step="0.01" id="vAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Date</label>
-                <input type="date" id="vDate" required class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Date *</label>
+                <input type="date" id="vDate" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
               </div>
             </div>
+
             <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1">Narration / Remarks</label>
-              <textarea id="vNarration" rows="2" placeholder="Write description..." class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm"></textarea>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Narration / Description</label>
+              <textarea id="vNarration" rows="3" placeholder="Enter voucher details or payment reference..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-all">
-              Submit Voucher for Approval
-            </button>
+
+            <div class="pt-2 flex items-center space-x-3">
+              <button type="submit" id="vSubmitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Submit Voucher</span>
+              </button>
+            </div>
           </form>
         </div>
 
-        <!-- 3. Approvals View -->
-        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-md font-bold text-slate-800 mb-4">Pending Approvals Queue</h3>
-          <div id="approvalsList" class="space-y-3">
-            <p class="text-slate-400 text-sm">No pending approvals found.</p>
+        <!-- 3. Voucher List View -->
+        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-md font-bold text-slate-800">All Vouchers & Status</h3>
+            <button onclick="loadVouchersList()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold transition-all">
+              <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 bg-slate-50 text-slate-500 font-semibold text-xs uppercase">
+                  <th class="p-3">Voucher ID</th>
+                  <th class="p-3">Date</th>
+                  <th class="p-3">Type</th>
+                  <th class="p-3">Amount</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="voucherTableBody">
+                <tr><td colspan="6" class="p-4 text-center text-slate-400">Loading vouchers list...</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <!-- 4. General Ledger View -->
+        <!-- 4. Approvals View -->
+        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-md font-bold text-slate-800 mb-4">Pending Approvals Queue</h3>
+          <div id="approvalsList" class="space-y-3">
+            <p class="text-slate-400 text-sm">Loading pending vouchers...</p>
+          </div>
+        </div>
+
+        <!-- 5. General Ledger View -->
         <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <h3 class="text-md font-bold text-slate-800 mb-4">General Ledger Entries</h3>
           <div class="overflow-x-auto">
@@ -445,7 +341,7 @@
                 </tr>
               </thead>
               <tbody id="ledgerTableBody">
-                <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading entries...</td></tr>
+                <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading ledger data...</td></tr>
               </tbody>
             </table>
           </div>
@@ -453,6 +349,36 @@
 
       </div>
     </main>
+  </div>
+
+  <!-- VOUCHER PRINT MODAL AREA -->
+  <div id="printArea" class="hidden bg-white p-8 max-w-2xl mx-auto border border-slate-300">
+    <div class="text-center border-b pb-4 mb-4">
+      <h1 class="text-2xl font-bold uppercase">Accounts ERP</h1>
+      <p class="text-xs text-slate-500">Official Voucher Slip</p>
+    </div>
+    <div class="grid grid-cols-2 text-xs mb-4">
+      <div><strong>Voucher ID:</strong> <span id="printVId"></span></div>
+      <div><strong>Date:</strong> <span id="printVDate"></span></div>
+      <div><strong>Type:</strong> <span id="printVType"></span></div>
+      <div><strong>Branch:</strong> HEAD_OFFICE</div>
+    </div>
+    <table class="w-full border text-xs text-left mb-6">
+      <tr class="bg-slate-100 border-b">
+        <th class="p-2">Account Head</th>
+        <th class="p-2 text-right">Amount (BDT)</th>
+      </tr>
+      <tr>
+        <td class="p-2" id="printVHead"></td>
+        <td class="p-2 text-right font-bold" id="printVAmount"></td>
+      </tr>
+    </table>
+    <div class="flex justify-between text-xs pt-12 border-t mt-12">
+      <div>Prepared By</div>
+      <div>GM Approval</div>
+      <div>MD Approval</div>
+      <div>Accounts Audit</div>
+    </div>
   </div>
 
   <!-- JAVASCRIPT ENGINE -->
@@ -535,7 +461,7 @@
         }
       } catch (err) {
         alert.className = "mb-4 p-3 rounded-lg text-sm font-medium bg-rose-50 text-rose-600 border border-rose-200";
-        alert.innerText = "Connection failed. Please check your internet or API connection.";
+        alert.innerText = "Connection failed. Please check internet or API URL.";
         alert.classList.remove('hidden');
       } finally {
         btn.disabled = false;
@@ -565,7 +491,7 @@
     }
 
     function switchTab(tabName) {
-      const tabs = ['dashboard', 'vouchers', 'approvals', 'ledgers'];
+      const tabs = ['dashboard', 'vouchers', 'voucherList', 'approvals', 'ledgers'];
       tabs.forEach(t => {
         const view = document.getElementById(`${t}View`);
         if (view) view.classList.add('hidden');
@@ -575,11 +501,31 @@
       if (selectedView) selectedView.classList.remove('hidden');
 
       if (tabName === 'dashboard') loadDashboardData();
+      if (tabName === 'voucherList') loadVouchersList();
     }
 
+    // Dynamic Voucher Form Switcher
+    function openVoucherForm(type) {
+      switchTab('vouchers');
+      const select = document.getElementById('vType');
+      const badge = document.getElementById('voucherTypeBadge');
+      const title = document.getElementById('voucherFormTitle');
+
+      if (type !== 'ALL') {
+        select.value = type;
+        badge.innerText = `${type} Voucher`;
+        title.innerText = `New ${type} Voucher Entry`;
+      } else {
+        badge.innerText = 'All Types';
+        title.innerText = 'Create New Voucher';
+      }
+    }
+
+    // Submit Voucher
     async function handleVoucherSubmit(event) {
       if (event) event.preventDefault();
       const token = localStorage.getItem('auth_token');
+      const btn = document.getElementById('vSubmitBtn');
       
       const payload = {
         type: document.getElementById('vType').value,
@@ -588,6 +534,9 @@
         date: document.getElementById('vDate').value,
         narration: document.getElementById('vNarration').value
       };
+
+      btn.disabled = true;
+      btn.innerText = "Submitting...";
 
       try {
         const response = await fetch(CONFIG.API_URL, {
@@ -601,14 +550,62 @@
 
         const result = await response.json();
         if (result.status === 'success') {
-          alert(`Voucher Created Successfully! ID: ${result.voucherId}`);
+          alert(`Voucher Created Successfully!\nVoucher ID: ${result.voucherId}\nStatus: PENDING_GM`);
           event.target.reset();
+          switchTab('voucherList');
         } else {
           alert(`Error: ${result.message}`);
         }
       } catch (err) {
         alert("Failed to create voucher.");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>Submit Voucher</span>`;
       }
+    }
+
+    // Load Voucher List
+    async function loadVouchersList() {
+      const token = localStorage.getItem('auth_token');
+      const tbody = document.getElementById('voucherTableBody');
+      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading vouchers...</td></tr>`;
+
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&token=${token}`);
+        const result = await res.json();
+
+        if (result.status === 'success' && result.data.length > 0) {
+          tbody.innerHTML = result.data.map(v => `
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+              <td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td>
+              <td class="p-3">${v.date}</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-slate-100">${v.type}</span></td>
+              <td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${v.status.includes('PENDING') ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">${v.status}</span></td>
+              <td class="p-3 text-right">
+                <button onclick="printVoucher('${v.voucher_id}', '${v.date}', '${v.type}', '${v.amount}', '${v.created_by}')" class="text-slate-500 hover:text-blue-600 font-semibold text-xs">
+                  <i class="fa-solid fa-print"></i> Print
+                </button>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No vouchers found.</td></tr>`;
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load vouchers.</td></tr>`;
+      }
+    }
+
+    // Print Voucher Function
+    function printVoucher(vId, date, type, amount, head) {
+      document.getElementById('printVId').innerText = vId;
+      document.getElementById('printVDate').innerText = date;
+      document.getElementById('printVType').innerText = type;
+      document.getElementById('printVHead').innerText = head || 'General Entry';
+      document.getElementById('printVAmount').innerText = `৳ ${Number(amount).toLocaleString()}`;
+      
+      window.print();
     }
   </script>
 </body>
