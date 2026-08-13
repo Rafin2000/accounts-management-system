@@ -91,7 +91,7 @@
   <!-- ==================== 2. MAIN APP DASHBOARD ==================== -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- FULL ERP SIDEBAR WITH ALL MODULES -->
+    <!-- FULL ERP SIDEBAR -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -132,7 +132,7 @@
             </div>
           </div>
 
-          <!-- 3. Voucher Approval -->
+          <!-- 3. Voucher Approval (Working Step 1, Step 2, Step 3) -->
           <div>
             <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3">
@@ -142,9 +142,9 @@
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuApprovals" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" onclick="switchTab('approvals')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Step 1 → GM Approval</a>
-              <a href="#" onclick="switchTab('approvals')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Step 2 → MD/CEO Approval</a>
-              <a href="#" onclick="switchTab('approvals')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Step 3 → Accounts Post</a>
+              <a href="#" onclick="loadApprovalStep('PENDING_GM')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-amber-400">Step 1 → GM Approval</a>
+              <a href="#" onclick="loadApprovalStep('PENDING_MD')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-blue-400">Step 2 → MD/CEO Approval</a>
+              <a href="#" onclick="loadApprovalStep('PENDING_ACCOUNTS')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-400">Step 3 → Accounts Post</a>
             </div>
           </div>
 
@@ -199,8 +199,6 @@
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Ledger</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Ledger</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Ledger</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Ledger</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Ledger</a>
             </div>
           </div>
 
@@ -216,10 +214,6 @@
             <div id="menuCashBank" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Account</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Account</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Deposit</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Withdrawal</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Deposit</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Withdrawal</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Reconciliation</a>
             </div>
           </div>
@@ -235,8 +229,6 @@
             </button>
             <div id="menuCustomer" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Due</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Payment</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Statement</a>
             </div>
           </div>
@@ -252,8 +244,6 @@
             </button>
             <div id="menuSupplier" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Due</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Payment</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Statement</a>
             </div>
           </div>
@@ -268,19 +258,9 @@
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuReports" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Daily Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Monthly Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Yearly Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Report</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Profit & Loss</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Balance Sheet</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Receivable Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Payable Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher Report</a>
             </div>
           </div>
 
@@ -295,10 +275,7 @@
             </button>
             <div id="menuBranch" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Head Office</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 01</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 02</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 03</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">... Shop 15</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 01 to Shop 15</a>
             </div>
           </div>
 
@@ -312,49 +289,19 @@
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuUsers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Roles</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Permissions</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">User Activity</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users & Roles</a>
             </div>
           </div>
 
-          <!-- 13. Audit Trail -->
-          <div>
-            <button onclick="toggleSubMenu('menuAudit')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
-                <span>Audit Trail</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuAudit" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Created By</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Approved By & Date</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Rejected By</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Edited History</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Posted By</a>
-            </div>
-          </div>
-
-          <!-- 14. Settings -->
-          <div>
-            <button onclick="toggleSubMenu('menuSettings')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
-                <span>Settings</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuSettings" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Company Information</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Branch Settings</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Account Categories</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher Settings</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Fiscal Year</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">System Settings</a>
-            </div>
-          </div>
+          <!-- 13. Audit Trail & Settings -->
+          <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
+            <span>Audit Trail</span>
+          </a>
+          <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
+            <span>Settings</span>
+          </a>
 
         </nav>
       </div>
@@ -433,7 +380,7 @@
           </div>
         </div>
 
-        <!-- 2. Vouchers View (Universal Dynamic Form) -->
+        <!-- 2. Vouchers Form View -->
         <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
             <div>
@@ -512,10 +459,17 @@
           </div>
         </div>
 
-        <!-- 4. Approvals View -->
+        <!-- 4. Approvals Queue View (FULLY WORKING) -->
         <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-md font-bold text-slate-800 mb-4">Pending Approvals Queue</h3>
-          <div id="approvalsList" class="space-y-3">
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800" id="approvalTitle">Pending Approvals Queue</h3>
+              <p class="text-xs text-slate-500" id="approvalSubtitle">Review vouchers and process approvals.</p>
+            </div>
+            <span id="approvalStageBadge" class="bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Pending</span>
+          </div>
+
+          <div id="approvalsListContainer" class="space-y-4">
             <p class="text-slate-400 text-sm">Loading pending vouchers...</p>
           </div>
         </div>
@@ -580,6 +534,8 @@
     const CONFIG = {
       API_URL: "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec"
     };
+
+    let currentApprovalStatus = 'PENDING_GM';
 
     document.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('auth_token');
@@ -696,6 +652,7 @@
 
       if (tabName === 'dashboard') loadDashboardData();
       if (tabName === 'voucherList') loadVouchersList();
+      if (tabName === 'ledgers') loadLedgersData();
     }
 
     function openVoucherForm(type) {
@@ -785,6 +742,155 @@
         }
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load vouchers.</td></tr>`;
+      }
+    }
+
+    // Load Approval Steps Dynamically
+    async function loadApprovalStep(statusFilter) {
+      currentApprovalStatus = statusFilter;
+      switchTab('approvals');
+
+      const title = document.getElementById('approvalTitle');
+      const badge = document.getElementById('approvalStageBadge');
+      const container = document.getElementById('approvalsListContainer');
+
+      if (statusFilter === 'PENDING_GM') {
+        title.innerText = 'Step 1 → GM Approval Queue';
+        badge.innerText = 'GM Stage';
+      } else if (statusFilter === 'PENDING_MD') {
+        title.innerText = 'Step 2 → MD/CEO Approval Queue';
+        badge.innerText = 'MD Stage';
+      } else if (statusFilter === 'PENDING_ACCOUNTS') {
+        title.innerText = 'Step 3 → Accounts Final Ledger Posting';
+        badge.innerText = 'Accounts Stage';
+      }
+
+      container.innerHTML = `<p class="text-slate-400 text-sm">Loading pending vouchers...</p>`;
+
+      const token = localStorage.getItem('auth_token');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${statusFilter}&token=${token}`);
+        const result = await res.json();
+
+        if (result.status === 'success' && result.data.length > 0) {
+          container.innerHTML = result.data.map(v => `
+            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center space-x-3 mb-1">
+                  <span class="font-bold text-blue-600">${v.voucher_id}</span>
+                  <span class="text-xs px-2 py-0.5 rounded font-semibold bg-white border border-slate-200">${v.type}</span>
+                  <span class="text-xs text-slate-400">${v.date}</span>
+                </div>
+                <p class="text-sm font-bold text-slate-800">Amount: ৳ ${Number(v.amount).toLocaleString()}</p>
+              </div>
+
+              <div class="flex items-center space-x-2">
+                ${statusFilter === 'PENDING_ACCOUNTS' ? `
+                  <button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all flex items-center space-x-1">
+                    <i class="fa-solid fa-check-double"></i>
+                    <span>Post to Ledger</span>
+                  </button>
+                ` : `
+                  <button onclick="processApproval('${v.voucher_id}', 'APPROVE')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all flex items-center space-x-1">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Approve</span>
+                  </button>
+                  <button onclick="processApproval('${v.voucher_id}', 'REJECT')" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold text-xs px-3 py-2 rounded-lg transition-all flex items-center space-x-1">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Reject</span>
+                  </button>
+                `}
+              </div>
+            </div>
+          `).join('');
+        } else {
+          container.innerHTML = `<p class="text-slate-400 text-sm">No vouchers waiting for approval in this stage.</p>`;
+        }
+      } catch (err) {
+        container.innerHTML = `<p class="text-rose-500 text-sm">Error loading vouchers.</p>`;
+      }
+    }
+
+    // Process Approval Action (GM / MD)
+    async function processApproval(voucherId, decision) {
+      const token = localStorage.getItem('auth_token');
+      const remarks = prompt(`Enter remarks for ${decision}:`) || 'No remarks';
+
+      try {
+        const response = await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'processApproval',
+            token: token,
+            voucherId: voucherId,
+            decision: decision,
+            remarks: remarks
+          })
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+          alert(`Action Successful! New Status: ${result.updatedStatus}`);
+          loadApprovalStep(currentApprovalStatus);
+        } else {
+          alert(`Approval Error: ${result.message}`);
+        }
+      } catch (err) {
+        alert("Failed to process approval.");
+      }
+    }
+
+    // Post Voucher to Ledger (Accounts Step 3)
+    async function postToLedger(voucherId) {
+      const token = localStorage.getItem('auth_token');
+
+      try {
+        const response = await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'postToLedger',
+            token: token,
+            voucherId: voucherId
+          })
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+          alert(`Posted to General Ledger Successfully!\nEntry ID: ${result.entryId}`);
+          loadApprovalStep('PENDING_ACCOUNTS');
+        } else {
+          alert(`Posting Error: ${result.message}`);
+        }
+      } catch (err) {
+        alert("Failed to post to ledger.");
+      }
+    }
+
+    // Load General Ledger Data
+    async function loadLedgersData() {
+      const token = localStorage.getItem('auth_token');
+      const tbody = document.getElementById('ledgerTableBody');
+      tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Loading entries...</td></tr>`;
+
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&token=${token}`);
+        const result = await res.json();
+
+        if (result.status === 'success' && result.data.length > 0) {
+          tbody.innerHTML = result.data.map(l => `
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+              <td class="p-3 font-semibold text-blue-600">${l.entry_id}</td>
+              <td class="p-3">${l.voucher_id}</td>
+              <td class="p-3">${l.account_head}</td>
+              <td class="p-3 font-bold text-rose-600">৳ ${Number(l.debit).toLocaleString()}</td>
+              <td class="p-3 font-bold text-emerald-600">৳ ${Number(l.credit).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No ledger entries found.</td></tr>`;
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">Failed to load ledger entries.</td></tr>`;
       }
     }
 
