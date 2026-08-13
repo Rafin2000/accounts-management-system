@@ -1,7 +1,5 @@
-// Accounts Management System - Configuration File
 const CONFIG = {
-  // Replace this with your actual Google Apps Script Web App URL
-  API_URL: "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE",
+  API_URL: "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec",
   SYSTEM_NAME: "Accounts Management System",
   VERSION: "1.0.0"
 };
