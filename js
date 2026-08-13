@@ -2,7 +2,6 @@
  * ACCOUNTS MANAGEMENT SYSTEM - FRONTEND APP ENGINE
  */
 
-// Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('auth_token');
   if (token) {
@@ -11,15 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     showLoginUI();
   }
-  
-  // Set default date for voucher form
-  const vDateInput = document.getElementById('vDate');
-  if (vDateInput) {
-    vDateInput.value = new Date().toISOString().split('T')[0];
-  }
 });
 
-// UI View Switchers
 function showLoginUI() {
   document.getElementById('loginSection').classList.remove('hidden');
   document.getElementById('appSection').classList.add('hidden');
@@ -29,7 +21,6 @@ function showDashboardUI() {
   document.getElementById('loginSection').classList.add('hidden');
   document.getElementById('appSection').classList.remove('hidden');
 
-  // Populate User info in UI
   const user = JSON.parse(localStorage.getItem('user_data') || '{}');
   document.getElementById('userName').innerText = user.name || 'User';
   document.getElementById('userRole').innerText = user.role || 'ROLE';
@@ -37,9 +28,10 @@ function showDashboardUI() {
   document.getElementById('branchBadge').innerText = `Branch: ${user.branch_id || 'HEAD_OFFICE'}`;
 }
 
-// Handle Authentication
 async function handleLogin(event) {
-  event.preventDefault();
+  // Prevent Page Refresh / Re-loading
+  if (event) event.preventDefault();
+
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
   const btn = document.getElementById('loginBtn');
@@ -86,7 +78,6 @@ function handleLogout() {
   showLoginUI();
 }
 
-// Fetch Dashboard Metrics
 async function loadDashboardData() {
   const token = localStorage.getItem('auth_token');
   try {
@@ -100,54 +91,5 @@ async function loadDashboardData() {
     }
   } catch (err) {
     console.error("Dashboard fetch error:", err);
-  }
-}
-
-// Tab Switcher
-function switchTab(tabName) {
-  const tabs = ['dashboard', 'vouchers', 'approvals', 'ledgers'];
-  tabs.forEach(t => {
-    const view = document.getElementById(`${t}View`);
-    if (view) view.classList.add('hidden');
-  });
-
-  const selectedView = document.getElementById(`${tabName}View`);
-  if (selectedView) selectedView.classList.remove('hidden');
-
-  if (tabName === 'dashboard') loadDashboardData();
-}
-
-// Create Voucher
-async function handleVoucherSubmit(event) {
-  event.preventDefault();
-  const token = localStorage.getItem('auth_token');
-  
-  const payload = {
-    type: document.getElementById('vType').value,
-    account_head: document.getElementById('vAccount').value,
-    amount: document.getElementById('vAmount').value,
-    date: document.getElementById('vDate').value,
-    narration: document.getElementById('vNarration').value
-  };
-
-  try {
-    const response = await fetch(CONFIG.API_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'createVoucher',
-        token: token,
-        payload: payload
-      })
-    });
-
-    const result = await response.json();
-    if (result.status === 'success') {
-      alert(`Voucher Created Successfully! ID: ${result.voucherId}`);
-      event.target.reset();
-    } else {
-      alert(`Error: ${result.message}`);
-    }
-  } catch (err) {
-    alert("Failed to create voucher.");
   }
 }
