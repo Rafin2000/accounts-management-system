@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <!-- Navigation Menu -->
+        <!-- Navigation Menu (ALL 14 MODULES RESTORED) -->
         <nav class="p-3 space-y-1 text-sm">
           
           <!-- 1. Dashboard -->
@@ -160,6 +160,9 @@
             <div id="menuIncome" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="switchTab('incomeEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Income Entry</a>
               <a href="#" onclick="switchTab('incomeList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Category</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Report</a>
             </div>
           </div>
 
@@ -175,10 +178,13 @@
             <div id="menuExpense" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="switchTab('expenseEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Expense Entry</a>
               <a href="#" onclick="switchTab('expenseList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Category</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Report</a>
             </div>
           </div>
 
-          <!-- 6. Accounts / Ledger (WORKING FULL 7 LEDGERS) -->
+          <!-- 6. Accounts / Ledger (FULL 7 LEDGERS) -->
           <div>
             <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3">
@@ -210,6 +216,143 @@
             <div id="menuCashBank" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Account</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Account</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Deposit</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Withdrawal</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Deposit</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Withdrawal</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Reconciliation</a>
+            </div>
+          </div>
+
+          <!-- 8. Customer -->
+          <div>
+            <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-users w-5 text-slate-400"></i>
+                <span>Customer</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuCustomer" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Due</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Payment</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Statement</a>
+            </div>
+          </div>
+
+          <!-- 9. Supplier -->
+          <div>
+            <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-truck-field w-5 text-slate-400"></i>
+                <span>Supplier</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuSupplier" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Due</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Payment</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Statement</a>
+            </div>
+          </div>
+
+          <!-- 10. Reports -->
+          <div>
+            <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-chart-column w-5 text-slate-400"></i>
+                <span>Reports</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuReports" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Daily Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Monthly Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Yearly Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Profit & Loss</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Balance Sheet</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Receivable Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Payable Report</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher Report</a>
+            </div>
+          </div>
+
+          <!-- 11. Branch / Shop -->
+          <div>
+            <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-store w-5 text-slate-400"></i>
+                <span>Branch / Shop</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuBranch" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Head Office</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 01</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 02</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 03</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">... Shop 15</a>
+            </div>
+          </div>
+
+          <!-- 12. User Management -->
+          <div>
+            <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-user-gear w-5 text-slate-400"></i>
+                <span>User Management</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuUsers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Roles</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Permissions</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">User Activity</a>
+            </div>
+          </div>
+
+          <!-- 13. Audit Trail -->
+          <div>
+            <button onclick="toggleSubMenu('menuAudit')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
+                <span>Audit Trail</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuAudit" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Created By</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Approved By & Date</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Rejected By</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Edited History</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Posted By</a>
+            </div>
+          </div>
+
+          <!-- 14. Settings -->
+          <div>
+            <button onclick="toggleSubMenu('menuSettings')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
+                <span>Settings</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuSettings" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Company Information</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Branch Settings</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Account Categories</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher Settings</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Fiscal Year</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">System Settings</a>
             </div>
           </div>
 
@@ -886,7 +1029,7 @@
       } catch (err) { alert("Failed to post to ledger."); }
     }
 
-    // DYNAMIC FILTERED LEDGER LOAD (SUPPORTING ALL 7 LEDGERS)
+    // DYNAMIC FILTERED LEDGER LOAD
     async function loadLedgersData(type = 'GENERAL', titleName = 'General Ledger Entries') {
       switchTab('ledgers');
       document.getElementById('ledgerTitleDisplay').innerText = titleName;
