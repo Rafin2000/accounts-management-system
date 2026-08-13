@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accounts Management System</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+
+  <!-- ==================== 1. LOGIN SECTION ==================== -->
+  <div id="loginSection" class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-3 shadow-lg shadow-blue-500/30">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900">Sign In to Accounts</h2>
+        <p class="text-sm text-slate-500 mt-1">Multi-branch Enterprise Management ERP</p>
+      </div>
+
+      <div id="loginAlert" class="hidden mb-4 p-3 rounded-lg text-sm font-medium"></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-5">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Email Address</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+              <i class="fa-regular fa-envelope"></i>
+            </span>
+            <input type="email" id="loginEmail" required placeholder="admin@system.com" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+          </div>
+        </div>
+
+        <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2">
+          <span>Sign In</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 2. MAIN APP DASHBOARD ==================== -->
+  <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex">
+      <div>
+        <!-- Logo Header -->
+        <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
+          <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+          <div>
+            <h1 class="text-white font-bold text-sm leading-tight">Accounts ERP</h1>
+            <p class="text-xs text-slate-400">Multi-Branch System</p>
+          </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="p-4 space-y-1">
+          <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium text-sm transition-all">
+            <i class="fa-solid fa-chart-pie w-5"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" onclick="switchTab('vouchers')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white text-sm transition-all">
+            <i class="fa-solid fa-receipt w-5"></i>
+            <span>Voucher Entry</span>
+          </a>
+          <a href="#" onclick="switchTab('approvals')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white text-sm transition-all justify-between">
+            <div class="flex items-center space-x-3">
+              <i class="fa-solid fa-check-double w-5"></i>
+              <span>Approvals</span>
+            </div>
+            <span id="approvalBadge" class="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full font-semibold hidden">0</span>
+          </a>
+          <a href="#" onclick="switchTab('ledgers')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white text-sm transition-all">
+            <i class="fa-solid fa-book-journal-whills w-5"></i>
+            <span>General Ledger</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- User Profile Bottom Widget -->
+      <div class="p-4 border-t border-slate-800 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white text-xs font-bold" id="userAvatar">
+            U
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-xs font-bold text-white truncate" id="userName">Loading...</p>
+            <p class="text-[10px] text-slate-400 uppercase font-semibold" id="userRole">Role</p>
+          </div>
+        </div>
+        <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 text-sm transition-all" title="Logout">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+      <!-- Top Header -->
+      <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-bold text-slate-800" id="pageTitle">Dashboard Overview</h2>
+          <p class="text-xs text-slate-500" id="branchBadge">Branch: Head Office</p>
+        </div>
+        <button onclick="handleLogout()" class="md:hidden text-slate-600 hover:text-red-600 text-sm">
+          <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+        </button>
+      </header>
+
+      <!-- View Containers -->
+      <div class="p-6 space-y-6">
+
+        <!-- 1. Dashboard View -->
+        <div id="dashboardView" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            
+            <!-- Income Card -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase text-slate-400">Total Income</p>
+                <h3 class="text-2xl font-bold text-slate-800 mt-1" id="dashIncome">৳ 0.00</h3>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+              </div>
+            </div>
+
+            <!-- Expense Card -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase text-slate-400">Total Expense</p>
+                <h3 class="text-2xl font-bold text-slate-800 mt-1" id="dashExpense">৳ 0.00</h3>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+              </div>
+            </div>
+
+            <!-- Net Profit/Loss Card -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase text-slate-400">Net Profit / Loss</p>
+                <h3 class="text-2xl font-bold text-slate-800 mt-1" id="dashNet">৳ 0.00</h3>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-scale-balanced"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2. Vouchers View -->
+        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-md font-bold text-slate-800 mb-4">Create New Voucher</h3>
+          <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Voucher Type</label>
+                <select id="vType" required class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                  <option value="Payment">Payment Voucher</option>
+                  <option value="Receipt">Receipt Voucher</option>
+                  <option value="Journal">Journal Voucher</option>
+                  <option value="Contra">Contra Voucher</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Account Head</label>
+                <input type="text" id="vAccount" required placeholder="e.g. Office Rent / Sales" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Amount (BDT)</label>
+                <input type="number" step="0.01" id="vAmount" required placeholder="0.00" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Date</label>
+                <input type="date" id="vDate" required class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 mb-1">Narration / Remarks</label>
+              <textarea id="vNarration" rows="2" placeholder="Write description..." class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-all">
+              Submit Voucher for Approval
+            </button>
+          </form>
+        </div>
+
+        <!-- 3. Approvals View -->
+        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-md font-bold text-slate-800 mb-4">Pending Approvals Queue</h3>
+          <div id="approvalsList" class="space-y-3">
+            <p class="text-slate-400 text-sm">No pending approvals found.</p>
+          </div>
+        </div>
+
+        <!-- 4. General Ledger View -->
+        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-md font-bold text-slate-800 mb-4">General Ledger Entries</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 bg-slate-50 text-slate-500 font-semibold text-xs uppercase">
+                  <th class="p-3">Entry ID</th>
+                  <th class="p-3">Voucher ID</th>
+                  <th class="p-3">Account Head</th>
+                  <th class="p-3">Debit (BDT)</th>
+                  <th class="p-3">Credit (BDT)</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerTableBody">
+                <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading entries...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
