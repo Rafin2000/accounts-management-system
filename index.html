@@ -15,18 +15,18 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     ::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: #0f172a;
     }
     ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: #334155;
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: #475569;
     }
   </style>
 </head>
@@ -77,9 +77,9 @@
   <!-- ==================== 2. MAIN APP DASHBOARD ==================== -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex">
-      <div>
+    <!-- FULL ERP SIDEBAR -->
+    <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
+      <div class="overflow-y-auto">
         <!-- Logo Header -->
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
           <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
@@ -87,38 +87,225 @@
           </div>
           <div>
             <h1 class="text-white font-bold text-sm leading-tight">Accounts ERP</h1>
-            <p class="text-xs text-slate-400">Multi-Branch System</p>
+            <p class="text-[10px] text-slate-400">Enterprise Accounting System</p>
           </div>
         </div>
 
-        <!-- Navigation Menu -->
-        <nav class="p-4 space-y-1">
-          <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium text-sm transition-all">
-            <i class="fa-solid fa-chart-pie w-5"></i>
+        <!-- Dynamic Accordion Navigation Menu -->
+        <nav class="p-3 space-y-1 text-sm">
+          
+          <!-- 1. Dashboard -->
+          <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium transition-all">
+            <i class="fa-solid fa-house w-5 text-blue-200"></i>
             <span>Dashboard</span>
           </a>
-          <a href="#" onclick="switchTab('vouchers')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white text-sm transition-all">
-            <i class="fa-solid fa-receipt w-5"></i>
-            <span>Voucher Entry</span>
-          </a>
-          <a href="#" onclick="switchTab('approvals')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white text-sm transition-all justify-between">
-            <div class="flex items-center space-x-3">
-              <i class="fa-solid fa-check-double w-5"></i>
-              <span>Approvals</span>
+
+          <!-- 2. Voucher Management -->
+          <div>
+            <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-receipt w-5 text-slate-400"></i>
+                <span>Voucher Management</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuVouchers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" onclick="switchTab('vouchers')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Create Voucher</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Payment Voucher</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Receipt Voucher</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Journal Voucher</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Contra Voucher</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher List</a>
             </div>
-            <span id="approvalBadge" class="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full font-semibold hidden">0</span>
+          </div>
+
+          <!-- 3. Voucher Approval -->
+          <div>
+            <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-rotate w-5 text-slate-400"></i>
+                <span>Voucher Approval</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuApprovals" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" onclick="switchTab('approvals')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Step 1 → GM Approval</a>
+              <a href="#" onclick="switchTab('approvals')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Step 2 → MD/CEO Approval</a>
+              <a href="#" onclick="switchTab('approvals')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Step 3 → Accounts Post</a>
+            </div>
+          </div>
+
+          <!-- 4. Income -->
+          <div>
+            <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-sack-dollar w-5 text-slate-400"></i>
+                <span>Income</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuIncome" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Entry</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Category</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Report</a>
+            </div>
+          </div>
+
+          <!-- 5. Expense -->
+          <div>
+            <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-money-bill-transfer w-5 text-slate-400"></i>
+                <span>Expense</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuExpense" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Entry</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Category</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Report</a>
+            </div>
+          </div>
+
+          <!-- 6. Accounts / Ledger -->
+          <div>
+            <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i>
+                <span>Accounts / Ledger</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuLedger" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" onclick="switchTab('ledgers')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">General Ledger</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Ledger</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Ledger</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Ledger</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Ledger</a>
+            </div>
+          </div>
+
+          <!-- 7. Cash & Bank -->
+          <div>
+            <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-building-columns w-5 text-slate-400"></i>
+                <span>Cash & Bank</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuCashBank" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Account</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Account</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Deposit / Withdraw</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Deposit / Withdraw</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Reconciliation</a>
+            </div>
+          </div>
+
+          <!-- 8. Customer -->
+          <div>
+            <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-users w-5 text-slate-400"></i>
+                <span>Customer</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuCustomer" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Due</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Payment</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Statement</a>
+            </div>
+          </div>
+
+          <!-- 9. Supplier -->
+          <div>
+            <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-truck-field w-5 text-slate-400"></i>
+                <span>Supplier</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuSupplier" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier List</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Due</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Payment</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Statement</a>
+            </div>
+          </div>
+
+          <!-- 10. Reports -->
+          <div>
+            <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-chart-column w-5 text-slate-400"></i>
+                <span>Reports</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuReports" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Daily / Monthly / Yearly</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Profit & Loss</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Balance Sheet</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Receivable / Payable Report</a>
+            </div>
+          </div>
+
+          <!-- 11. Branch / Shop -->
+          <div>
+            <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-store w-5 text-slate-400"></i>
+                <span>Branch / Shop</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuBranch" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Head Office</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 01 to Shop 15</a>
+            </div>
+          </div>
+
+          <!-- 12. User Management -->
+          <div>
+            <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-user-gear w-5 text-slate-400"></i>
+                <span>User Management</span>
+              </div>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+            <div id="menuUsers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users & Roles</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Permissions</a>
+              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">User Activity</a>
+            </div>
+          </div>
+
+          <!-- 13. Audit Trail & Settings -->
+          <a href="#" onclick="switchTab('audit')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
+            <span>Audit Trail</span>
           </a>
-          <a href="#" onclick="switchTab('ledgers')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white text-sm transition-all">
-            <i class="fa-solid fa-book-journal-whills w-5"></i>
-            <span>General Ledger</span>
+          
+          <a href="#" onclick="switchTab('settings')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
+            <span>Settings</span>
           </a>
+
         </nav>
       </div>
 
       <!-- User Profile Bottom Widget -->
-      <div class="p-4 border-t border-slate-800 flex items-center justify-between">
+      <div class="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-950">
         <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white text-xs font-bold" id="userAvatar">
+          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold" id="userAvatar">
             U
           </div>
           <div class="overflow-hidden">
@@ -136,7 +323,7 @@
     <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
 
       <!-- Top Header -->
-      <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+      <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
         <div>
           <h2 class="text-lg font-bold text-slate-800" id="pageTitle">Dashboard Overview</h2>
           <p class="text-xs text-slate-500" id="branchBadge">Branch: Head Office</p>
@@ -151,37 +338,44 @@
 
         <!-- 1. Dashboard View -->
         <div id="dashboardView" class="space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             
-            <!-- Income Card -->
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase text-slate-400">Total Income</p>
-                <h3 class="text-2xl font-bold text-slate-800 mt-1" id="dashIncome">৳ 0.00</h3>
+                <h3 class="text-xl font-bold text-slate-800 mt-1" id="dashIncome">৳ 0.00</h3>
               </div>
-              <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
                 <i class="fa-solid fa-arrow-trend-up"></i>
               </div>
             </div>
 
-            <!-- Expense Card -->
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase text-slate-400">Total Expense</p>
-                <h3 class="text-2xl font-bold text-slate-800 mt-1" id="dashExpense">৳ 0.00</h3>
+                <h3 class="text-xl font-bold text-slate-800 mt-1" id="dashExpense">৳ 0.00</h3>
               </div>
-              <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl">
+              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg">
                 <i class="fa-solid fa-arrow-trend-down"></i>
               </div>
             </div>
 
-            <!-- Net Profit/Loss Card -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase text-slate-400">Total Receivable</p>
+                <h3 class="text-xl font-bold text-slate-800 mt-1">৳ 0.00</h3>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+              </div>
+            </div>
+
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase text-slate-400">Net Profit / Loss</p>
-                <h3 class="text-2xl font-bold text-slate-800 mt-1" id="dashNet">৳ 0.00</h3>
+                <h3 class="text-xl font-bold text-slate-800 mt-1" id="dashNet">৳ 0.00</h3>
               </div>
-              <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
                 <i class="fa-solid fa-scale-balanced"></i>
               </div>
             </div>
@@ -261,14 +455,12 @@
     </main>
   </div>
 
-  <!-- SINGLE FILE EMBEDDED JAVASCRIPT ENGINE -->
+  <!-- JAVASCRIPT ENGINE -->
   <script>
-    // Configuration (API URL Updated)
     const CONFIG = {
       API_URL: "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec"
     };
 
-    // Initialize App
     document.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('auth_token');
       if (token) {
@@ -300,8 +492,15 @@
       document.getElementById('branchBadge').innerText = `Branch: ${user.branch_id || 'HEAD_OFFICE'}`;
     }
 
+    function toggleSubMenu(menuId) {
+      const menu = document.getElementById(menuId);
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    }
+
     async function handleLogin(event) {
-      if (event) event.preventDefault(); // Stop Page Refresh
+      if (event) event.preventDefault();
 
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
