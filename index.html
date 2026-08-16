@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
@@ -64,7 +64,7 @@
   <!-- 2. MAIN APP DASHBOARD -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- FULL ERP SIDEBAR (WITH PERMISSION ENGINE INTEGRATED) -->
+    <!-- FULL ERP SIDEBAR -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -81,7 +81,7 @@
           <!-- 1. Dashboard -->
           <div data-module="dashboard">
             <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium transition-all">
-              <i class="fa-solid fa-house w-5 text-blue-200"></i><span>Dashboard</span>
+              <i class="fa-solid fa-chart-pie w-5 text-blue-200"></i><span>Dashboard</span>
             </a>
           </div>
 
@@ -266,38 +266,192 @@
 
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-      <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div>
-          <h2 class="text-lg font-bold text-slate-800" id="pageTitle">Dashboard Overview</h2>
-          <p class="text-xs text-slate-500" id="branchBadge">Branch: Head Office</p>
+      
+      <!-- TOP HEADER WITH BRANCH SELECTOR -->
+      <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between shadow-sm sticky top-0 z-30">
+        <div class="flex items-center space-x-3">
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-800" id="pageTitle">Executive Financial Dashboard</h2>
+            <p class="text-xs text-slate-400">Enterprise Accounting & Liquidity Monitor</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <select id="dashboardBranchFilter" onchange="loadDashboardData()" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg focus:ring-2 focus:ring-blue-500">
+            <option value="ALL">All Branch Operations</option>
+            <option value="HEAD_OFFICE">Corporate Head Office</option>
+            <option value="SHOP_01">Outlet Shop 01</option>
+            <option value="SHOP_02">Outlet Shop 02</option>
+            <option value="SHOP_03">Outlet Shop 03</option>
+          </select>
+          <button onclick="loadDashboardData()" class="bg-blue-50 hover:bg-blue-100 text-blue-600 p-2 rounded-lg text-xs font-bold transition-all" title="Refresh Live Data">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
         </div>
       </header>
 
       <div class="p-6 space-y-6">
 
-        <!-- 1. DASHBOARD VIEW -->
+        <!-- ==================== 1. PROFESSIONAL EXECUTIVE DASHBOARD ==================== -->
         <div id="dashboardView" class="space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-              <div><p class="text-xs font-semibold uppercase text-slate-400">Total Income</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashIncome">৳ 0.00</h3></div>
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-arrow-trend-up"></i></div>
+          
+          <!-- PENDING APPROVAL ALERT BANNER (Shows only if vouchers are pending) -->
+          <div id="approvalAlertBanner" class="p-4 bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl text-white shadow-md flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-lg">
+                <i class="fa-solid fa-bell-concierge"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm">Voucher Approvals Pending Queue</h4>
+                <p class="text-xs text-amber-100">You have vouchers waiting for GM/MD approval & accounts ledger posting.</p>
+              </div>
             </div>
-            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-              <div><p class="text-xs font-semibold uppercase text-slate-400">Total Expense</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashExpense">৳ 0.00</h3></div>
-              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-arrow-trend-down"></i></div>
+            <button onclick="switchTab('approvals')" class="bg-white text-amber-800 text-xs font-bold px-4 py-2 rounded-lg shadow-sm hover:bg-amber-50 transition-all">
+              Review Queue <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+          <!-- 8 EXECUTIVE KPI CARDS GRID -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- 1. Total Income -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Income</span>
+                <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-arrow-trend-up"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-slate-800" id="dashIncome">৳ 0.00</h3>
+              <p class="text-[11px] text-emerald-600 font-semibold mt-1 flex items-center"><i class="fa-solid fa-circle-check mr-1 text-[8px]"></i> Realized Revenue</p>
             </div>
-            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-              <div><p class="text-xs font-semibold uppercase text-slate-400">Customer Due (Rec)</p><h3 class="text-xl font-bold text-amber-600 mt-1" id="dashDue">৳ 0.00</h3></div>
-              <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+
+            <!-- 2. Total Expense -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Expense</span>
+                <span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-arrow-trend-down"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-slate-800" id="dashExpense">৳ 0.00</h3>
+              <p class="text-[11px] text-rose-600 font-semibold mt-1 flex items-center"><i class="fa-solid fa-receipt mr-1 text-[8px]"></i> Operational Overhead</p>
             </div>
-            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-              <div><p class="text-xs font-semibold uppercase text-slate-400">Supplier Due (Payable)</p><h3 class="text-xl font-bold text-rose-600 mt-1" id="dashPayable">৳ 0.00</h3></div>
-              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+
+            <!-- 3. Net Profit / Margin -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Net Profit / (Loss)</span>
+                <span class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-scale-balanced"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-blue-600" id="dashNet">৳ 0.00</h3>
+              <p class="text-[11px] text-slate-400 font-medium mt-1">Income minus Expenses</p>
+            </div>
+
+            <!-- 4. Cash in Hand -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Cash in Hand</span>
+                <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-money-bill-wave"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-slate-800" id="dashCash">৳ 0.00</h3>
+              <p class="text-[11px] text-amber-600 font-semibold mt-1">Liquid Physical Cash</p>
+            </div>
+
+            <!-- 5. Bank Total Liquidity -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Bank Balance</span>
+                <span class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-building-columns"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-indigo-700" id="dashBank">৳ 0.00</h3>
+              <p class="text-[11px] text-slate-400 font-medium mt-1">IBBL, City, BRAC, DBBL, UCB</p>
+            </div>
+
+            <!-- 6. Customer Due (Receivable) -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Accounts Receivable</span>
+                <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-hand-holding-dollar"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-amber-700" id="dashDue">৳ 0.00</h3>
+              <p class="text-[11px] text-slate-400 font-medium mt-1">Total Client Market Dues</p>
+            </div>
+
+            <!-- 7. Supplier Due (Payable) -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Accounts Payable</span>
+                <span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-rose-700" id="dashPayable">৳ 0.00</h3>
+              <p class="text-[11px] text-slate-400 font-medium mt-1">Total Vendor Purchase Dues</p>
+            </div>
+
+            <!-- 8. Active Branches -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Operating Outlets</span>
+                <span class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-store"></i></span>
+              </div>
+              <h3 class="text-2xl font-black text-purple-700">16 Outlets</h3>
+              <p class="text-[11px] text-purple-600 font-semibold mt-1">Head Office + 15 Shops</p>
+            </div>
+
+          </div>
+
+          <!-- QUICK ACTIONS BAR -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <h4 class="text-xs font-bold uppercase text-slate-400 mb-3 tracking-wider">Fast Operational Actions</h4>
+            <div class="flex flex-wrap gap-2.5">
+              <button onclick="openVoucherForm('ALL')" class="flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+                <i class="fa-solid fa-receipt"></i><span>+ Create Voucher</span>
+              </button>
+              <button onclick="switchTab('incomeEntry')" class="flex items-center space-x-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+                <i class="fa-solid fa-sack-dollar"></i><span>+ Income Entry</span>
+              </button>
+              <button onclick="switchTab('expenseEntry')" class="flex items-center space-x-2 bg-rose-50 hover:bg-rose-100 text-rose-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+                <i class="fa-solid fa-money-bill-transfer"></i><span>+ Expense Entry</span>
+              </button>
+              <button onclick="switchTab('purchaseEntryView')" class="flex items-center space-x-2 bg-teal-50 hover:bg-teal-100 text-teal-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+                <i class="fa-solid fa-cart-flatbed"></i><span>+ Purchase Bill</span>
+              </button>
+              <button onclick="switchTab('customerPaymentView')" class="flex items-center space-x-2 bg-amber-50 hover:bg-amber-100 text-amber-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+                <i class="fa-solid fa-hand-holding-dollar"></i><span>Receive Customer Due</span>
+              </button>
+              <button onclick="switchTab('supplierPaymentView')" class="flex items-center space-x-2 bg-purple-50 hover:bg-purple-100 text-purple-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+                <i class="fa-solid fa-truck-field"></i><span>Pay Supplier Due</span>
+              </button>
             </div>
           </div>
+
+          <!-- RECENT TRANSACTIONS ACTIVITY FEED -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-md font-bold text-slate-800">Recent Financial Activity</h3>
+                <p class="text-xs text-slate-400">Live general ledger stream</p>
+              </div>
+              <button onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="text-xs font-bold text-blue-600 hover:text-blue-700">
+                View Full Ledger <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="bg-slate-50 uppercase text-[10px] text-slate-400 font-bold border-b">
+                    <th class="p-3">Entry ID</th>
+                    <th class="p-3">Date</th>
+                    <th class="p-3">Particulars / Head</th>
+                    <th class="p-3 text-right text-rose-600">Debit (Out)</th>
+                    <th class="p-3 text-right text-emerald-600">Credit (In)</th>
+                  </tr>
+                </thead>
+                <tbody id="dashRecentTableBody">
+                  <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading recent ledger transactions...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
 
-        <!-- 2. VOUCHERS ENTRY VIEW -->
+        <!-- 2. VOUCHERS VIEW -->
         <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
             <div>
@@ -346,7 +500,7 @@
           </form>
         </div>
 
-        <!-- 3. APPROVALS QUEUE (FULL NARRATION & DETAILS INCLUDED) -->
+        <!-- 3. APPROVALS QUEUE -->
         <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
             <div>
@@ -361,7 +515,7 @@
           </div>
         </div>
 
-        <!-- 4. ROLE & PERMISSIONS VIEW (DYNAMIC PERMISSION CONFIG) -->
+        <!-- 4. ROLE & PERMISSIONS VIEW -->
         <div id="permissionsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex items-center justify-between mb-6 pb-4 border-b">
             <div>
@@ -437,7 +591,7 @@
           </form>
         </div>
 
-        <!-- 7. SUPPLIER STATEMENT VIEW (MATCHED EXACTLY TO EXCEL FORMAT) -->
+        <!-- 7. SUPPLIER STATEMENT VIEW (EXCEL FORMAT) -->
         <div id="supplierStatementView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
             <div>
@@ -566,7 +720,7 @@
               <div><label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier *</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full"></select></div>
               <div><label class="block text-xs font-semibold text-slate-600 mb-1">Current Payable Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-3 gap-4">
               <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="spAmount" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
               <div><label class="block text-xs font-semibold text-slate-600 mb-1">Account *</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
               <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
@@ -711,6 +865,47 @@
       if (tab === 'permissionsView') loadPermissionsData();
       if (tab === 'auditView') loadAuditData();
       if (tab === 'settingsView') loadSettingsData();
+    }
+
+    // DASHBOARD DATA ENGINE
+    async function loadDashboardData() {
+      const branchFilter = document.getElementById('dashboardBranchFilter')?.value || 'ALL';
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData&branch=${branchFilter}`);
+        const r = await res.json();
+        if (r.status === 'success') {
+          document.getElementById('dashIncome').innerText = `৳ ${Number(r.data.totalIncome).toLocaleString()}`;
+          document.getElementById('dashExpense').innerText = `৳ ${Number(r.data.totalExpense).toLocaleString()}`;
+          document.getElementById('dashNet').innerText = `৳ ${Number(r.data.netBalance).toLocaleString()}`;
+          document.getElementById('dashCash').innerText = `৳ ${Number(r.data.cashBalance || 0).toLocaleString()}`;
+          document.getElementById('dashBank').innerText = `৳ ${Number(r.data.bankBalance || 0).toLocaleString()}`;
+          document.getElementById('dashDue').innerText = `৳ ${Number(r.data.totalReceivable || 0).toLocaleString()}`;
+          document.getElementById('dashPayable').innerText = `৳ ${Number(r.data.totalPayable || 0).toLocaleString()}`;
+        }
+      } catch (e) {
+        console.error("Dashboard error:", e);
+      }
+
+      // Load Recent Activity
+      try {
+        const resL = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=GENERAL&branch=${branchFilter}`);
+        const rL = await resL.json();
+        const dBody = document.getElementById('dashRecentTableBody');
+        if (rL.status === 'success' && rL.data.length > 0) {
+          const recent = rL.data.slice(-5).reverse();
+          dBody.innerHTML = recent.map(l => `
+            <tr class="border-b hover:bg-slate-50">
+              <td class="p-3 font-semibold text-blue-600">${l.entry_id}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
+              <td class="p-3 font-bold text-slate-800">${l.account_head}</td>
+              <td class="p-3 text-right font-bold text-rose-600">${Number(l.debit) > 0 ? '৳ ' + Number(l.debit).toLocaleString() : '-'}</td>
+              <td class="p-3 text-right font-bold text-emerald-600">${Number(l.credit) > 0 ? '৳ ' + Number(l.credit).toLocaleString() : '-'}</td>
+            </tr>
+          `).join('');
+        } else {
+          dBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No recent transactions.</td></tr>`;
+        }
+      } catch (err) {}
     }
 
     // PERMISSIONS MANAGEMENT
@@ -995,7 +1190,7 @@
       btn.disabled = false;
     }
 
-    // VOUCHERS, INCOMES, EXPENSES, AUTH & DASHBOARD
+    // VOUCHERS & APPROVALS
     function openVoucherForm(type) {
       switchTab('vouchers');
       const select = document.getElementById('vType');
@@ -1164,6 +1359,7 @@
       } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load vouchers.</td></tr>`; }
     }
 
+    // INCOME & EXPENSE
     async function handleIncomeSubmit(event) {
       if (event) event.preventDefault();
       const btn = document.getElementById('incBtn');
@@ -1268,17 +1464,6 @@
     }
     function handleLogout() { localStorage.clear(); showLoginUI(); }
 
-    async function loadDashboardData() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
-      const r = await res.json();
-      if (r.status === 'success') {
-        dashIncome.innerText = `৳ ${r.data.totalIncome.toLocaleString()}`;
-        dashExpense.innerText = `৳ ${r.data.totalExpense.toLocaleString()}`;
-        dashDue.innerText = `৳ ${(r.data.totalReceivable||0).toLocaleString()}`;
-        dashPayable.innerText = `৳ ${(r.data.totalPayable||0).toLocaleString()}`;
-      }
-    }
-
     async function loadLedgersData(type, title) {
       switchTab('ledgers');
       ledgerTitleDisplay.innerText = title;
@@ -1287,6 +1472,7 @@
       ledgerTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
     }
 
+    // CASH & BANK
     function openCashBankForm(t) { switchTab('cashBankFormView'); cbType.value = t; cbFormTitle.innerText = `${t} Entry`; }
     async function handleCashBankSubmit(e) {
       e.preventDefault();
@@ -1314,6 +1500,7 @@
       if(r.status==='success') { recBookBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; recBankBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; }
     }
 
+    // CUSTOMER
     function toggleCustomerModal(s) { document.getElementById('customerModal').classList.toggle('hidden', !s); }
     async function loadCustomersData() {
       const res = await fetch(`${CONFIG.API_URL}?action=getCustomers`);
@@ -1331,6 +1518,7 @@
     async function handleAddCustomerSubmit(e) { e.preventDefault(); const p = { name: newCustName.value, phone: newCustPhone.value, address: newCustAddress.value, due_amount: Number(newCustDue.value)||0 }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Customer Added!'); toggleCustomerModal(false); loadCustomersData(); loadDashboardData(); } }
     async function handleCustomerPaymentSubmit(e) { e.preventDefault(); const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; const p = { customer_id: cpCustomerSelect.value, customer_name: s.getAttribute('data-name'), amount: Number(cpAmount.value), method: cpMethod.value, date: cpDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'collectCustomerPayment', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Payment Collected!'); e.target.reset(); loadDashboardData(); switchTab('customerDueView'); } }
 
+    // REPORTS & OTHER
     async function loadReport(t) {
       switchTab('reportsView');
       const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
