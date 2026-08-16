@@ -19,8 +19,8 @@
     
     @media print {
       body * { visibility: hidden !important; }
-      #supplierStatementPrintArea, #supplierStatementPrintArea * { visibility: visible !important; }
-      #supplierStatementPrintArea {
+      #printableArea, #printableArea * { visibility: visible !important; }
+      #printableArea {
         position: absolute;
         left: 0;
         top: 0;
@@ -267,7 +267,6 @@
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
       
-      <!-- TOP HEADER WITH BRANCH SELECTOR -->
       <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between shadow-sm sticky top-0 z-30">
         <div class="flex items-center space-x-3">
           <div>
@@ -291,307 +290,80 @@
 
       <div class="p-6 space-y-6">
 
-        <!-- ==================== 1. PROFESSIONAL EXECUTIVE DASHBOARD ==================== -->
+        <!-- 1. DASHBOARD VIEW -->
         <div id="dashboardView" class="space-y-6">
-          
-          <!-- PENDING APPROVAL ALERT BANNER (Shows only if vouchers are pending) -->
-          <div id="approvalAlertBanner" class="p-4 bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl text-white shadow-md flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-lg">
-                <i class="fa-solid fa-bell-concierge"></i>
-              </div>
-              <div>
-                <h4 class="font-bold text-sm">Voucher Approvals Pending Queue</h4>
-                <p class="text-xs text-amber-100">You have vouchers waiting for GM/MD approval & accounts ledger posting.</p>
-              </div>
-            </div>
-            <button onclick="switchTab('approvals')" class="bg-white text-amber-800 text-xs font-bold px-4 py-2 rounded-lg shadow-sm hover:bg-amber-50 transition-all">
-              Review Queue <i class="fa-solid fa-arrow-right ml-1"></i>
-            </button>
-          </div>
-
-          <!-- 8 EXECUTIVE KPI CARDS GRID -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            <!-- 1. Total Income -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Income</span>
-                <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-arrow-trend-up"></i></span>
-              </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Income</span><span class="w-9 h-9 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></span></div>
               <h3 class="text-2xl font-black text-slate-800" id="dashIncome">৳ 0.00</h3>
-              <p class="text-[11px] text-emerald-600 font-semibold mt-1 flex items-center"><i class="fa-solid fa-circle-check mr-1 text-[8px]"></i> Realized Revenue</p>
             </div>
-
-            <!-- 2. Total Expense -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Expense</span>
-                <span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-arrow-trend-down"></i></span>
-              </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Expense</span><span class="w-9 h-9 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-arrow-trend-down"></i></span></div>
               <h3 class="text-2xl font-black text-slate-800" id="dashExpense">৳ 0.00</h3>
-              <p class="text-[11px] text-rose-600 font-semibold mt-1 flex items-center"><i class="fa-solid fa-receipt mr-1 text-[8px]"></i> Operational Overhead</p>
             </div>
-
-            <!-- 3. Net Profit / Margin -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Net Profit / (Loss)</span>
-                <span class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-scale-balanced"></i></span>
-              </div>
-              <h3 class="text-2xl font-black text-blue-600" id="dashNet">৳ 0.00</h3>
-              <p class="text-[11px] text-slate-400 font-medium mt-1">Income minus Expenses</p>
-            </div>
-
-            <!-- 4. Cash in Hand -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Cash in Hand</span>
-                <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-money-bill-wave"></i></span>
-              </div>
-              <h3 class="text-2xl font-black text-slate-800" id="dashCash">৳ 0.00</h3>
-              <p class="text-[11px] text-amber-600 font-semibold mt-1">Liquid Physical Cash</p>
-            </div>
-
-            <!-- 5. Bank Total Liquidity -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Bank Balance</span>
-                <span class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-building-columns"></i></span>
-              </div>
-              <h3 class="text-2xl font-black text-indigo-700" id="dashBank">৳ 0.00</h3>
-              <p class="text-[11px] text-slate-400 font-medium mt-1">IBBL, City, BRAC, DBBL, UCB</p>
-            </div>
-
-            <!-- 6. Customer Due (Receivable) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Accounts Receivable</span>
-                <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-hand-holding-dollar"></i></span>
-              </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Customer Due (Rec)</span><span class="w-9 h-9 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-hand-holding-dollar"></i></span></div>
               <h3 class="text-2xl font-black text-amber-700" id="dashDue">৳ 0.00</h3>
-              <p class="text-[11px] text-slate-400 font-medium mt-1">Total Client Market Dues</p>
             </div>
-
-            <!-- 7. Supplier Due (Payable) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Accounts Payable</span>
-                <span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-file-invoice-dollar"></i></span>
-              </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Supplier Due (Payable)</span><span class="w-9 h-9 bg-rose-50 text-rose-700 rounded-xl flex items-center justify-center"><i class="fa-solid fa-file-invoice-dollar"></i></span></div>
               <h3 class="text-2xl font-black text-rose-700" id="dashPayable">৳ 0.00</h3>
-              <p class="text-[11px] text-slate-400 font-medium mt-1">Total Vendor Purchase Dues</p>
             </div>
-
-            <!-- 8. Active Branches -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Operating Outlets</span>
-                <span class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm font-bold"><i class="fa-solid fa-store"></i></span>
-              </div>
-              <h3 class="text-2xl font-black text-purple-700">16 Outlets</h3>
-              <p class="text-[11px] text-purple-600 font-semibold mt-1">Head Office + 15 Shops</p>
-            </div>
-
           </div>
 
-          <!-- QUICK ACTIONS BAR -->
-          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-            <h4 class="text-xs font-bold uppercase text-slate-400 mb-3 tracking-wider">Fast Operational Actions</h4>
+          <!-- Quick Actions -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <h4 class="text-xs font-bold uppercase text-slate-400 mb-3">Fast Operations</h4>
             <div class="flex flex-wrap gap-2.5">
-              <button onclick="openVoucherForm('ALL')" class="flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-                <i class="fa-solid fa-receipt"></i><span>+ Create Voucher</span>
-              </button>
-              <button onclick="switchTab('incomeEntry')" class="flex items-center space-x-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-                <i class="fa-solid fa-sack-dollar"></i><span>+ Income Entry</span>
-              </button>
-              <button onclick="switchTab('expenseEntry')" class="flex items-center space-x-2 bg-rose-50 hover:bg-rose-100 text-rose-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-                <i class="fa-solid fa-money-bill-transfer"></i><span>+ Expense Entry</span>
-              </button>
-              <button onclick="switchTab('purchaseEntryView')" class="flex items-center space-x-2 bg-teal-50 hover:bg-teal-100 text-teal-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-                <i class="fa-solid fa-cart-flatbed"></i><span>+ Purchase Bill</span>
-              </button>
-              <button onclick="switchTab('customerPaymentView')" class="flex items-center space-x-2 bg-amber-50 hover:bg-amber-100 text-amber-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-                <i class="fa-solid fa-hand-holding-dollar"></i><span>Receive Customer Due</span>
-              </button>
-              <button onclick="switchTab('supplierPaymentView')" class="flex items-center space-x-2 bg-purple-50 hover:bg-purple-100 text-purple-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-                <i class="fa-solid fa-truck-field"></i><span>Pay Supplier Due</span>
-              </button>
+              <button onclick="openVoucherForm('ALL')" class="bg-blue-50 text-blue-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Create Voucher</button>
+              <button onclick="switchTab('incomeEntry')" class="bg-emerald-50 text-emerald-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Income Entry</button>
+              <button onclick="switchTab('expenseEntry')" class="bg-rose-50 text-rose-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Expense Entry</button>
+              <button onclick="switchTab('purchaseEntryView')" class="bg-teal-50 text-teal-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Purchase Bill</button>
+              <button onclick="switchTab('supplierPaymentView')" class="bg-purple-50 text-purple-700 font-bold text-xs px-3.5 py-2 rounded-xl">Pay Supplier Due</button>
             </div>
           </div>
 
-          <!-- RECENT TRANSACTIONS ACTIVITY FEED -->
-          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+          <!-- Recent Activity -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
             <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="text-md font-bold text-slate-800">Recent Financial Activity</h3>
-                <p class="text-xs text-slate-400">Live general ledger stream</p>
-              </div>
-              <button onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="text-xs font-bold text-blue-600 hover:text-blue-700">
-                View Full Ledger <i class="fa-solid fa-arrow-right ml-1"></i>
-              </button>
+              <h3 class="text-md font-bold text-slate-800">Recent Financial Activity</h3>
+              <button onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="text-xs font-bold text-blue-600">View Full Ledger <i class="fa-solid fa-arrow-right ml-1"></i></button>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs">
-                <thead>
-                  <tr class="bg-slate-50 uppercase text-[10px] text-slate-400 font-bold border-b">
-                    <th class="p-3">Entry ID</th>
-                    <th class="p-3">Date</th>
-                    <th class="p-3">Particulars / Head</th>
-                    <th class="p-3 text-right text-rose-600">Debit (Out)</th>
-                    <th class="p-3 text-right text-emerald-600">Credit (In)</th>
-                  </tr>
-                </thead>
-                <tbody id="dashRecentTableBody">
-                  <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading recent ledger transactions...</td></tr>
-                </tbody>
+                <thead><tr class="bg-slate-50 uppercase text-slate-400 font-bold border-b"><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Particulars</th><th class="p-3 text-right text-rose-600">Debit</th><th class="p-3 text-right text-emerald-600">Credit</th></tr></thead>
+                <tbody id="dashRecentTableBody"></tbody>
               </table>
             </div>
           </div>
-
         </div>
 
-        <!-- 2. VOUCHERS VIEW -->
-        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+        <!-- 2. SUPPLIER PAYMENT SETTLEMENT VIEW -->
+        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
-              <h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3>
-              <p class="text-xs text-slate-500">Fill in the voucher details below for 3-step approval workflow.</p>
+              <h3 class="text-lg font-bold text-teal-600">Supplier Payment Settlement</h3>
+              <p class="text-xs text-slate-500">Disburse payments to vendors, generate payment voucher slip and take signature.</p>
             </div>
-            <span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span>
           </div>
-
-          <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl">
+          <form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Type *</label>
-                <select id="vType" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
-                  <option value="Payment">Payment Voucher (বাণিজ্যিক প্রদান)</option>
-                  <option value="Receipt">Receipt Voucher (টাকা গ্রহণ)</option>
-                  <option value="Journal">Journal Voucher (সামঞ্জস্য এন্ট্রি)</option>
-                  <option value="Contra">Contra Voucher (ক্যাশ-ব্যাংক ট্রান্সফার)</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Account Head / Category *</label>
-                <input type="text" id="vAccount" required placeholder="e.g. Office Rent / Client Payment" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
-              </div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier *</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Current Payable Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label>
-                <input type="number" step="0.01" id="vAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Date *</label>
-                <input type="date" id="vDate" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
-              </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Amount (BDT) *</label><input type="number" step="0.01" id="spAmount" required placeholder="0.00" class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Account *</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"></div>
             </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Narration / Description</label>
-              <textarea id="vNarration" rows="3" placeholder="Enter voucher details or payment reference..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"></textarea>
-            </div>
-
-            <button type="submit" id="vSubmitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md transition-all flex items-center space-x-2">
-              <i class="fa-solid fa-paper-plane"></i><span>Submit Voucher</span>
+            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Remarks / Cheque Details</label><textarea id="spNarration" rows="2" placeholder="e.g. Cleared via Cheque #9021 or Cash payment..." class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea></div>
+            <button type="submit" id="spBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md flex items-center space-x-2">
+              <i class="fa-solid fa-file-invoice-dollar"></i><span>Post Supplier Payment & Generate Receipt</span>
             </button>
           </form>
         </div>
 
-        <!-- 3. APPROVALS QUEUE -->
-        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-            <div>
-              <h3 class="text-lg font-bold text-slate-800" id="approvalTitle">Pending Approvals Queue</h3>
-              <p class="text-xs text-slate-500" id="approvalSubtitle">Review voucher reason, head, and process approval.</p>
-            </div>
-            <span id="approvalStageBadge" class="bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Pending</span>
-          </div>
-
-          <div id="approvalsListContainer" class="space-y-4">
-            <p class="text-slate-400 text-sm">Loading pending vouchers...</p>
-          </div>
-        </div>
-
-        <!-- 4. ROLE & PERMISSIONS VIEW -->
-        <div id="permissionsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-6 pb-4 border-b">
-            <div>
-              <h3 class="text-lg font-bold text-slate-800">Role-Based Access Control (Permissions)</h3>
-              <p class="text-xs text-slate-500">Configure which sectors GM, MD, CEO, or Accounts can access.</p>
-            </div>
-            <button onclick="saveCurrentPermissions()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg shadow-sm">
-              <i class="fa-solid fa-floppy-disk mr-1"></i> Save Role Permissions
-            </button>
-          </div>
-
-          <div class="mb-4 max-w-xs">
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Select Role to Edit *</label>
-            <select id="permRoleSelect" onchange="loadRolePermissionsIntoUI()" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 focus:ring-2 focus:ring-blue-500">
-              <option value="GM">GM (General Manager)</option>
-              <option value="MD">MD / CEO</option>
-              <option value="ACCOUNTS">ACCOUNTS EXECUTIVE</option>
-              <option value="BRANCH_MANAGER">BRANCH MANAGER</option>
-            </select>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2" id="modulesChecklist">
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="dashboard" class="w-4 h-4 text-blue-600 rounded"><span><b>Dashboard Overview</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="vouchers" class="w-4 h-4 text-blue-600 rounded"><span><b>Voucher Management</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="approvals" class="w-4 h-4 text-blue-600 rounded"><span><b>Voucher Approval Steps</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="income" class="w-4 h-4 text-blue-600 rounded"><span><b>Income Entries & List</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="expense" class="w-4 h-4 text-blue-600 rounded"><span><b>Expense Entries & List</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="ledger" class="w-4 h-4 text-blue-600 rounded"><span><b>General & 7 Ledgers</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="cashbank" class="w-4 h-4 text-blue-600 rounded"><span><b>Cash & Bank Management</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="customer" class="w-4 h-4 text-blue-600 rounded"><span><b>Customer & Payment Dues</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="supplier" class="w-4 h-4 text-blue-600 rounded"><span><b>Supplier & Purchase Bills</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="reports" class="w-4 h-4 text-blue-600 rounded"><span><b>Financial Reports & P/L</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="branch" class="w-4 h-4 text-blue-600 rounded"><span><b>Branch & Multi-Shop Views</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="users" class="w-4 h-4 text-blue-600 rounded"><span><b>User Management & Roles</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="audit" class="w-4 h-4 text-blue-600 rounded"><span><b>System Audit Trail Logs</b></span></label>
-            <label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 hover:bg-slate-100 cursor-pointer"><input type="checkbox" value="settings" class="w-4 h-4 text-blue-600 rounded"><span><b>Company Settings</b></span></label>
-          </div>
-        </div>
-
-        <!-- 5. INCOME ENTRY VIEW -->
-        <div id="incomeEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-emerald-600 mb-4 flex items-center"><i class="fa-solid fa-sack-dollar mr-2"></i> Income Entry</h3>
-          <form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Customer / Source Name *</label><input type="text" id="incParty" required placeholder="e.g. Sales / Client Name" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Income Category *</label><input type="text" id="incCategory" required placeholder="e.g. Service Fee / Product Sale" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="incAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Method</label><select id="incMethod" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="incDate" required class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-            </div>
-            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Description / Remarks</label><textarea id="incNarration" rows="2" placeholder="Write narration or reference..." class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></textarea></div>
-            <button type="submit" id="incBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all">Save Income Record</button>
-          </form>
-        </div>
-
-        <!-- 6. EXPENSE ENTRY VIEW -->
-        <div id="expenseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-rose-600 mb-4 flex items-center"><i class="fa-solid fa-money-bill-transfer mr-2"></i> Expense Entry</h3>
-          <form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Supplier / Payee Name *</label><input type="text" id="expParty" required placeholder="e.g. Landlord / Vendor Name" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Expense Category *</label><input type="text" id="expCategory" required placeholder="e.g. Office Rent / Utility Bill" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="expAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Method</label><select id="expMethod" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="expDate" required class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-            </div>
-            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Description / Remarks</label><textarea id="expNarration" rows="2" placeholder="Write expense purpose..." class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></textarea></div>
-            <button type="submit" id="expBtn" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all">Save Expense Record</button>
-          </form>
-        </div>
-
-        <!-- 7. SUPPLIER STATEMENT VIEW (EXCEL FORMAT) -->
+        <!-- 3. SUPPLIER STATEMENT VIEW -->
         <div id="supplierStatementView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
             <div>
@@ -608,16 +380,13 @@
 
           <div id="supplierStatementPrintArea" class="bg-white">
             <div class="border border-slate-700 mb-3 text-center">
-              <div class="bg-slate-700 text-white py-2 px-4">
-                <h1 class="text-xl font-bold tracking-wide uppercase" id="printSuppName">SUPPLIER STATEMENT</h1>
-              </div>
+              <div class="bg-slate-700 text-white py-2 px-4"><h1 class="text-xl font-bold tracking-wide uppercase" id="printSuppName">SUPPLIER STATEMENT</h1></div>
               <div class="bg-slate-200 text-slate-800 py-1 px-4 text-xs font-bold border-t border-slate-700 flex justify-between">
                 <span>Con / Person : <b id="printSuppCompany" class="font-bold">-</b></span>
                 <span>Contact : <b id="printSuppPhone" class="font-bold">-</b></span>
                 <span>Account ID : <b id="printSuppId" class="font-bold font-mono">-</b></span>
               </div>
             </div>
-
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs border border-collapse border-slate-400">
                 <thead>
@@ -632,12 +401,9 @@
                     <th class="p-2 text-left w-36">Remarks</th>
                   </tr>
                 </thead>
-                <tbody id="supplierStatementTableBody">
-                  <tr><td colspan="8" class="p-4 text-center text-slate-400">Select a supplier to view detailed statement.</td></tr>
-                </tbody>
+                <tbody id="supplierStatementTableBody"></tbody>
               </table>
             </div>
-
             <div class="flex justify-between items-center text-xs text-slate-500 pt-16 mt-8 border-t">
               <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Prepared By</span></div>
               <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Verified By (Accounts)</span></div>
@@ -646,110 +412,97 @@
           </div>
         </div>
 
-        <!-- 8. PURCHASE ENTRY VIEW -->
-        <div id="purchaseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-            <div>
-              <h3 class="text-lg font-bold text-teal-600 flex items-center"><i class="fa-solid fa-cart-flatbed mr-2"></i> Supplier Purchase / Bill Entry</h3>
-              <p class="text-xs text-slate-500">Record goods/fabrics purchase from suppliers to update credit payable ledger.</p>
-            </div>
-            <span class="bg-teal-100 text-teal-700 text-xs px-3 py-1 rounded-full font-bold">Purchase Entry</span>
-          </div>
-
-          <form onsubmit="handlePurchaseSubmit(event)" class="space-y-4 max-w-2xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier *</label>
-                <select id="purSupplierSelect" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:ring-2 focus:ring-teal-500"></select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Invoice / Challan No</label>
-                <input type="text" id="purInvoice" placeholder="e.g. INV-9082" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Purchase Amount (BDT) *</label>
-                <input type="number" step="0.01" id="purAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Purchase Date *</label>
-                <input type="date" id="purDate" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Item / Goods Details & Remarks</label>
-              <textarea id="purDetails" rows="2" placeholder="e.g. Cotton Fabrics, Yarn..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500"></textarea>
-            </div>
-
-            <button type="submit" id="purBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md transition-all flex items-center space-x-2">
-              <i class="fa-solid fa-plus-circle"></i><span>Save Purchase Bill</span>
-            </button>
-          </form>
-        </div>
-
-        <!-- 9. SUPPLIER LIST, DUE & PAYMENT -->
-        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex justify-between items-center mb-4">
-            <div>
-              <h3 class="text-md font-bold text-slate-800">All Registered Suppliers</h3>
-              <p class="text-xs text-slate-500">Click on any supplier to view their ledger statement</p>
-            </div>
-            <button onclick="toggleSupplierModal(true)" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3.5 py-2 rounded-lg font-semibold flex items-center space-x-1">
-              <i class="fa-solid fa-plus"></i><span>Add Supplier</span>
-            </button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table>
-          </div>
-        </div>
-
-        <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-md font-bold text-rose-600 mb-4">Outstanding Supplier Payables</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table>
-          </div>
-        </div>
-
-        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Payment Settlement</h3>
-          <form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier *</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full"></select></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Current Payable Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div>
-            </div>
-            <div class="grid grid-cols-3 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="spAmount" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Account *</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
-            </div>
-            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Remarks</label><textarea id="spNarration" rows="2" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea></div>
-            <button type="submit" id="spBtn" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Post Supplier Payment</button>
-          </form>
-        </div>
-
-        <!-- 10. CUSTOMER, CASH/BANK, REPORTS, USERS, ETC. -->
-        <div id="customerListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><div><h3 class="text-md font-bold">All Customers</h3></div><button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">Add Customer</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Address</th><th class="p-3 text-rose-600">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table></div></div>
-        <div id="customerDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Customer Dues</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div></div>
+        <!-- 4. OTHER VIEWS (VOUCHERS, INCOMES, EXPENSES, PERMISSIONS, ETC.) -->
+        <div id="purchaseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Purchase Entry</h3><form onsubmit="handlePurchaseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold mb-1">Supplier</label><select id="purSupplierSelect" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></select></div><div><label class="block text-xs font-semibold mb-1">Invoice</label><input type="text" id="purInvoice" placeholder="INV-001" class="w-full py-2.5 px-3 border rounded-lg text-sm"></div></div><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold mb-1">Amount</label><input type="number" step="0.01" id="purAmount" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div><div><label class="block text-xs font-semibold mb-1">Date</label><input type="date" id="purDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div></div><textarea id="purDetails" placeholder="Details" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="purBtn" class="bg-teal-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Purchase Bill</button></form></div>
+        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold text-slate-800">All Suppliers</h3><button onclick="toggleSupplierModal(true)" class="bg-teal-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">+ Add Supplier</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div>
+        <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Supplier Payables</h3><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table></div>
+        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="voucherFormTitle">Create Voucher</h3><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl"><div class="grid grid-cols-2 gap-4"><select id="vType" required class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment</option><option value="Receipt">Receipt</option><option value="Journal">Journal</option><option value="Contra">Contra</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
+        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="approvalTitle">Pending Approvals</h3><div id="approvalsListContainer" class="space-y-4"></div></div>
+        <div id="permissionsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold text-slate-800">Role Permissions</h3></div><button onclick="saveCurrentPermissions()" class="bg-blue-600 text-white font-bold text-xs px-4 py-2 rounded-lg">Save Permissions</button></div><div class="mb-4 max-w-xs"><select id="permRoleSelect" onchange="loadRolePermissionsIntoUI()" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm font-bold"><option value="GM">GM</option><option value="MD">MD / CEO</option><option value="ACCOUNTS">ACCOUNTS</option><option value="BRANCH_MANAGER">BRANCH MANAGER</option></select></div><div class="grid grid-cols-3 gap-4" id="modulesChecklist"><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="dashboard" class="w-4 h-4 rounded"><span>Dashboard</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="vouchers" class="w-4 h-4 rounded"><span>Vouchers</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="approvals" class="w-4 h-4 rounded"><span>Approvals</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="income" class="w-4 h-4 rounded"><span>Income</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="expense" class="w-4 h-4 rounded"><span>Expense</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="ledger" class="w-4 h-4 rounded"><span>Ledger</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="cashbank" class="w-4 h-4 rounded"><span>Cash & Bank</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="customer" class="w-4 h-4 rounded"><span>Customer</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="supplier" class="w-4 h-4 rounded"><span>Supplier</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="reports" class="w-4 h-4 rounded"><span>Reports</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="branch" class="w-4 h-4 rounded"><span>Branch</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="users" class="w-4 h-4 rounded"><span>Users</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="audit" class="w-4 h-4 rounded"><span>Audit</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="settings" class="w-4 h-4 rounded"><span>Settings</span></label></div></div>
+        <div id="incomeEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Income Entry</h3><form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="incParty" required placeholder="Customer" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="incCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="incAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="incMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="incDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="incNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="incBtn" class="bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Income Record</button></form></div>
+        <div id="expenseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-rose-600 mb-4">Expense Entry</h3><form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="expParty" required placeholder="Supplier" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="expCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="expAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="expMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="expDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="expNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="expBtn" class="bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Expense Record</button></form></div>
+        <div id="customerListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">All Customers</h3><button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">+ Add Customer</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Address</th><th class="p-3 text-rose-600">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table></div>
+        <div id="customerDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Customer Dues</h3><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div>
         <div id="customerPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Customer Payment</h3><form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="cpCustomerSelect" required onchange="handleCustomerSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm"></select><input type="text" id="cpCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="cpAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><select id="cpMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select><input type="date" id="cpDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cpBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Collect</button></form></div>
-        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-4"><h3 class="text-md font-bold text-slate-800">All Vouchers</h3><button onclick="loadVouchersList()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div></div>
-        <div id="incomeListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-slate-800 mb-4">All Income Transactions</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div></div>
-        <div id="expenseListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-slate-800 mb-4">All Expense Transactions</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div></div>
-        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Ref</th><th class="p-3">Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div></div>
+        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div>
+        <div id="incomeListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div>
+        <div id="expenseListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
+        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Ref</th><th class="p-3">Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div>
         <div id="cashBankFormView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="cbFormTitle">Cash/Bank</h3><form onsubmit="handleCashBankSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="cbType" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-indigo-700"><select id="cbAccount" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="cbAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="cbDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cbBtn" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Submit</button></form></div>
-        <div id="cashAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">Cash Account Summary</h3><button onclick="openCashBankForm('Cash Deposit')" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold">Deposit</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table></div></div>
-        <div id="bankAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">Bank Accounts List</h3><button onclick="openCashBankForm('Bank Deposit')" class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold">Deposit</button></div><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table></div></div>
+        <div id="cashAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table></div>
+        <div id="bankAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table></div>
         <div id="reconciliationView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="grid grid-cols-2 gap-4"><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Book Balance</p><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Bank Balance</p><h4 class="text-lg font-bold text-blue-600" id="recBankBal">৳ 0.00</h4></div></div></div>
         <div id="reportsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4 border-b pb-3"><h3 class="text-lg font-bold text-slate-800" id="reportTitle">Financial Statement</h3><button onclick="window.print()" class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-print mr-1"></i> Print</button></div><div id="reportContentArea"></div></div>
         <div id="branchView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Outlets Directory</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="branchesContainer"></div></div>
-        <div id="userView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold">System Users</h3><button onclick="toggleUserModal(true)" class="bg-sky-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-user-plus mr-1"></i> Create User</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table></div></div>
-        <div id="auditView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Audit Trail Logs</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Date Time</th><th class="p-3">Action</th><th class="p-3">Entity ID</th><th class="p-3">User</th><th class="p-3">Details</th></tr></thead><tbody id="auditTableBody"></tbody></table></div></div>
+        <div id="userView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold">System Users</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table></div>
+        <div id="auditView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Audit Trail Logs</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Date Time</th><th class="p-3">Action</th><th class="p-3">Entity ID</th><th class="p-3">User</th><th class="p-3">Details</th></tr></thead><tbody id="auditTableBody"></tbody></table></div>
         <div id="settingsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4">Company Settings</h3><form onsubmit="handleSaveSettings(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="setCompName" required placeholder="Company" class="w-full py-2 px-3 border rounded-lg text-sm"></div><button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Settings</button></form></div>
 
       </div>
     </main>
+  </div>
+
+  <!-- POPUP SUPPLIER PAYMENT VOUCHER PRINT SLIP -->
+  <div id="paymentSlipModal" class="hidden fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl p-6 relative">
+      <div id="printableArea" class="bg-white p-2">
+        <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
+          <h1 class="text-xl font-black uppercase text-slate-900">Accounts Enterprise Management ERP</h1>
+          <p class="text-xs text-slate-500">Corporate Head Office, Dhaka, Bangladesh</p>
+          <div class="inline-block mt-2 px-3 py-1 bg-teal-50 border border-teal-600 text-teal-800 text-xs font-bold uppercase rounded">
+            Supplier Payment Voucher / Money Receipt
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 text-xs mb-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
+          <div>
+            <p><strong>Voucher / Bill No:</strong> <span id="slipBillNo" class="font-mono font-bold text-teal-700">-</span></p>
+            <p><strong>Paid To (Supplier):</strong> <span id="slipSupplier" class="font-bold text-slate-800">-</span></p>
+            <p><strong>Payment Account:</strong> <span id="slipAccount">-</span></p>
+          </div>
+          <div class="text-right">
+            <p><strong>Date:</strong> <span id="slipDate">-</span></p>
+            <p><strong>Branch:</strong> <span id="slipBranch">HEAD_OFFICE</span></p>
+            <p><strong>Status:</strong> <span class="text-emerald-600 font-bold">PAID / CLEARED</span></p>
+          </div>
+        </div>
+
+        <table class="w-full text-xs border border-collapse mb-4">
+          <tr class="bg-slate-100 font-bold border-b">
+            <th class="p-2 border-r text-left">Description / Particulars</th>
+            <th class="p-2 text-right w-36">Amount (BDT)</th>
+          </tr>
+          <tr class="border-b">
+            <td class="p-2.5 border-r">
+              <span id="slipParticulars" class="font-semibold text-slate-800">Supplier Ledger Settlement Payment</span>
+              <p class="text-[11px] text-slate-500 mt-0.5" id="slipRemarks">-</p>
+            </td>
+            <td class="p-2.5 text-right font-black text-emerald-700 text-sm" id="slipAmount">৳ 0.00</td>
+          </tr>
+          <tr class="bg-slate-50 text-[11px]">
+            <td class="p-2 border-r text-right font-bold">Previous Due Balance:</td>
+            <td class="p-2 text-right font-bold text-slate-700" id="slipPrevDue">৳ 0.00</td>
+          </tr>
+          <tr class="bg-rose-50 text-[11px]">
+            <td class="p-2 border-r text-right font-bold text-rose-700">Remaining Balance Due:</td>
+            <td class="p-2 text-right font-extrabold text-rose-700" id="slipRemDue">৳ 0.00</td>
+          </tr>
+        </table>
+
+        <div class="flex justify-between items-center text-[11px] text-slate-600 pt-12 mt-8 border-t">
+          <div class="text-center"><div class="w-28 border-t border-slate-400 mx-auto mb-1"></div><span>Prepared By</span></div>
+          <div class="text-center"><div class="w-28 border-t border-slate-400 mx-auto mb-1"></div><span>Accounts Officer</span></div>
+          <div class="text-center"><div class="w-28 border-t border-slate-400 mx-auto mb-1"></div><span>Receiver / Supplier Sign</span></div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end space-x-3 pt-3 border-t">
+        <button onclick="togglePaymentSlipModal(false)" class="px-4 py-2 border rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Close</button>
+        <button onclick="window.print()" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-bold shadow-md flex items-center space-x-1">
+          <i class="fa-solid fa-print mr-1"></i><span>Print Voucher Receipt</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- MODALS -->
@@ -770,25 +523,11 @@
     <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
       <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Supplier</h3>
       <form onsubmit="handleAddSupplierSubmit(event)" class="space-y-4">
-        <input type="text" id="newSuppName" required placeholder="Supplier Contact Name" class="w-full py-2 px-3 border rounded-lg text-sm">
-        <input type="text" id="newSuppCompany" required placeholder="Company / Vendor Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppName" required placeholder="Supplier Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppCompany" required placeholder="Company Name" class="w-full py-2 px-3 border rounded-lg text-sm">
         <input type="text" id="newSuppPhone" placeholder="Phone" class="w-full py-2 px-3 border rounded-lg text-sm">
         <input type="number" step="0.01" id="newSuppDue" value="0" placeholder="Opening Payable Due" class="w-full py-2 px-3 border rounded-lg text-sm">
         <div class="flex justify-end space-x-2"><button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm">Save Supplier</button></div>
-      </form>
-    </div>
-  </div>
-
-  <div id="userModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
-    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
-      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Create System User</h3>
-      <form onsubmit="handleAddUserSubmit(event)" class="space-y-4">
-        <div><label class="block text-xs font-semibold mb-1">Full Name *</label><input type="text" id="newUserName" required class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Email Address *</label><input type="email" id="newUserEmail" required class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Password *</label><input type="password" id="newUserPass" required class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">User Role</label><select id="newUserRole" class="w-full py-2 px-3 border rounded-lg text-sm"><option value="ADMIN">ADMIN</option><option value="GM">GM (General Manager)</option><option value="MD">MD / CEO</option><option value="ACCOUNTS">ACCOUNTS EXECUTIVE</option></select></div>
-        <div><label class="block text-xs font-semibold mb-1">Branch</label><select id="newUserBranch" class="w-full py-2 px-3 border rounded-lg text-sm"><option value="HEAD_OFFICE">HEAD_OFFICE</option><option value="SHOP_01">SHOP_01</option></select></div>
-        <div class="flex justify-end space-x-2"><button type="button" onclick="toggleUserModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-sky-600 text-white px-4 py-2 rounded-lg text-sm">Create</button></div>
       </form>
     </div>
   </div>
@@ -820,23 +559,14 @@
       applyRolePermissions(user.permissions || ['dashboard']);
     }
 
-    // DYNAMIC PERMISSION ENFORCEMENT ON SIDEBAR
     function applyRolePermissions(allowedModules) {
       const user = JSON.parse(localStorage.getItem('user_data') || '{}');
       const navItems = document.querySelectorAll('#sidebarNav > div');
-
-      if (user.role === 'ADMIN') {
-        navItems.forEach(item => item.classList.remove('hidden'));
-        return;
-      }
-
-      navItems.forEach(item => {
-        const mod = item.getAttribute('data-module');
-        if (allowedModules.includes(mod)) {
-          item.classList.remove('hidden');
-        } else {
-          item.classList.add('hidden');
-        }
+      if (user.role === 'ADMIN') { navItems.forEach(i => i.classList.remove('hidden')); return; }
+      navItems.forEach(i => {
+        const mod = i.getAttribute('data-module');
+        if (allowedModules.includes(mod)) i.classList.remove('hidden');
+        else i.classList.add('hidden');
       });
     }
 
@@ -860,11 +590,55 @@
       if (tab === 'reconciliationView') loadReconciliation();
       if (tab === 'customerListView' || tab === 'customerDueView' || tab === 'customerPaymentView') loadCustomersData();
       if (tab === 'supplierListView' || tab === 'supplierDueView' || tab === 'supplierPaymentView' || tab === 'supplierStatementView' || tab === 'purchaseEntryView') loadSuppliersData();
-      if (tab === 'branchView') loadBranchesData();
-      if (tab === 'userView') loadUsersData();
       if (tab === 'permissionsView') loadPermissionsData();
-      if (tab === 'auditView') loadAuditData();
-      if (tab === 'settingsView') loadSettingsData();
+    }
+
+    // SUPPLIER PAYMENT & INSTANT BILL PRINT MODAL
+    function togglePaymentSlipModal(show) {
+      document.getElementById('paymentSlipModal').classList.toggle('hidden', !show);
+    }
+
+    async function handleSupplierPaymentSubmit(e) {
+      e.preventDefault();
+      const select = document.getElementById('spSupplierSelect');
+      const selected = select.options[select.selectedIndex];
+      const btn = document.getElementById('spBtn');
+      btn.disabled = true;
+
+      const p = {
+        supplier_id: select.value,
+        supplier_name: selected.getAttribute('data-name'),
+        amount: Number(document.getElementById('spAmount').value),
+        method: document.getElementById('spMethod').value,
+        date: document.getElementById('spDate').value,
+        narration: document.getElementById('spNarration').value
+      };
+
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'paySupplier', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          // Populate Printable Money Receipt Slip
+          document.getElementById('slipBillNo').innerText = r.bill_no;
+          document.getElementById('slipSupplier').innerText = p.supplier_name;
+          document.getElementById('slipAccount').innerText = p.method;
+          document.getElementById('slipDate').innerText = formatDateDisplay(p.date);
+          document.getElementById('slipRemarks').innerText = p.narration ? `Remarks: ${p.narration}` : 'Full / Partial Settlement';
+          document.getElementById('slipAmount').innerText = `৳ ${Number(r.paid_amount).toLocaleString()}`;
+          document.getElementById('slipPrevDue').innerText = `৳ ${Number(r.previous_due).toLocaleString()}`;
+          document.getElementById('slipRemDue').innerText = `৳ ${Number(r.remaining_due).toLocaleString()}`;
+
+          togglePaymentSlipModal(true);
+          e.target.reset();
+          loadDashboardData();
+        } else {
+          alert('Error processing supplier payment.');
+        }
+      } catch (err) {
+        alert('API connection failed.');
+      } finally {
+        btn.disabled = false;
+      }
     }
 
     // DASHBOARD DATA ENGINE
@@ -876,17 +650,11 @@
         if (r.status === 'success') {
           document.getElementById('dashIncome').innerText = `৳ ${Number(r.data.totalIncome).toLocaleString()}`;
           document.getElementById('dashExpense').innerText = `৳ ${Number(r.data.totalExpense).toLocaleString()}`;
-          document.getElementById('dashNet').innerText = `৳ ${Number(r.data.netBalance).toLocaleString()}`;
-          document.getElementById('dashCash').innerText = `৳ ${Number(r.data.cashBalance || 0).toLocaleString()}`;
-          document.getElementById('dashBank').innerText = `৳ ${Number(r.data.bankBalance || 0).toLocaleString()}`;
           document.getElementById('dashDue').innerText = `৳ ${Number(r.data.totalReceivable || 0).toLocaleString()}`;
           document.getElementById('dashPayable').innerText = `৳ ${Number(r.data.totalPayable || 0).toLocaleString()}`;
         }
-      } catch (e) {
-        console.error("Dashboard error:", e);
-      }
+      } catch (e) {}
 
-      // Load Recent Activity
       try {
         const resL = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=GENERAL&branch=${branchFilter}`);
         const rL = await resL.json();
@@ -906,43 +674,6 @@
           dBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No recent transactions.</td></tr>`;
         }
       } catch (err) {}
-    }
-
-    // PERMISSIONS MANAGEMENT
-    async function loadPermissionsData() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getPermissions`);
-      const result = await res.json();
-      if (result.status === 'success') {
-        globalPermissions = result.data;
-        loadRolePermissionsIntoUI();
-      }
-    }
-
-    function loadRolePermissionsIntoUI() {
-      const selectedRole = document.getElementById('permRoleSelect').value;
-      const allowed = globalPermissions[selectedRole] || [];
-      const checkboxes = document.querySelectorAll('#modulesChecklist input[type="checkbox"]');
-      checkboxes.forEach(cb => {
-        cb.checked = allowed.includes(cb.value);
-      });
-    }
-
-    async function saveCurrentPermissions() {
-      const selectedRole = document.getElementById('permRoleSelect').value;
-      const checkedBoxes = Array.from(document.querySelectorAll('#modulesChecklist input[type="checkbox"]:checked')).map(cb => cb.value);
-
-      const res = await fetch(CONFIG.API_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'savePermissions',
-          payload: { role: selectedRole, modules: checkedBoxes }
-        })
-      });
-      const r = await res.json();
-      if (r.status === 'success') {
-        alert(`Permissions updated for role: ${selectedRole}!`);
-        globalPermissions[selectedRole] = checkedBoxes;
-      }
     }
 
     // SUPPLIER & EXCEL STATEMENT FUNCTIONS
@@ -1026,9 +757,7 @@
         const month = String(d.getMonth() + 1).padStart(2, '0');
         const year = d.getFullYear();
         return `${day}.${month}.${year}`;
-      } catch(e) {
-        return dStr;
-      }
+      } catch(e) { return dStr; }
     }
 
     async function loadSpecificSupplierStatement() {
@@ -1097,7 +826,6 @@
               `;
             });
           }
-
           sTableBody.innerHTML = statementHTML;
         }
       } catch (err) {
@@ -1129,8 +857,8 @@
           e.target.reset();
           loadDashboardData();
           viewSupplierStatement(payload.supplier_name);
-        } else { alert('Error saving purchase.'); }
-      } catch (err) { alert('API connection error.'); }
+        }
+      } catch (err) {}
       finally { btn.disabled = false; }
     }
 
@@ -1165,53 +893,46 @@
       }
     }
 
-    async function handleSupplierPaymentSubmit(e) {
-      e.preventDefault();
-      const select = document.getElementById('spSupplierSelect');
-      const selected = select.options[select.selectedIndex];
-      const btn = document.getElementById('spBtn');
-      btn.disabled = true;
-      const p = {
-        supplier_id: select.value,
-        supplier_name: selected.getAttribute('data-name'),
-        amount: Number(document.getElementById('spAmount').value),
-        method: document.getElementById('spMethod').value,
-        date: document.getElementById('spDate').value,
-        narration: document.getElementById('spNarration').value
-      };
-      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'paySupplier', payload: p }) });
-      const r = await res.json();
-      if (r.status === 'success') {
-        alert('Supplier Payment Recorded Successfully!');
-        e.target.reset();
-        loadDashboardData();
-        viewSupplierStatement(p.supplier_name);
+    // PERMISSIONS MANAGEMENT
+    async function loadPermissionsData() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getPermissions`);
+      const result = await res.json();
+      if (result.status === 'success') {
+        globalPermissions = result.data;
+        loadRolePermissionsIntoUI();
       }
-      btn.disabled = false;
     }
 
-    // VOUCHERS & APPROVALS
+    function loadRolePermissionsIntoUI() {
+      const selectedRole = document.getElementById('permRoleSelect').value;
+      const allowed = globalPermissions[selectedRole] || [];
+      const checkboxes = document.querySelectorAll('#modulesChecklist input[type="checkbox"]');
+      checkboxes.forEach(cb => { cb.checked = allowed.includes(cb.value); });
+    }
+
+    async function saveCurrentPermissions() {
+      const selectedRole = document.getElementById('permRoleSelect').value;
+      const checkedBoxes = Array.from(document.querySelectorAll('#modulesChecklist input[type="checkbox"]:checked')).map(cb => cb.value);
+
+      const res = await fetch(CONFIG.API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'savePermissions', payload: { role: selectedRole, modules: checkedBoxes } })
+      });
+      const r = await res.json();
+      if (r.status === 'success') {
+        alert(`Permissions updated for role: ${selectedRole}!`);
+        globalPermissions[selectedRole] = checkedBoxes;
+      }
+    }
+
+    // VOUCHERS, INCOMES, EXPENSES, AUTH
     function openVoucherForm(type) {
       switchTab('vouchers');
-      const select = document.getElementById('vType');
-      const badge = document.getElementById('voucherTypeBadge');
-      const title = document.getElementById('voucherFormTitle');
-
-      if (type !== 'ALL') {
-        select.value = type;
-        badge.innerText = `${type} Voucher`;
-        title.innerText = `New ${type} Voucher Entry`;
-      } else {
-        badge.innerText = 'All Types';
-        title.innerText = 'Create New Voucher';
-      }
+      document.getElementById('vType').value = type !== 'ALL' ? type : 'Payment';
     }
 
     async function handleVoucherSubmit(event) {
-      if (event) event.preventDefault();
-      const token = localStorage.getItem('auth_token');
-      const btn = document.getElementById('vSubmitBtn');
-      
+      event.preventDefault();
       const payload = {
         type: document.getElementById('vType').value,
         account_head: document.getElementById('vAccount').value,
@@ -1219,237 +940,80 @@
         date: document.getElementById('vDate').value,
         narration: document.getElementById('vNarration').value
       };
-
-      btn.disabled = true;
-      btn.innerText = "Submitting...";
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'createVoucher', token: token, payload: payload })
-        });
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Voucher Created Successfully!\nVoucher ID: ${result.voucherId}\nStatus: PENDING_GM`);
-          event.target.reset();
-          switchTab('voucherList');
-        } else { alert(`Error: ${result.message}`); }
-      } catch (err) { alert("Failed to create voucher."); }
-      finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>Submit Voucher</span>`;
-      }
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createVoucher', payload: payload }) });
+      const r = await res.json();
+      if (r.status === 'success') { alert('Voucher Submitted!'); event.target.reset(); switchTab('voucherList'); }
     }
 
     async function loadApprovalStep(statusFilter) {
       currentApprovalStatus = statusFilter;
       switchTab('approvals');
-
-      const title = document.getElementById('approvalTitle');
-      const badge = document.getElementById('approvalStageBadge');
+      document.getElementById('approvalTitle').innerText = statusFilter;
       const container = document.getElementById('approvalsListContainer');
-
-      if (statusFilter === 'PENDING_GM') { title.innerText = 'Step 1 → GM Approval Queue'; badge.innerText = 'GM Stage'; }
-      else if (statusFilter === 'PENDING_MD') { title.innerText = 'Step 2 → MD/CEO Approval Queue'; badge.innerText = 'MD Stage'; }
-      else if (statusFilter === 'PENDING_ACCOUNTS') { title.innerText = 'Step 3 → Accounts Final Ledger Posting'; badge.innerText = 'Accounts Stage'; }
-
-      container.innerHTML = `<p class="text-slate-400 text-sm">Loading pending vouchers...</p>`;
-
-      const token = localStorage.getItem('auth_token');
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${statusFilter}&token=${token}`);
-        const result = await res.json();
-
-        if (result.status === 'success' && result.data.length > 0) {
-          container.innerHTML = result.data.map(v => `
-            <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div class="space-y-1.5 flex-1">
-                <div class="flex items-center space-x-3">
-                  <span class="font-bold text-blue-600 text-sm">${v.voucher_id}</span>
-                  <span class="text-xs px-2.5 py-0.5 rounded font-bold bg-slate-100 text-slate-700">${v.type}</span>
-                  <span class="text-xs text-slate-400"><i class="fa-regular fa-calendar mr-1"></i>${v.date}</span>
-                </div>
-                
-                <div class="flex items-center space-x-2 text-slate-800">
-                  <span class="text-xs font-semibold uppercase text-slate-400">Account Head:</span>
-                  <span class="text-sm font-bold text-slate-900">${v.account_head}</span>
-                </div>
-
-                <p class="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-semibold text-slate-500">Narration / Reason:</span> ${v.narration || 'No description provided'}
-                </p>
-
-                <p class="text-sm font-extrabold text-emerald-600 pt-1">Amount: ৳ ${Number(v.amount).toLocaleString()}</p>
-              </div>
-
-              <div class="flex items-center space-x-2 w-full md:w-auto justify-end border-t md:border-t-0 pt-3 md:pt-0">
-                ${statusFilter === 'PENDING_ACCOUNTS' ? `
-                  <button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-check-double"></i><span>Post to Ledger</span>
-                  </button>
-                ` : `
-                  <button onclick="processApproval('${v.voucher_id}', 'APPROVE')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-check"></i><span>Approve</span>
-                  </button>
-                  <button onclick="processApproval('${v.voucher_id}', 'REJECT')" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold text-xs px-3.5 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-xmark"></i><span>Reject</span>
-                  </button>
-                `}
-              </div>
-            </div>
-          `).join('');
-        } else { container.innerHTML = `<p class="text-slate-400 text-sm">No vouchers waiting for approval in this stage.</p>`; }
-      } catch (err) { container.innerHTML = `<p class="text-rose-500 text-sm">Error loading vouchers.</p>`; }
+      const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${statusFilter}`);
+      const r = await res.json();
+      if (r.status === 'success' && r.data.length > 0) {
+        container.innerHTML = r.data.map(v => `
+          <div class="p-4 border rounded-xl bg-white flex justify-between items-center">
+            <div><span class="font-bold text-blue-600">${v.voucher_id}</span><p class="font-bold">${v.account_head} - ৳ ${Number(v.amount).toLocaleString()}</p><p class="text-xs text-slate-500">${v.narration||''}</p></div>
+            <div>${statusFilter === 'PENDING_ACCOUNTS' ? `<button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs font-bold">Post</button>` : `<button onclick="processApproval('${v.voucher_id}','APPROVE')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold mr-1">Approve</button><button onclick="processApproval('${v.voucher_id}','REJECT')" class="bg-rose-500 text-white px-3 py-1 rounded text-xs font-bold">Reject</button>`}</div>
+          </div>
+        `).join('');
+      } else { container.innerHTML = `<p class="text-slate-400 text-sm">No vouchers in this stage.</p>`; }
     }
 
-    async function processApproval(voucherId, decision) {
-      const token = localStorage.getItem('auth_token');
-      const remarks = prompt(`Enter remarks for ${decision}:`) || 'Approved';
+    async function processApproval(id, d) {
       const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'processApproval', token: token, voucherId: voucherId, decision: decision, remarks: remarks, userName: user.name })
-        });
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Action Successful! New Status: ${result.updatedStatus}`);
-          loadApprovalStep(currentApprovalStatus);
-        } else { alert(`Approval Error: ${result.message}`); }
-      } catch (err) { alert("Failed to process approval."); }
+      await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'processApproval', voucherId: id, decision: d, remarks: 'OK', userName: user.name }) });
+      loadApprovalStep(currentApprovalStatus);
     }
 
-    async function postToLedger(voucherId) {
-      const token = localStorage.getItem('auth_token');
+    async function postToLedger(id) {
       const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'postToLedger', token: token, voucherId: voucherId, userName: user.name })
-        });
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Posted to General Ledger Successfully!\nEntry ID: ${result.entryId}`);
-          loadApprovalStep('PENDING_ACCOUNTS');
-        } else { alert(`Posting Error: ${result.message}`); }
-      } catch (err) { alert("Failed to post to ledger."); }
+      await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'postToLedger', voucherId: id, userName: user.name }) });
+      loadApprovalStep('PENDING_ACCOUNTS');
     }
 
     async function loadVouchersList() {
-      const token = localStorage.getItem('auth_token');
-      const tbody = document.getElementById('voucherTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading vouchers...</td></tr>`;
-
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&token=${token}`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(v => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td>
-              <td class="p-3">${v.date}</td>
-              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-slate-100">${v.type}</span></td>
-              <td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td>
-              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${v.status.includes('PENDING') ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">${v.status}</span></td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No vouchers found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load vouchers.</td></tr>`; }
+      const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=ALL`);
+      const r = await res.json();
+      voucherTableBody.innerHTML = r.data.map(v => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td><td class="p-3">${v.date}</td><td class="p-3">${v.type}</td><td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td><td class="p-3">${v.status}</td></tr>`).join('');
     }
 
-    // INCOME & EXPENSE
-    async function handleIncomeSubmit(event) {
-      if (event) event.preventDefault();
-      const btn = document.getElementById('incBtn');
-      btn.disabled = true;
-      const payload = {
-        party: document.getElementById('incParty').value,
-        category: document.getElementById('incCategory').value,
-        amount: document.getElementById('incAmount').value,
-        method: document.getElementById('incMethod').value,
-        date: document.getElementById('incDate').value,
-        narration: document.getElementById('incNarration').value
-      };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: payload }) });
-        const result = await res.json();
-        if (result.status === 'success') {
-          alert('Income Record Saved Successfully!');
-          event.target.reset();
-          switchTab('incomeList');
-        } else { alert('Error saving income'); }
-      } catch (err) { alert('Failed to connect API'); }
-      finally { btn.disabled = false; }
+    async function handleIncomeSubmit(e) {
+      e.preventDefault();
+      const p = { party: incParty.value, category: incCategory.value, amount: incAmount.value, method: incMethod.value, date: incDate.value, narration: incNarration.value };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: p }) });
+      const r = await res.json();
+      if (r.status === 'success') { alert('Saved!'); e.target.reset(); switchTab('incomeList'); }
     }
 
-    async function handleExpenseSubmit(event) {
-      if (event) event.preventDefault();
-      const btn = document.getElementById('expBtn');
-      btn.disabled = true;
-      const payload = {
-        party: document.getElementById('expParty').value,
-        category: document.getElementById('expCategory').value,
-        amount: document.getElementById('expAmount').value,
-        method: document.getElementById('expMethod').value,
-        date: document.getElementById('expDate').value,
-        narration: document.getElementById('expNarration').value
-      };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: payload }) });
-        const result = await res.json();
-        if (result.status === 'success') {
-          alert('Expense Record Saved Successfully!');
-          event.target.reset();
-          switchTab('expenseList');
-        } else { alert('Error saving expense'); }
-      } catch (err) { alert('Failed to connect API'); }
-      finally { btn.disabled = false; }
+    async function handleExpenseSubmit(e) {
+      e.preventDefault();
+      const p = { party: expParty.value, category: expCategory.value, amount: expAmount.value, method: expMethod.value, date: expDate.value, narration: expNarration.value };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: p }) });
+      const r = await res.json();
+      if (r.status === 'success') { alert('Saved!'); e.target.reset(); switchTab('expenseList'); }
     }
 
     async function loadIncomeList() {
-      const tbody = document.getElementById('incomeTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading income data...</td></tr>`;
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(i => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-bold text-blue-600">${i.id}</td>
-              <td class="p-3">${i.date}</td>
-              <td class="p-3">${i.party}</td>
-              <td class="p-3">${i.category}</td>
-              <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs rounded">${i.method}</span></td>
-              <td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No income records found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Error loading income.</td></tr>`; }
+      const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`);
+      const r = await res.json();
+      incomeTableBody.innerHTML = r.data.map(i => `<tr class="border-b"><td class="p-3 font-bold text-blue-600">${i.id}</td><td class="p-3">${i.date}</td><td class="p-3">${i.party}</td><td class="p-3">${i.category}</td><td class="p-3">${i.method}</td><td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td></tr>`).join('');
     }
 
     async function loadExpenseList() {
-      const tbody = document.getElementById('expenseTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading expense data...</td></tr>`;
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(x => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-bold text-rose-600">${x.id}</td>
-              <td class="p-3">${x.date}</td>
-              <td class="p-3">${x.party}</td>
-              <td class="p-3">${x.category}</td>
-              <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs rounded">${x.method}</span></td>
-              <td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No expense records found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Error loading expense.</td></tr>`; }
+      const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`);
+      const r = await res.json();
+      expenseTableBody.innerHTML = r.data.map(x => `<tr class="border-b"><td class="p-3 font-bold text-rose-600">${x.id}</td><td class="p-3">${x.date}</td><td class="p-3">${x.party}</td><td class="p-3">${x.category}</td><td class="p-3">${x.method}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td></tr>`).join('');
+    }
+
+    async function loadLedgersData(type, title) {
+      switchTab('ledgers');
+      ledgerTitleDisplay.innerText = title;
+      const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=${type}`);
+      const r = await res.json();
+      ledgerTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
     }
 
     async function handleLogin(e) {
@@ -1464,48 +1028,23 @@
     }
     function handleLogout() { localStorage.clear(); showLoginUI(); }
 
-    async function loadLedgersData(type, title) {
-      switchTab('ledgers');
-      ledgerTitleDisplay.innerText = title;
-      const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=${type}`);
-      const r = await res.json();
-      ledgerTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
-    }
-
-    // CASH & BANK
-    function openCashBankForm(t) { switchTab('cashBankFormView'); cbType.value = t; cbFormTitle.innerText = `${t} Entry`; }
+    function openCashBankForm(t) { switchTab('cashBankFormView'); cbType.value = t; }
     async function handleCashBankSubmit(e) {
       e.preventDefault();
       const p = { type: cbType.value, account: cbAccount.value, amount: cbAmount.value, date: cbDate.value, narration: cbNarration.value };
       const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createCashBankTxn', payload: p }) });
       const r = await res.json();
-      if (r.status === 'success') { alert(`${p.type} Recorded!`); e.target.reset(); loadDashboardData(); switchTab(p.type.includes('Cash') ? 'cashAccountView' : 'bankAccountView'); }
+      if (r.status === 'success') { alert('Recorded!'); e.target.reset(); loadDashboardData(); }
     }
-    async function loadCashLedger() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=CASH`);
-      const r = await res.json();
-      cashTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
-    }
-    async function loadBankAccounts() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getBankAccounts`);
-      const r = await res.json();
-      bankAccountsContainer.innerHTML = r.data.map(b => `<div class="p-4 bg-slate-50 border rounded-xl flex justify-between"><div><h4 class="font-bold text-slate-800">${b.bank_name}</h4><p class="text-xs text-slate-500">A/C: ${b.account_no}</p></div><span class="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">Active</span></div>`).join('');
-      const resTxn = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=BANK`);
-      const rTxn = await resTxn.json();
-      bankTableBody.innerHTML = rTxn.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
-    }
-    async function loadReconciliation() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
-      const r = await res.json();
-      if(r.status==='success') { recBookBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; recBankBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; }
-    }
+    async function loadCashLedger() { const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=CASH`); const r = await res.json(); cashTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join(''); }
+    async function loadBankAccounts() { const res = await fetch(`${CONFIG.API_URL}?action=getBankAccounts`); const r = await res.json(); bankAccountsContainer.innerHTML = r.data.map(b => `<div class="p-4 bg-slate-50 border rounded-xl flex justify-between"><div><h4 class="font-bold">${b.bank_name}</h4><p class="text-xs text-slate-500">${b.account_no}</p></div><span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">Active</span></div>`).join(''); }
+    async function loadReconciliation() { const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`); const r = await res.json(); if (r.status==='success') { recBookBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; recBankBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; } }
 
-    // CUSTOMER
     function toggleCustomerModal(s) { document.getElementById('customerModal').classList.toggle('hidden', !s); }
     async function loadCustomersData() {
       const res = await fetch(`${CONFIG.API_URL}?action=getCustomers`);
       const r = await res.json();
-      if(r.status==='success') {
+      if (r.status === 'success') {
         globalCustomers = r.data;
         customerTableBody.innerHTML = globalCustomers.map(c => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3">${c.phone}</td><td class="p-3">${c.address}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-emerald-50 text-emerald-600 px-2 py-1 rounded text-xs font-bold">Collect</button></td></tr>`).join('');
         const dueList = globalCustomers.filter(c => Number(c.due_amount) > 0);
@@ -1518,7 +1057,6 @@
     async function handleAddCustomerSubmit(e) { e.preventDefault(); const p = { name: newCustName.value, phone: newCustPhone.value, address: newCustAddress.value, due_amount: Number(newCustDue.value)||0 }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Customer Added!'); toggleCustomerModal(false); loadCustomersData(); loadDashboardData(); } }
     async function handleCustomerPaymentSubmit(e) { e.preventDefault(); const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; const p = { customer_id: cpCustomerSelect.value, customer_name: s.getAttribute('data-name'), amount: Number(cpAmount.value), method: cpMethod.value, date: cpDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'collectCustomerPayment', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Payment Collected!'); e.target.reset(); loadDashboardData(); switchTab('customerDueView'); } }
 
-    // REPORTS & OTHER
     async function loadReport(t) {
       switchTab('reportsView');
       const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
@@ -1535,14 +1073,6 @@
         area.innerHTML = `<div class="grid grid-cols-2 gap-4"><div class="p-4 border rounded-xl"><h4 class="font-bold border-b pb-1">Assets</h4><p class="flex justify-between text-xs py-1"><span>Customer Due:</span><b>৳ ${Number(r.data.totalReceivable).toLocaleString()}</b></p></div><div class="p-4 border rounded-xl"><h4 class="font-bold border-b pb-1">Liabilities</h4><p class="flex justify-between text-xs py-1"><span>Supplier Due:</span><b>৳ ${Number(r.data.totalPayable).toLocaleString()}</b></p></div></div>`;
       }
     }
-
-    async function loadBranchesData() { const res = await fetch(`${CONFIG.API_URL}?action=getBranches`); const r = await res.json(); branchesContainer.innerHTML = r.data.map(b => `<div class="p-4 border rounded-xl bg-slate-50 flex justify-between items-center"><div><h4 class="font-bold text-slate-800 text-sm">${b.branch_name}</h4><p class="text-xs text-slate-500">${b.location}</p></div><span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded">${b.branch_id}</span></div>`).join(''); }
-    function toggleUserModal(s) { document.getElementById('userModal').classList.toggle('hidden', !s); }
-    async function loadUsersData() { const res = await fetch(`${CONFIG.API_URL}?action=getUsers`); const r = await res.json(); userTableBody.innerHTML = r.data.map(u => `<tr class="border-b"><td class="p-3 font-semibold text-sky-600">${u.user_id}</td><td class="p-3 font-bold">${u.name}</td><td class="p-3 text-slate-500">${u.email}</td><td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs font-bold rounded">${u.role}</span></td><td class="p-3 text-xs text-slate-500">${u.branch_id}</td></tr>`).join(''); }
-    async function handleAddUserSubmit(e) { e.preventDefault(); const p = { name: newUserName.value, email: newUserEmail.value, password: newUserPass.value, role: newUserRole.value, branch_id: newUserBranch.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addUser', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('User Created!'); toggleUserModal(false); loadUsersData(); } }
-    async function loadAuditData() { const res = await fetch(`${CONFIG.API_URL}?action=getAuditTrail`); const r = await res.json(); auditTableBody.innerHTML = r.data.map(a => `<tr class="border-b text-xs"><td class="p-3 text-slate-400">${new Date(a.date_time).toLocaleString()}</td><td class="p-3 font-bold">${a.action}</td><td class="p-3 text-blue-600">${a.entity_id}</td><td class="p-3">${a.performed_by}</td><td class="p-3">${a.details}</td></tr>`).join(''); }
-    async function loadSettingsData() { const res = await fetch(`${CONFIG.API_URL}?action=getSettings`); const r = await res.json(); setCompName.value = r.data.company_name; }
-    async function handleSaveSettings(e) { e.preventDefault(); const p = { company_name: setCompName.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', payload: p }) }); const r = await res.json(); if(r.status==='success') alert('Settings Saved!'); }
   </script>
 </body>
 </html>
