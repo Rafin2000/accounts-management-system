@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accounts Management System</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
@@ -62,7 +64,7 @@
   <!-- 2. MAIN APP DASHBOARD -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- SIDEBAR -->
+    <!-- FULL ERP SIDEBAR -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -75,12 +77,14 @@
           </div>
         </div>
 
+        <!-- FULL 14 MODULES NAVIGATION -->
         <nav class="p-3 space-y-1 text-sm">
-          <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium">
+          <!-- 1. Dashboard -->
+          <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium transition-all">
             <i class="fa-solid fa-house w-5 text-blue-200"></i><span>Dashboard</span>
           </a>
 
-          <!-- Voucher Management -->
+          <!-- 2. Voucher Management -->
           <div>
             <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-slate-400"></i><span>Voucher Management</span></div>
@@ -96,7 +100,7 @@
             </div>
           </div>
 
-          <!-- Voucher Approval -->
+          <!-- 3. Voucher Approval -->
           <div>
             <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-slate-400"></i><span>Voucher Approval</span></div>
@@ -109,31 +113,31 @@
             </div>
           </div>
 
-          <!-- Income -->
+          <!-- 4. Income -->
           <div>
             <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i><span>Income</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuIncome" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" onclick="switchTab('incomeEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Income Entry</a>
+              <a href="#" onclick="switchTab('incomeEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300 font-semibold">Income Entry</a>
               <a href="#" onclick="switchTab('incomeList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income List</a>
             </div>
           </div>
 
-          <!-- Expense -->
+          <!-- 5. Expense -->
           <div>
             <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i><span>Expense</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuExpense" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" onclick="switchTab('expenseEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Expense Entry</a>
+              <a href="#" onclick="switchTab('expenseEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300 font-semibold">Expense Entry</a>
               <a href="#" onclick="switchTab('expenseList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense List</a>
             </div>
           </div>
 
-          <!-- Accounts / Ledger -->
+          <!-- 6. Accounts / Ledger -->
           <div>
             <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i><span>Accounts / Ledger</span></div>
@@ -150,7 +154,7 @@
             </div>
           </div>
 
-          <!-- Cash & Bank -->
+          <!-- 7. Cash & Bank -->
           <div>
             <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-indigo-400"></i><span>Cash & Bank</span></div>
@@ -167,7 +171,7 @@
             </div>
           </div>
 
-          <!-- Customer -->
+          <!-- 8. Customer -->
           <div>
             <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-users w-5 text-amber-400"></i><span>Customer</span></div>
@@ -180,7 +184,7 @@
             </div>
           </div>
 
-          <!-- Supplier -->
+          <!-- 9. Supplier -->
           <div>
             <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-teal-400"></i><span>Supplier</span></div>
@@ -195,7 +199,7 @@
             </div>
           </div>
 
-          <!-- Reports -->
+          <!-- 10. Reports -->
           <div>
             <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-cyan-400"></i><span>Reports</span></div>
@@ -203,12 +207,12 @@
             </button>
             <div id="menuReports" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="loadReport('TRIAL_BALANCE')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
-              <a href="#" onclick="loadReport('PROFIT_LOSS')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Profit & Loss Statement</a>
-              <a href="#" onclick="loadReport('BALANCE_SHEET')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-indigo-300">Balance Sheet</a>
+              <a href="#" onclick="loadReport('PROFIT_LOSS')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300 font-semibold">Profit & Loss Statement</a>
+              <a href="#" onclick="loadReport('BALANCE_SHEET')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-indigo-300 font-semibold">Balance Sheet</a>
             </div>
           </div>
 
-          <!-- Branch -->
+          <!-- 11. Branch / Shop -->
           <div>
             <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-store w-5 text-purple-400"></i><span>Branch / Shop</span></div>
@@ -219,7 +223,7 @@
             </div>
           </div>
 
-          <!-- User Management -->
+          <!-- 12. User Management -->
           <div>
             <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-sky-400"></i><span>User Management</span></div>
@@ -230,10 +234,11 @@
             </div>
           </div>
 
-          <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+          <!-- 13. Audit Trail & 14. Settings -->
+          <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
             <i class="fa-solid fa-file-shield w-5 text-emerald-400"></i><span>Audit Trail</span>
           </a>
-          <a href="#" onclick="switchTab('settingsView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+          <a href="#" onclick="switchTab('settingsView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
             <i class="fa-solid fa-sliders w-5 text-rose-400"></i><span>Settings</span>
           </a>
         </nav>
@@ -262,7 +267,7 @@
 
       <div class="p-6 space-y-6">
 
-        <!-- 1. DASHBOARD -->
+        <!-- 1. DASHBOARD VIEW -->
         <div id="dashboardView" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
@@ -284,7 +289,107 @@
           </div>
         </div>
 
-        <!-- 2. SUPPLIER STATEMENT VIEW (MATCHED EXACTLY TO EXCEL FORMAT) -->
+        <!-- 2. VOUCHERS VIEW (PREMIUM LABELS & DESIGN RESTORED) -->
+        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3>
+              <p class="text-xs text-slate-500">Fill in the voucher details below for 3-step approval workflow.</p>
+            </div>
+            <span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span>
+          </div>
+
+          <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Type *</label>
+                <select id="vType" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+                  <option value="Payment">Payment Voucher (বাণিজ্যিক প্রদান)</option>
+                  <option value="Receipt">Receipt Voucher (টাকা গ্রহণ)</option>
+                  <option value="Journal">Journal Voucher (সামঞ্জস্য এন্ট্রি)</option>
+                  <option value="Contra">Contra Voucher (ক্যাশ-ব্যাংক ট্রান্সফার)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Account Head / Category *</label>
+                <input type="text" id="vAccount" required placeholder="e.g. Office Rent / Client Payment" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label>
+                <input type="number" step="0.01" id="vAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Date *</label>
+                <input type="date" id="vDate" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Narration / Description</label>
+              <textarea id="vNarration" rows="3" placeholder="Enter voucher details or payment reference..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <button type="submit" id="vSubmitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md transition-all flex items-center space-x-2">
+              <i class="fa-solid fa-paper-plane"></i><span>Submit Voucher</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- 3. APPROVALS QUEUE (WITH NARRATION & REASON RESTORED) -->
+        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800" id="approvalTitle">Pending Approvals Queue</h3>
+              <p class="text-xs text-slate-500" id="approvalSubtitle">Review voucher reason, head, and process approval.</p>
+            </div>
+            <span id="approvalStageBadge" class="bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Pending</span>
+          </div>
+
+          <div id="approvalsListContainer" class="space-y-4">
+            <p class="text-slate-400 text-sm">Loading pending vouchers...</p>
+          </div>
+        </div>
+
+        <!-- 4. INCOME ENTRY VIEW -->
+        <div id="incomeEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-lg font-bold text-emerald-600 mb-4 flex items-center"><i class="fa-solid fa-sack-dollar mr-2"></i> Income Entry</h3>
+          <form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Customer / Source Name *</label><input type="text" id="incParty" required placeholder="e.g. Sales / Client Name" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Income Category *</label><input type="text" id="incCategory" required placeholder="e.g. Service Fee / Product Sale" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="incAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Method</label><select id="incMethod" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="incDate" required class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+            </div>
+            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Description / Remarks</label><textarea id="incNarration" rows="2" placeholder="Write narration or reference..." class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></textarea></div>
+            <button type="submit" id="incBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all">Save Income Record</button>
+          </form>
+        </div>
+
+        <!-- 5. EXPENSE ENTRY VIEW -->
+        <div id="expenseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-lg font-bold text-rose-600 mb-4 flex items-center"><i class="fa-solid fa-money-bill-transfer mr-2"></i> Expense Entry</h3>
+          <form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Supplier / Payee Name *</label><input type="text" id="expParty" required placeholder="e.g. Landlord / Vendor Name" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Expense Category *</label><input type="text" id="expCategory" required placeholder="e.g. Office Rent / Utility Bill" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="expAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Method</label><select id="expMethod" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="expDate" required class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+            </div>
+            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Description / Remarks</label><textarea id="expNarration" rows="2" placeholder="Write expense purpose..." class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></textarea></div>
+            <button type="submit" id="expBtn" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all">Save Expense Record</button>
+          </form>
+        </div>
+
+        <!-- 6. SUPPLIER STATEMENT VIEW (EXCEL FORMAT) -->
         <div id="supplierStatementView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
             <div>
@@ -299,10 +404,7 @@
             </div>
           </div>
 
-          <!-- Printable Statement Layout -->
           <div id="supplierStatementPrintArea" class="bg-white">
-            
-            <!-- Excel Header Box -->
             <div class="border border-slate-700 mb-3 text-center">
               <div class="bg-slate-700 text-white py-2 px-4">
                 <h1 class="text-xl font-bold tracking-wide uppercase" id="printSuppName">SUPPLIER STATEMENT</h1>
@@ -314,7 +416,6 @@
               </div>
             </div>
 
-            <!-- Statement Table Structured Exactly Like Excel -->
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs border border-collapse border-slate-400">
                 <thead>
@@ -335,7 +436,6 @@
               </table>
             </div>
 
-            <!-- Signatures Footer -->
             <div class="flex justify-between items-center text-xs text-slate-500 pt-16 mt-8 border-t">
               <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Prepared By</span></div>
               <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Verified By (Accounts)</span></div>
@@ -344,7 +444,7 @@
           </div>
         </div>
 
-        <!-- 3. PURCHASE / BILL ENTRY FORM -->
+        <!-- 7. PURCHASE / BILL ENTRY VIEW -->
         <div id="purchaseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
@@ -388,29 +488,62 @@
           </form>
         </div>
 
-        <!-- 4. VOUCHERS, APPROVALS, INCOME, EXPENSE, CUSTOMER & SUPPLIER -->
-        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3></div><span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span></div><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl"><div class="grid grid-cols-2 gap-4"><select id="vType" required class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment Voucher</option><option value="Receipt">Receipt Voucher</option><option value="Journal">Journal Voucher</option><option value="Contra">Contra Voucher</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" rows="3" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
-        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold" id="approvalTitle">Pending Approvals Queue</h3></div><span id="approvalStageBadge" class="bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Pending</span></div><div id="approvalsListContainer" class="space-y-4"></div></div>
-        <div id="incomeEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Income Entry</h3><form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="incParty" required placeholder="Customer" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="incCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="incAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="incMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="incDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="incNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="incBtn" class="bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Income</button></form></div>
-        <div id="expenseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-rose-600 mb-4">Expense Entry</h3><form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="expParty" required placeholder="Supplier" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="expCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="expAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="expMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="expDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="expNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="expBtn" class="bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Expense</button></form></div>
-        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><div><h3 class="text-md font-bold text-slate-800">All Registered Suppliers</h3><p class="text-xs text-slate-500">Click on any supplier to view their ledger statement</p></div><button onclick="toggleSupplierModal(true)" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-plus mr-1"></i> Add Supplier</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div></div>
-        <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Outstanding Supplier Payables</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table></div></div>
-        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Payment Settlement</h3><form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full"></select></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div></div><div class="grid grid-cols-3 gap-4"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount</label><input type="number" step="0.01" id="spAmount" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Method</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Date</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div></div><button type="submit" id="spBtn" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Post Payment</button></form></div>
-        <div id="customerListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold">All Customers</h3><button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">Add Customer</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Address</th><th class="p-3 text-rose-600">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table></div>
-        <div id="customerDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Customer Dues</h3><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div>
+        <!-- 8. SUPPLIER LIST, DUE & PAYMENT VIEWS -->
+        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h3 class="text-md font-bold text-slate-800">All Registered Suppliers</h3>
+              <p class="text-xs text-slate-500">Click on any supplier to view their ledger statement</p>
+            </div>
+            <button onclick="toggleSupplierModal(true)" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3.5 py-2 rounded-lg font-semibold flex items-center space-x-1">
+              <i class="fa-solid fa-plus"></i><span>Add Supplier</span>
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table>
+          </div>
+        </div>
+
+        <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-md font-bold text-rose-600 mb-4">Outstanding Supplier Payables</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table>
+          </div>
+        </div>
+
+        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Payment Settlement</h3>
+          <form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier *</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full"></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Current Payable Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="spAmount" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Account *</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
+            </div>
+            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Remarks</label><textarea id="spNarration" rows="2" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea></div>
+            <button type="submit" id="spBtn" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Post Supplier Payment</button>
+          </form>
+        </div>
+
+        <!-- 9. CUSTOMER, CASH/BANK, LISTS, LEDGERS, BRANCHES, USERS, AUDIT, SETTINGS -->
+        <div id="customerListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold">All Customers</h3><button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">Add Customer</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Address</th><th class="p-3 text-rose-600">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table></div></div>
+        <div id="customerDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Customer Dues</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div></div>
         <div id="customerPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Customer Payment</h3><form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="cpCustomerSelect" required onchange="handleCustomerSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm"></select><input type="text" id="cpCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="cpAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><select id="cpMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select><input type="date" id="cpDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cpBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Collect</button></form></div>
-        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div>
-        <div id="incomeListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div>
-        <div id="expenseListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
-        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Ref</th><th class="p-3">Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div>
+        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-4"><h3 class="text-md font-bold text-slate-800">All Vouchers</h3><button onclick="loadVouchersList()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div></div>
+        <div id="incomeListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-slate-800 mb-4">All Income Transactions</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div></div>
+        <div id="expenseListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-slate-800 mb-4">All Expense Transactions</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div></div>
+        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Ref</th><th class="p-3">Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div></div>
         <div id="cashBankFormView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="cbFormTitle">Cash/Bank</h3><form onsubmit="handleCashBankSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="cbType" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-indigo-700"><select id="cbAccount" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="cbAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="cbDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cbBtn" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Submit</button></form></div>
-        <div id="cashAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table></div>
-        <div id="bankAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table></div>
+        <div id="cashAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">Cash Account Summary</h3><button onclick="openCashBankForm('Cash Deposit')" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold">Deposit</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table></div></div>
+        <div id="bankAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">Bank Accounts List</h3><button onclick="openCashBankForm('Bank Deposit')" class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold">Deposit</button></div><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table></div></div>
         <div id="reconciliationView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="grid grid-cols-2 gap-4"><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Book Balance</p><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Bank Balance</p><h4 class="text-lg font-bold text-blue-600" id="recBankBal">৳ 0.00</h4></div></div></div>
         <div id="reportsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4 border-b pb-3"><h3 class="text-lg font-bold text-slate-800" id="reportTitle">Financial Statement</h3><button onclick="window.print()" class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-print mr-1"></i> Print</button></div><div id="reportContentArea"></div></div>
         <div id="branchView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Outlets Directory</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="branchesContainer"></div></div>
-        <div id="userView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">System Users</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table></div>
-        <div id="auditView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Audit Trail Logs</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Date Time</th><th class="p-3">Action</th><th class="p-3">Entity ID</th><th class="p-3">User</th><th class="p-3">Details</th></tr></thead><tbody id="auditTableBody"></tbody></table></div>
+        <div id="userView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold text-slate-800">System Users</h3><button onclick="toggleUserModal(true)" class="bg-sky-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-user-plus mr-1"></i> Create User</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table></div></div>
+        <div id="auditView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Audit Trail Logs</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Date Time</th><th class="p-3">Action</th><th class="p-3">Entity ID</th><th class="p-3">User</th><th class="p-3">Details</th></tr></thead><tbody id="auditTableBody"></tbody></table></div></div>
         <div id="settingsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4">Company Settings</h3><form onsubmit="handleSaveSettings(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="setCompName" required placeholder="Company" class="w-full py-2 px-3 border rounded-lg text-sm"></div><button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Settings</button></form></div>
 
       </div>
@@ -440,6 +573,20 @@
         <input type="text" id="newSuppPhone" placeholder="Phone" class="w-full py-2 px-3 border rounded-lg text-sm">
         <input type="number" step="0.01" id="newSuppDue" value="0" placeholder="Opening Payable Due" class="w-full py-2 px-3 border rounded-lg text-sm">
         <div class="flex justify-end space-x-2"><button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm">Save Supplier</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="userModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Create System User</h3>
+      <form onsubmit="handleAddUserSubmit(event)" class="space-y-4">
+        <input type="text" id="newUserName" required placeholder="Full Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="email" id="newUserEmail" required placeholder="Email Address" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="password" id="newUserPass" required placeholder="Password" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <select id="newUserRole" class="w-full py-2 px-3 border rounded-lg text-sm"><option value="ADMIN">ADMIN</option><option value="GM">GM (General Manager)</option><option value="MD">MD / CEO</option><option value="ACCOUNTS">ACCOUNTS EXECUTIVE</option></select>
+        <select id="newUserBranch" class="w-full py-2 px-3 border rounded-lg text-sm"><option value="HEAD_OFFICE">HEAD_OFFICE</option><option value="SHOP_01">SHOP_01</option></select>
+        <div class="flex justify-end space-x-2"><button type="button" onclick="toggleUserModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-sky-600 text-white px-4 py-2 rounded-lg text-sm">Create</button></div>
       </form>
     </div>
   </div>
@@ -616,8 +763,8 @@
           let sl = 2;
           if (result.transactions && result.transactions.length > 0) {
             result.transactions.forEach(t => {
-              const debit = Number(t.debit) || 0; // Payment
-              const credit = Number(t.credit) || 0; // Purchase
+              const debit = Number(t.debit) || 0;
+              const credit = Number(t.credit) || 0;
               const isReturn = t.particulars.toLowerCase().includes('return');
               
               let returnAmt = 0;
@@ -740,7 +887,7 @@
       btn.disabled = false;
     }
 
-    // COMMON / DASHBOARD / AUTH
+    // VOUCHERS, INCOMES, EXPENSES, AUTH & DASHBOARD
     function openVoucherForm(type) {
       switchTab('vouchers');
       const select = document.getElementById('vType');
