@@ -60,7 +60,7 @@
   <!-- 2. MAIN APP DASHBOARD -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- FULL ERP SIDEBAR (ALL SUB-MENUS RESTORED) -->
+    <!-- FULL ERP SIDEBAR -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -74,15 +74,12 @@
         </div>
 
         <nav class="p-3 space-y-1 text-sm" id="sidebarNav">
-          
-          <!-- 1. Dashboard -->
           <div data-module="dashboard">
             <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium transition-all">
               <i class="fa-solid fa-chart-pie w-5 text-blue-200"></i><span>Dashboard</span>
             </a>
           </div>
 
-          <!-- 2. Voucher Management -->
           <div data-module="vouchers">
             <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-slate-400"></i><span>Voucher Management</span></div>
@@ -90,15 +87,10 @@
             </button>
             <div id="menuVouchers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="openVoucherForm('ALL')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Create Voucher</a>
-              <a href="#" onclick="openVoucherForm('Payment')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-400">Payment Voucher</a>
-              <a href="#" onclick="openVoucherForm('Receipt')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-400">Receipt Voucher</a>
-              <a href="#" onclick="openVoucherForm('Journal')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-blue-400">Journal Voucher</a>
-              <a href="#" onclick="openVoucherForm('Contra')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-amber-400">Contra Voucher</a>
               <a href="#" onclick="switchTab('voucherList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 font-semibold text-slate-200">Voucher List</a>
             </div>
           </div>
 
-          <!-- 3. Voucher Approval -->
           <div data-module="approvals">
             <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-slate-400"></i><span>Voucher Approval</span></div>
@@ -111,7 +103,6 @@
             </div>
           </div>
 
-          <!-- 4. Income -->
           <div data-module="income">
             <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i><span>Income</span></div>
@@ -123,7 +114,6 @@
             </div>
           </div>
 
-          <!-- 5. Expense -->
           <div data-module="expense">
             <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i><span>Expense</span></div>
@@ -135,7 +125,7 @@
             </div>
           </div>
 
-          <!-- 6. Accounts / Ledger -->
+          <!-- FIXED ACCOUNTS / LEDGER SUB-MENUS -->
           <div data-module="ledger">
             <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i><span>Accounts / Ledger</span></div>
@@ -152,7 +142,6 @@
             </div>
           </div>
 
-          <!-- 7. Cash & Bank -->
           <div data-module="cashbank">
             <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-indigo-400"></i><span>Cash & Bank</span></div>
@@ -169,7 +158,6 @@
             </div>
           </div>
 
-          <!-- 8. Customer -->
           <div data-module="customer">
             <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-users w-5 text-amber-400"></i><span>Customer</span></div>
@@ -182,7 +170,6 @@
             </div>
           </div>
 
-          <!-- 9. Supplier -->
           <div data-module="supplier">
             <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-teal-400"></i><span>Supplier</span></div>
@@ -197,7 +184,7 @@
             </div>
           </div>
 
-          <!-- 10. Reports -->
+          <!-- FIXED REPORTS SUB-MENUS -->
           <div data-module="reports">
             <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-cyan-400"></i><span>Reports</span></div>
@@ -210,7 +197,6 @@
             </div>
           </div>
 
-          <!-- 11. Branch / Shop -->
           <div data-module="branch">
             <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-store w-5 text-purple-400"></i><span>Branch / Shop</span></div>
@@ -221,7 +207,6 @@
             </div>
           </div>
 
-          <!-- 12. User Management -->
           <div data-module="users">
             <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-sky-400"></i><span>User Management</span></div>
@@ -233,14 +218,12 @@
             </div>
           </div>
 
-          <!-- 13. Audit Trail -->
           <div data-module="audit">
             <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <i class="fa-solid fa-file-shield w-5 text-emerald-400"></i><span>Audit Trail</span>
             </a>
           </div>
 
-          <!-- 14. Settings -->
           <div data-module="settings">
             <a href="#" onclick="switchTab('settingsView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <i class="fa-solid fa-sliders w-5 text-rose-400"></i><span>Settings</span>
@@ -296,7 +279,7 @@
           <div class="bg-white p-6 rounded-2xl border shadow-sm"><h3 class="text-md font-extrabold text-slate-800 mb-4">Financial Performance Overview</h3><div class="h-72 w-full relative"><canvas id="financialChart"></canvas></div></div>
         </div>
 
-        <!-- 2. ALL OTHER VIEWS (RETAINED) -->
+        <!-- 2. ALL FUNCTIONAL VIEWS -->
         <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3></div><span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span></div><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl"><div class="grid grid-cols-2 gap-4"><select id="vType" required class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment Voucher</option><option value="Receipt">Receipt Voucher</option><option value="Journal">Journal Voucher</option><option value="Contra">Contra Voucher</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" rows="3" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
         <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-4"><h3 class="text-md font-bold text-slate-800">All Vouchers & Status</h3><button onclick="loadVouchersList()" class="bg-slate-100 text-xs px-3 py-1.5 rounded-lg font-semibold">Refresh</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div></div>
         <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold" id="approvalTitle">Pending Approvals</h3></div><span id="approvalStageBadge" class="bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Pending</span></div><div id="approvalsListContainer" class="space-y-4"></div></div>
@@ -347,14 +330,20 @@
 
   <div id="supplierModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
     <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
-      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Supplier</h3>
+      <div class="flex justify-between items-center mb-4 pb-2 border-b">
+        <h3 class="font-bold text-slate-800">Add New Supplier</h3>
+        <button onclick="toggleSupplierModal(false)" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
       <form onsubmit="handleAddSupplierSubmit(event)" class="space-y-4">
-        <input type="text" id="newSuppName" required placeholder="Supplier Contact Name" class="w-full py-2 px-3 border rounded-lg text-sm">
-        <input type="text" id="newSuppCompany" required placeholder="Company / Vendor Name" class="w-full py-2 px-3 border rounded-lg text-sm">
-        <input type="text" id="newSuppPhone" placeholder="Phone" class="w-full py-2 px-3 border rounded-lg text-sm">
-        <input type="text" id="newSuppAddress" placeholder="Address (e.g. Dhaka)" class="w-full py-2 px-3 border rounded-lg text-sm">
-        <input type="number" step="0.01" id="newSuppDue" value="0" placeholder="Opening Payable Due" class="w-full py-2 px-3 border rounded-lg text-sm">
-        <div class="flex justify-end space-x-2"><button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm">Save Supplier</button></div>
+        <div><label class="block text-xs font-semibold mb-1">Supplier Contact Name *</label><input type="text" id="newSuppName" required placeholder="e.g. Rafin Mir" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
+        <div><label class="block text-xs font-semibold mb-1">Company / Vendor Name *</label><input type="text" id="newSuppCompany" required placeholder="e.g. Sanvees by tony" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
+        <div><label class="block text-xs font-semibold mb-1">Phone</label><input type="text" id="newSuppPhone" placeholder="01800000000" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
+        <div><label class="block text-xs font-semibold mb-1">Address</label><input type="text" id="newSuppAddress" placeholder="e.g. Dhaka, Bangladesh" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
+        <div><label class="block text-xs font-semibold mb-1">Opening Payable Due (BDT) *</label><input type="number" step="0.01" id="newSuppDue" value="0" placeholder="0.00" class="w-full py-2 px-3 border rounded-lg text-sm font-bold text-rose-600"></div>
+        <div class="flex justify-end space-x-2 pt-2">
+          <button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button>
+          <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-5 py-2 rounded-lg text-sm">Save Supplier</button>
+        </div>
       </form>
     </div>
   </div>
@@ -520,26 +509,6 @@
           renderFinancialChart(inc, exp, net);
         }
       } catch (e) {}
-
-      try {
-        const resL = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=GENERAL&branch=${branchFilter}`);
-        const rL = await resL.json();
-        const dBody = document.getElementById('dashRecentTableBody');
-        if (rL.status === 'success' && rL.data.length > 0) {
-          const recent = rL.data.slice(-5).reverse();
-          dBody.innerHTML = recent.map(l => `
-            <tr class="border-b hover:bg-slate-50">
-              <td class="p-3 font-semibold text-blue-600">${l.entry_id}</td>
-              <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
-              <td class="p-3 font-bold text-slate-800">${l.account_head}</td>
-              <td class="p-3 text-right font-bold text-rose-600">${Number(l.debit) > 0 ? '৳ ' + Number(l.debit).toLocaleString() : '-'}</td>
-              <td class="p-3 text-right font-bold text-emerald-600">${Number(l.credit) > 0 ? '৳ ' + Number(l.credit).toLocaleString() : '-'}</td>
-            </tr>
-          `).join('');
-        } else {
-          dBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No recent transactions.</td></tr>`;
-        }
-      } catch (err) {}
     }
 
     function renderFinancialChart(income, expense, netProfit) {
@@ -572,7 +541,7 @@
       });
     }
 
-    // SUPPLIER & ADD SUPPLIER MODAL WITH ADDRESS
+    // SUPPLIER & ADD SUPPLIER MODAL
     function toggleSupplierModal(show) {
       const modal = document.getElementById('supplierModal');
       if (modal) modal.classList.toggle('hidden', !show);
@@ -935,7 +904,9 @@
     }
 
     async function loadBranchesData() { const res = await fetch(`${CONFIG.API_URL}?action=getBranches`); const r = await res.json(); branchesContainer.innerHTML = r.data.map(b => `<div class="p-4 border rounded-xl bg-slate-50 flex justify-between items-center"><div><h4 class="font-bold text-slate-800 text-sm">${b.branch_name}</h4><p class="text-xs text-slate-500">${b.location}</p></div><span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded">${b.branch_id}</span></div>`).join(''); }
+    function toggleUserModal(s) { document.getElementById('userModal').classList.toggle('hidden', !s); }
     async function loadUsersData() { const res = await fetch(`${CONFIG.API_URL}?action=getUsers`); const r = await res.json(); userTableBody.innerHTML = r.data.map(u => `<tr class="border-b"><td class="p-3 font-semibold text-sky-600">${u.user_id}</td><td class="p-3 font-bold">${u.name}</td><td class="p-3 text-slate-500">${u.email}</td><td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs font-bold rounded">${u.role}</span></td><td class="p-3 text-xs text-slate-500">${u.branch_id}</td></tr>`).join(''); }
+    async function handleAddUserSubmit(e) { e.preventDefault(); const p = { name: newUserName.value, email: newUserEmail.value, password: newUserPass.value, role: newUserRole.value, branch_id: newUserBranch.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addUser', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('User Created!'); toggleUserModal(false); loadUsersData(); } }
     async function loadAuditData() { const res = await fetch(`${CONFIG.API_URL}?action=getAuditTrail`); const r = await res.json(); auditTableBody.innerHTML = r.data.map(a => `<tr class="border-b text-xs"><td class="p-3 text-slate-400">${new Date(a.date_time).toLocaleString()}</td><td class="p-3 font-bold">${a.action}</td><td class="p-3 text-blue-600">${a.entity_id}</td><td class="p-3">${a.performed_by}</td><td class="p-3">${a.details}</td></tr>`).join(''); }
     async function loadSettingsData() { const res = await fetch(`${CONFIG.API_URL}?action=getSettings`); const r = await res.json(); setCompName.value = r.data.company_name; }
     async function handleSaveSettings(e) { e.preventDefault(); const p = { company_name: setCompName.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', payload: p }) }); const r = await res.json(); if(r.status==='success') alert('Settings Saved!'); }
