@@ -8,8 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -21,9 +19,15 @@
     
     @media print {
       body * { visibility: hidden !important; }
-      #supplierStatementPrintArea, #supplierStatementPrintArea *, #printableArea, #printableArea * { visibility: visible !important; }
-      #supplierStatementPrintArea, #printableArea {
-        position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; background: white;
+      #printableArea, #printableArea *, #supplierStatementPrintArea, #supplierStatementPrintArea * { visibility: visible !important; }
+      #printableArea, #supplierStatementPrintArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        background: white;
       }
     }
   </style>
@@ -74,12 +78,14 @@
         </div>
 
         <nav class="p-3 space-y-1 text-sm" id="sidebarNav">
+          <!-- 1. Dashboard -->
           <div data-module="dashboard">
             <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium transition-all">
               <i class="fa-solid fa-chart-pie w-5 text-blue-200"></i><span>Dashboard</span>
             </a>
           </div>
 
+          <!-- 2. Voucher Management -->
           <div data-module="vouchers">
             <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-slate-400"></i><span>Voucher Management</span></div>
@@ -87,10 +93,15 @@
             </button>
             <div id="menuVouchers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="openVoucherForm('ALL')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Create Voucher</a>
+              <a href="#" onclick="openVoucherForm('Payment')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-400">Payment Voucher</a>
+              <a href="#" onclick="openVoucherForm('Receipt')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-400">Receipt Voucher</a>
+              <a href="#" onclick="openVoucherForm('Journal')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-blue-400">Journal Voucher</a>
+              <a href="#" onclick="openVoucherForm('Contra')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-amber-400">Contra Voucher</a>
               <a href="#" onclick="switchTab('voucherList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 font-semibold text-slate-200">Voucher List</a>
             </div>
           </div>
 
+          <!-- 3. Voucher Approval -->
           <div data-module="approvals">
             <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-slate-400"></i><span>Voucher Approval</span></div>
@@ -103,6 +114,7 @@
             </div>
           </div>
 
+          <!-- 4. Income -->
           <div data-module="income">
             <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i><span>Income</span></div>
@@ -114,6 +126,7 @@
             </div>
           </div>
 
+          <!-- 5. Expense -->
           <div data-module="expense">
             <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i><span>Expense</span></div>
@@ -125,6 +138,7 @@
             </div>
           </div>
 
+          <!-- 6. Accounts / Ledger -->
           <div data-module="ledger">
             <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i><span>Accounts / Ledger</span></div>
@@ -132,10 +146,16 @@
             </button>
             <div id="menuLedger" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-blue-300 font-semibold">General Ledger</a>
+              <a href="#" onclick="loadLedgersData('CASH', 'Cash Ledger Statement')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Ledger</a>
+              <a href="#" onclick="loadLedgersData('BANK', 'Bank Ledger Statement')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Ledger</a>
+              <a href="#" onclick="loadLedgersData('CUSTOMER', 'Customer Ledger Statement')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Ledger</a>
               <a href="#" onclick="switchTab('supplierStatementView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-teal-300 font-bold">Supplier Ledger Statement</a>
+              <a href="#" onclick="loadLedgersData('EXPENSE', 'Expense Ledger Statement')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Expense Ledger</a>
+              <a href="#" onclick="loadLedgersData('INCOME', 'Income Ledger Statement')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Income Ledger</a>
             </div>
           </div>
 
+          <!-- 7. Cash & Bank -->
           <div data-module="cashbank">
             <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-indigo-400"></i><span>Cash & Bank</span></div>
@@ -146,9 +166,13 @@
               <a href="#" onclick="switchTab('bankAccountView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-indigo-300">Bank Account</a>
               <a href="#" onclick="openCashBankForm('Cash Deposit')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Cash Deposit</a>
               <a href="#" onclick="openCashBankForm('Cash Withdrawal')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Cash Withdrawal</a>
+              <a href="#" onclick="openCashBankForm('Bank Deposit')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Bank Deposit</a>
+              <a href="#" onclick="openCashBankForm('Bank Withdrawal')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Bank Withdrawal</a>
+              <a href="#" onclick="switchTab('reconciliationView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-amber-300">Bank Reconciliation</a>
             </div>
           </div>
 
+          <!-- 8. Customer -->
           <div data-module="customer">
             <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-users w-5 text-amber-400"></i><span>Customer</span></div>
@@ -161,6 +185,7 @@
             </div>
           </div>
 
+          <!-- 9. Supplier -->
           <div data-module="supplier">
             <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-teal-400"></i><span>Supplier</span></div>
@@ -175,6 +200,7 @@
             </div>
           </div>
 
+          <!-- 10. Reports -->
           <div data-module="reports">
             <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-cyan-400"></i><span>Reports</span></div>
@@ -187,6 +213,7 @@
             </div>
           </div>
 
+          <!-- 11. Branch / Shop -->
           <div data-module="branch">
             <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-store w-5 text-purple-400"></i><span>Branch / Shop</span></div>
@@ -197,6 +224,7 @@
             </div>
           </div>
 
+          <!-- 12. User Management -->
           <div data-module="users">
             <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-sky-400"></i><span>User Management</span></div>
@@ -208,12 +236,14 @@
             </div>
           </div>
 
+          <!-- 13. Audit Trail -->
           <div data-module="audit">
             <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <i class="fa-solid fa-file-shield w-5 text-emerald-400"></i><span>Audit Trail</span>
             </a>
           </div>
 
+          <!-- 14. Settings -->
           <div data-module="settings">
             <a href="#" onclick="switchTab('settingsView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <i class="fa-solid fa-sliders w-5 text-rose-400"></i><span>Settings</span>
@@ -263,13 +293,38 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Income</span><span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></span></div><h3 class="text-2xl font-black text-slate-800" id="dashIncome">৳ 0.00</h3></div>
             <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Expense</span><span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-down"></i></span></div><h3 class="text-2xl font-black text-slate-800" id="dashExpense">৳ 0.00</h3></div>
-            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Customer Due</span><span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center"><i class="fa-solid fa-hand-holding-dollar"></i></span></div><h3 class="text-2xl font-black text-amber-700" id="dashDue">৳ 0.00</h3></div>
-            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Supplier Due</span><span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center"><i class="fa-solid fa-file-invoice-dollar"></i></span></div><h3 class="text-2xl font-black text-rose-700" id="dashPayable">৳ 0.00</h3></div>
+            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Customer Due (Rec)</span><span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-hand-holding-dollar"></i></span></div><h3 class="text-2xl font-black text-amber-700" id="dashDue">৳ 0.00</h3></div>
+            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Supplier Due (Payable)</span><span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center"><i class="fa-solid fa-file-invoice-dollar"></i></span></div><h3 class="text-2xl font-black text-rose-700" id="dashPayable">৳ 0.00</h3></div>
           </div>
-          <div class="bg-white p-6 rounded-2xl border shadow-sm"><h3 class="text-md font-extrabold text-slate-800 mb-4">Financial Performance Overview</h3><div class="h-72 w-full relative"><canvas id="financialChart"></canvas></div></div>
+
+          <!-- Quick Actions -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <h4 class="text-xs font-bold uppercase text-slate-400 mb-3">Fast Operations</h4>
+            <div class="flex flex-wrap gap-2.5">
+              <button onclick="openVoucherForm('ALL')" class="bg-blue-50 text-blue-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Create Voucher</button>
+              <button onclick="switchTab('incomeEntry')" class="bg-emerald-50 text-emerald-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Income Entry</button>
+              <button onclick="switchTab('expenseEntry')" class="bg-rose-50 text-rose-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Expense Entry</button>
+              <button onclick="switchTab('purchaseEntryView')" class="bg-teal-50 text-teal-700 font-bold text-xs px-3.5 py-2 rounded-xl">+ Purchase Bill</button>
+              <button onclick="switchTab('supplierPaymentView')" class="bg-purple-50 text-purple-700 font-bold text-xs px-3.5 py-2 rounded-xl">Pay Supplier Due</button>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-md font-bold text-slate-800">Recent Financial Activity</h3>
+              <button onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="text-xs font-bold text-blue-600">View Full Ledger <i class="fa-solid fa-arrow-right ml-1"></i></button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead><tr class="bg-slate-50 uppercase text-slate-400 font-bold border-b"><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Particulars</th><th class="p-3 text-right text-rose-600">Debit</th><th class="p-3 text-right text-emerald-600">Credit</th></tr></thead>
+                <tbody id="dashRecentTableBody"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- 2. SUPPLIER STATEMENT VIEW (WITH EXCEL EXPORT BUTTON) -->
+        <!-- 2. SUPPLIER STATEMENT VIEW (WITH EXCEL EXPORT) -->
         <div id="supplierStatementView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
             <div>
@@ -322,7 +377,7 @@
           </div>
         </div>
 
-        <!-- 3. ALL OTHER VIEWS -->
+        <!-- 3. ALL OTHER FUNCTIONAL VIEWS -->
         <div id="purchaseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Purchase Entry</h3><form onsubmit="handlePurchaseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold mb-1">Supplier</label><select id="purSupplierSelect" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></select></div><div><label class="block text-xs font-semibold mb-1">Invoice</label><input type="text" id="purInvoice" placeholder="INV-001" class="w-full py-2.5 px-3 border rounded-lg text-sm"></div></div><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold mb-1">Amount</label><input type="number" step="0.01" id="purAmount" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div><div><label class="block text-xs font-semibold mb-1">Date</label><input type="date" id="purDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div></div><textarea id="purDetails" placeholder="Details" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="purBtn" class="bg-teal-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Purchase Bill</button></form></div>
         <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><div><h3 class="text-md font-bold text-slate-800">All Suppliers</h3></div><button onclick="toggleSupplierModal(true)" class="bg-teal-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">+ Add Supplier</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div></div>
         <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Supplier Payables</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table></div></div>
@@ -353,7 +408,7 @@
     </main>
   </div>
 
-  <!-- SUPPLIER PAYMENT SLIP POPUP MODAL -->
+  <!-- POPUP SUPPLIER PAYMENT VOUCHER PRINT SLIP -->
   <div id="paymentSlipModal" class="hidden fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl p-6 relative">
       <div id="printableArea" class="bg-white p-2">
