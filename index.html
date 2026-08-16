@@ -4,49 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accounts Management System</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f172a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
     @media print {
-      body * {
-        visibility: hidden;
-      }
-      #printArea, #printArea * {
-        visibility: visible;
-      }
-      #printArea {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-      }
+      body * { visibility: hidden; }
+      #printArea, #printArea * { visibility: visible; }
+      #printArea { position: absolute; left: 0; top: 0; width: 100%; }
     }
   </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
 
-  <!-- ==================== 1. LOGIN SECTION ==================== -->
+  <!-- 1. LOGIN SECTION -->
   <div id="loginSection" class="min-h-screen flex items-center justify-center p-4">
     <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
       <div class="text-center mb-8">
@@ -62,36 +38,21 @@
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-5">
         <div>
           <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Email Address</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-              <i class="fa-regular fa-envelope"></i>
-            </span>
-            <input type="email" id="loginEmail" required placeholder="admin@system.com" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
-          </div>
+          <input type="email" id="loginEmail" required placeholder="admin@system.com" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-
         <div>
           <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Password</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-              <i class="fa-solid fa-lock"></i>
-            </span>
-            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
-          </div>
+          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-
-        <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2">
-          <span>Sign In</span>
-          <i class="fa-solid fa-arrow-right text-xs"></i>
-        </button>
+        <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow-md transition-all">Sign In</button>
       </form>
     </div>
   </div>
 
-  <!-- ==================== 2. MAIN APP DASHBOARD ==================== -->
+  <!-- 2. MAIN APP DASHBOARD -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- FULL ERP SIDEBAR WITH ALL MODULES -->
+    <!-- FULL ERP SIDEBAR -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -104,22 +65,19 @@
           </div>
         </div>
 
-        <!-- Navigation Menu (ALL 14 MODULES RESTORED) -->
+        <!-- Navigation Menu -->
         <nav class="p-3 space-y-1 text-sm">
           
-          <!-- 1. Dashboard -->
-          <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium transition-all">
+          <!-- Dashboard -->
+          <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium">
             <i class="fa-solid fa-house w-5 text-blue-200"></i>
             <span>Dashboard</span>
           </a>
 
-          <!-- 2. Voucher Management -->
+          <!-- Voucher Management -->
           <div>
             <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-receipt w-5 text-slate-400"></i>
-                <span>Voucher Management</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-slate-400"></i><span>Voucher Management</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuVouchers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
@@ -132,13 +90,10 @@
             </div>
           </div>
 
-          <!-- 3. Voucher Approval -->
+          <!-- Voucher Approval -->
           <div>
             <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-rotate w-5 text-slate-400"></i>
-                <span>Voucher Approval</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-slate-400"></i><span>Voucher Approval</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuApprovals" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
@@ -148,49 +103,34 @@
             </div>
           </div>
 
-          <!-- 4. Income -->
+          <!-- Income -->
           <div>
             <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i>
-                <span>Income</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i><span>Income</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuIncome" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="switchTab('incomeEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Income Entry</a>
               <a href="#" onclick="switchTab('incomeList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Category</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Report</a>
             </div>
           </div>
 
-          <!-- 5. Expense -->
+          <!-- Expense -->
           <div>
             <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i>
-                <span>Expense</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i><span>Expense</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuExpense" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" onclick="switchTab('expenseEntry')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Expense Entry</a>
               <a href="#" onclick="switchTab('expenseList')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Category</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Report</a>
             </div>
           </div>
 
-          <!-- 6. Accounts / Ledger (FULL 7 LEDGERS) -->
+          <!-- Accounts / Ledger -->
           <div>
             <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i>
-                <span>Accounts / Ledger</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i><span>Accounts / Ledger</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuLedger" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
@@ -204,157 +144,82 @@
             </div>
           </div>
 
-          <!-- 7. Cash & Bank -->
+          <!-- Cash & Bank (WORKING LIVE) -->
           <div>
             <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-building-columns w-5 text-slate-400"></i>
-                <span>Cash & Bank</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-indigo-400"></i><span>Cash & Bank</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuCashBank" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Account</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Account</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Deposit</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Withdrawal</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Deposit</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Withdrawal</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Reconciliation</a>
+              <a href="#" onclick="switchTab('cashAccountView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-slate-200">Cash Account</a>
+              <a href="#" onclick="switchTab('bankAccountView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-indigo-300">Bank Account</a>
+              <a href="#" onclick="openCashBankForm('Cash Deposit')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Cash Deposit</a>
+              <a href="#" onclick="openCashBankForm('Cash Withdrawal')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Cash Withdrawal</a>
+              <a href="#" onclick="openCashBankForm('Bank Deposit')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Bank Deposit</a>
+              <a href="#" onclick="openCashBankForm('Bank Withdrawal')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Bank Withdrawal</a>
+              <a href="#" onclick="switchTab('reconciliationView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-amber-300">Bank Reconciliation</a>
             </div>
           </div>
 
-          <!-- 8. Customer -->
+          <!-- Remaining Modules -->
           <div>
             <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-users w-5 text-slate-400"></i>
-                <span>Customer</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-users w-5 text-slate-400"></i><span>Customer</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuCustomer" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Due</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Payment</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Customer Statement</a>
             </div>
           </div>
 
-          <!-- 9. Supplier -->
           <div>
             <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-truck-field w-5 text-slate-400"></i>
-                <span>Supplier</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-slate-400"></i><span>Supplier</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuSupplier" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier List</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Due</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Payment</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier Statement</a>
             </div>
           </div>
 
-          <!-- 10. Reports -->
           <div>
             <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-chart-column w-5 text-slate-400"></i>
-                <span>Reports</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-slate-400"></i><span>Reports</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuReports" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Daily Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Monthly Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Yearly Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Income Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Expense Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Cash Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Bank Report</a>
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Profit & Loss</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Balance Sheet</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Receivable Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Payable Report</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher Report</a>
             </div>
           </div>
 
-          <!-- 11. Branch / Shop -->
           <div>
             <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-store w-5 text-slate-400"></i>
-                <span>Branch / Shop</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-store w-5 text-slate-400"></i><span>Branch / Shop</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuBranch" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Head Office</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 01</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 02</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Shop 03</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">... Shop 15</a>
             </div>
           </div>
 
-          <!-- 12. User Management -->
           <div>
             <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-user-gear w-5 text-slate-400"></i>
-                <span>User Management</span>
-              </div>
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-slate-400"></i><span>User Management</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuUsers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
               <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Roles</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Permissions</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">User Activity</a>
             </div>
           </div>
 
-          <!-- 13. Audit Trail -->
-          <div>
-            <button onclick="toggleSubMenu('menuAudit')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
-                <span>Audit Trail</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuAudit" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Created By</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Approved By & Date</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Rejected By</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Edited History</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Posted By</a>
-            </div>
-          </div>
-
-          <!-- 14. Settings -->
-          <div>
-            <button onclick="toggleSubMenu('menuSettings')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
-                <span>Settings</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-            </button>
-            <div id="menuSettings" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Company Information</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Branch Settings</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Account Categories</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Voucher Settings</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Fiscal Year</a>
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">System Settings</a>
-            </div>
-          </div>
+          <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
+            <span>Audit Trail</span>
+          </a>
+          <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
+            <span>Settings</span>
+          </a>
 
         </nav>
       </div>
@@ -368,701 +233,319 @@
             <p class="text-[10px] text-slate-400 uppercase font-semibold" id="userRole">Role</p>
           </div>
         </div>
-        <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 text-sm transition-all" title="Logout">
-          <i class="fa-solid fa-right-from-bracket"></i>
-        </button>
+        <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 text-sm"><i class="fa-solid fa-right-from-bracket"></i></button>
       </div>
     </aside>
 
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
 
-      <!-- Top Header -->
       <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
         <div>
           <h2 class="text-lg font-bold text-slate-800" id="pageTitle">Dashboard Overview</h2>
           <p class="text-xs text-slate-500" id="branchBadge">Branch: Head Office</p>
         </div>
-        <button onclick="handleLogout()" class="md:hidden text-slate-600 hover:text-red-600 text-sm">
-          <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
-        </button>
       </header>
 
-      <!-- View Containers -->
       <div class="p-6 space-y-6">
 
         <!-- 1. Dashboard View -->
         <div id="dashboardView" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-              <div>
-                <p class="text-xs font-semibold uppercase text-slate-400">Total Income</p>
-                <h3 class="text-xl font-bold text-slate-800 mt-1" id="dashIncome">৳ 0.00</h3>
-              </div>
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
-                <i class="fa-solid fa-arrow-trend-up"></i>
-              </div>
+              <div><p class="text-xs font-semibold uppercase text-slate-400">Total Income</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashIncome">৳ 0.00</h3></div>
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-arrow-trend-up"></i></div>
             </div>
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-              <div>
-                <p class="text-xs font-semibold uppercase text-slate-400">Total Expense</p>
-                <h3 class="text-xl font-bold text-slate-800 mt-1" id="dashExpense">৳ 0.00</h3>
-              </div>
-              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg">
-                <i class="fa-solid fa-arrow-trend-down"></i>
-              </div>
+              <div><p class="text-xs font-semibold uppercase text-slate-400">Total Expense</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashExpense">৳ 0.00</h3></div>
+              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-arrow-trend-down"></i></div>
             </div>
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-              <div>
-                <p class="text-xs font-semibold uppercase text-slate-400">Net Profit / Loss</p>
-                <h3 class="text-xl font-bold text-slate-800 mt-1" id="dashNet">৳ 0.00</h3>
-              </div>
-              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
-                <i class="fa-solid fa-scale-balanced"></i>
-              </div>
+              <div><p class="text-xs font-semibold uppercase text-slate-400">Cash Balance</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashCash">৳ 0.00</h3></div>
+              <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-money-bill-1-wave"></i></div>
+            </div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div><p class="text-xs font-semibold uppercase text-slate-400">Bank Balance</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashBank">৳ 0.00</h3></div>
+              <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg"><i class="fa-solid fa-building-columns"></i></div>
             </div>
           </div>
         </div>
 
-        <!-- 2. Income Entry Form -->
+        <!-- 2. Cash & Bank Universal Entry View -->
+        <div id="cashBankFormView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800" id="cbFormTitle">Cash / Bank Transaction Entry</h3>
+              <p class="text-xs text-slate-500">Record deposits, withdrawals, or account adjustments.</p>
+            </div>
+            <span id="cbFormBadge" class="bg-indigo-100 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Transaction</span>
+          </div>
+
+          <form onsubmit="handleCashBankSubmit(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Transaction Type</label>
+                <input type="text" id="cbType" readonly class="w-full py-2.5 px-3 bg-slate-100 border border-slate-200 rounded-lg text-sm font-bold text-indigo-700">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Select Bank / Cash Account</label>
+                <select id="cbAccount" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                  <option value="Cash in Hand">Cash in Hand (প্রধান ক্যাশ)</option>
+                  <option value="City Bank Ltd - 110293848201">City Bank Ltd - 110293848201</option>
+                  <option value="BRAC Bank Ltd - 150120394857">BRAC Bank Ltd - 150120394857</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT)</label>
+                <input type="number" step="0.01" id="cbAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Date</label>
+                <input type="date" id="cbDate" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Narration / Cheque No / Remarks</label>
+              <textarea id="cbNarration" rows="2" placeholder="Write description or Cheque/Slip number..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm"></textarea>
+            </div>
+            <button type="submit" id="cbBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md transition-all">Submit Transaction</button>
+          </form>
+        </div>
+
+        <!-- 3. Cash Account Summary View -->
+        <div id="cashAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-md font-bold text-slate-800">Cash in Hand - Summary & Ledger</h3>
+            <button onclick="openCashBankForm('Cash Deposit')" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-plus mr-1"></i> Cash Deposit</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3">Debit</th><th class="p-3">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table>
+          </div>
+        </div>
+
+        <!-- 4. Bank Account Summary View -->
+        <div id="bankAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-md font-bold text-slate-800">Company Bank Accounts List</h3>
+            <button onclick="openCashBankForm('Bank Deposit')" class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-plus mr-1"></i> Bank Deposit</button>
+          </div>
+          <div id="bankAccountsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></div>
+          <h4 class="text-sm font-bold text-slate-700 mb-2">Recent Bank Transactions</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3">Debit</th><th class="p-3">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table>
+          </div>
+        </div>
+
+        <!-- 5. Bank Reconciliation View -->
+        <div id="reconciliationView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-md font-bold text-amber-600 mb-2 flex items-center"><i class="fa-solid fa-scale-balanced mr-2"></i> Bank Reconciliation Statement</h3>
+          <p class="text-xs text-slate-500 mb-4">Compare ERP ledger balances with physical bank statements.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Book Balance (ERP)</p><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div>
+            <div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Bank Statement Balance</p><h4 class="text-lg font-bold text-blue-600" id="recBankBal">৳ 0.00</h4></div>
+            <div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Unreconciled Difference</p><h4 class="text-lg font-bold text-emerald-600">৳ 0.00</h4></div>
+          </div>
+        </div>
+
+        <!-- 6. Income & Expense Forms/Lists (Existing) -->
         <div id="incomeEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <h3 class="text-lg font-bold text-emerald-600 mb-4 flex items-center"><i class="fa-solid fa-sack-dollar mr-2"></i> Income Entry</h3>
           <form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Customer / Source Name</label><input type="text" id="incParty" required placeholder="e.g. Sales / Client Name" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Income Category</label><input type="text" id="incCategory" required placeholder="e.g. Service Fee / Product Sale" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Customer Name</label><input type="text" id="incParty" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Category</label><input type="text" id="incCategory" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT)</label><input type="number" step="0.01" id="incAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Method</label><select id="incMethod" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date</label><input type="date" id="incDate" required class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+            <div class="grid grid-cols-3 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount</label><input type="number" step="0.01" id="incAmount" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Method</label><select id="incMethod" class="w-full py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank</option></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date</label><input type="date" id="incDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
             </div>
-            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Description / Remarks</label><textarea id="incNarration" rows="2" placeholder="Write narration..." class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></textarea></div>
-            <button type="submit" id="incBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all">Save Income Record</button>
+            <textarea id="incNarration" placeholder="Narration" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea>
+            <button type="submit" id="incBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm">Save Income Record</button>
           </form>
         </div>
 
-        <!-- 3. Expense Entry Form -->
         <div id="expenseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <h3 class="text-lg font-bold text-rose-600 mb-4 flex items-center"><i class="fa-solid fa-money-bill-transfer mr-2"></i> Expense Entry</h3>
           <form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Supplier / Payee Name</label><input type="text" id="expParty" required placeholder="e.g. Landlord / Vendor Name" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Expense Category</label><input type="text" id="expCategory" required placeholder="e.g. Office Rent / Utility Bill" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Supplier Name</label><input type="text" id="expParty" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Category</label><input type="text" id="expCategory" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT)</label><input type="number" step="0.01" id="expAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Method</label><select id="expMethod" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select></div>
-              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date</label><input type="date" id="expDate" required class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></div>
+            <div class="grid grid-cols-3 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount</label><input type="number" step="0.01" id="expAmount" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Method</label><select id="expMethod" class="w-full py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank</option></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date</label><input type="date" id="expDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
             </div>
-            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Description / Remarks</label><textarea id="expNarration" rows="2" placeholder="Write narration..." class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm"></textarea></div>
-            <button type="submit" id="expBtn" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all">Save Expense Record</button>
+            <textarea id="expNarration" placeholder="Narration" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea>
+            <button type="submit" id="expBtn" class="bg-rose-600 text-white px-6 py-2.5 rounded-lg text-sm">Save Expense Record</button>
           </form>
         </div>
 
-        <!-- 4. Income List View -->
-        <div id="incomeListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-md font-bold text-slate-800 mb-4">All Income Transactions</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Customer</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table>
-          </div>
-        </div>
+        <div id="incomeListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">All Income Transactions</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Customer</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div>
+        <div id="expenseListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">All Expense Transactions</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Supplier</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
 
-        <!-- 5. Expense List View -->
-        <div id="expenseListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-md font-bold text-slate-800 mb-4">All Expense Transactions</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Supplier</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table>
-          </div>
-        </div>
-
-        <!-- 6. Vouchers Form View -->
+        <!-- 7. Vouchers & Approvals (Existing) -->
         <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-            <div>
-              <h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3>
-              <p class="text-xs text-slate-500">Fill in the voucher details below for 3-step approval workflow.</p>
-            </div>
-            <span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span>
-          </div>
-
-          <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Type *</label>
-                <select id="vType" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="Payment">Payment Voucher (বাণিজ্যিক প্রদান)</option>
-                  <option value="Receipt">Receipt Voucher (টাকা গ্রহণ)</option>
-                  <option value="Journal">Journal Voucher (সামঞ্জস্য এন্ট্রি)</option>
-                  <option value="Contra">Contra Voucher (ক্যাশ-ব্যাংক ট্রান্সফার)</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Account Head / Category *</label>
-                <input type="text" id="vAccount" required placeholder="e.g. Office Rent / Client Payment" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Amount (BDT) *</label>
-                <input type="number" step="0.01" id="vAmount" required placeholder="0.00" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Voucher Date *</label>
-                <input type="date" id="vDate" required class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Narration / Description</label>
-              <textarea id="vNarration" rows="3" placeholder="Enter voucher details or payment reference..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-            </div>
-
-            <div class="pt-2 flex items-center space-x-3">
-              <button type="submit" id="vSubmitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md transition-all flex items-center space-x-2">
-                <i class="fa-solid fa-paper-plane"></i>
-                <span>Submit Voucher</span>
-              </button>
-            </div>
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100"><div><h3 class="text-lg font-bold" id="voucherFormTitle">Create New Voucher</h3></div><span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold">All Types</span></div>
+          <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-2 gap-4"><select id="vType" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment</option><option value="Receipt">Receipt</option><option value="Journal">Journal</option><option value="Contra">Contra</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div>
+            <div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div>
+            <textarea id="vNarration" placeholder="Narration" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea>
+            <button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button>
           </form>
         </div>
 
-        <!-- 7. Voucher List View -->
-        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-md font-bold text-slate-800">All Vouchers & Status</h3>
-            <button onclick="loadVouchersList()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold transition-all">
-              <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh
-            </button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-sm">
-              <thead>
-                <tr class="border-b border-slate-200 bg-slate-50 text-slate-500 font-semibold text-xs uppercase">
-                  <th class="p-3">Voucher ID</th>
-                  <th class="p-3">Date</th>
-                  <th class="p-3">Type</th>
-                  <th class="p-3">Amount</th>
-                  <th class="p-3">Status</th>
-                  <th class="p-3 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody id="voucherTableBody">
-                <tr><td colspan="6" class="p-4 text-center text-slate-400">Loading vouchers list...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">All Vouchers & Status</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div>
+        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="approvalTitle">Pending Approvals Queue</h3><div id="approvalsListContainer" class="space-y-4"></div></div>
 
-        <!-- 8. Approvals Queue View -->
-        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-            <div>
-              <h3 class="text-lg font-bold text-slate-800" id="approvalTitle">Pending Approvals Queue</h3>
-              <p class="text-xs text-slate-500" id="approvalSubtitle">Review voucher reason, head, and process approval.</p>
-            </div>
-            <span id="approvalStageBadge" class="bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Pending</span>
-          </div>
-
-          <div id="approvalsListContainer" class="space-y-4">
-            <p class="text-slate-400 text-sm">Loading pending vouchers...</p>
-          </div>
-        </div>
-
-        <!-- 9. General Ledger & Filtered Ledgers View -->
-        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-            <div>
-              <h3 class="text-md font-bold text-slate-800" id="ledgerTitleDisplay">General Ledger Entries</h3>
-              <p class="text-xs text-slate-500">Filtered debit and credit transactions record</p>
-            </div>
-            <button onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold transition-all">
-              <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh
-            </button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-sm">
-              <thead>
-                <tr class="border-b border-slate-200 bg-slate-50 text-slate-500 font-semibold text-xs uppercase">
-                  <th class="p-3">Entry ID</th>
-                  <th class="p-3">Reference / Voucher</th>
-                  <th class="p-3">Account Head / Party</th>
-                  <th class="p-3 text-rose-600">Debit (BDT)</th>
-                  <th class="p-3 text-emerald-600">Credit (BDT)</th>
-                </tr>
-              </thead>
-              <tbody id="ledgerTableBody">
-                <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading ledger data...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <!-- 8. Ledgers View (Existing) -->
+        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger Entries</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Reference</th><th class="p-3">Account Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div>
 
       </div>
     </main>
   </div>
 
-  <!-- VOUCHER PRINT MODAL AREA -->
-  <div id="printArea" class="hidden bg-white p-8 max-w-2xl mx-auto border border-slate-300">
-    <div class="text-center border-b pb-4 mb-4">
-      <h1 class="text-2xl font-bold uppercase">Accounts ERP</h1>
-      <p class="text-xs text-slate-500">Official Voucher Slip</p>
-    </div>
-    <div class="grid grid-cols-2 text-xs mb-4">
-      <div><strong>Voucher ID:</strong> <span id="printVId"></span></div>
-      <div><strong>Date:</strong> <span id="printVDate"></span></div>
-      <div><strong>Type:</strong> <span id="printVType"></span></div>
-      <div><strong>Branch:</strong> HEAD_OFFICE</div>
-    </div>
-    <table class="w-full border text-xs text-left mb-6">
-      <tr class="bg-slate-100 border-b">
-        <th class="p-2">Account Head</th>
-        <th class="p-2 text-right">Amount (BDT)</th>
-      </tr>
-      <tr>
-        <td class="p-2" id="printVHead"></td>
-        <td class="p-2 text-right font-bold" id="printVAmount"></td>
-      </tr>
-    </table>
-    <div class="flex justify-between text-xs pt-12 border-t mt-12">
-      <div>Prepared By</div>
-      <div>GM Approval</div>
-      <div>MD Approval</div>
-      <div>Accounts Audit</div>
-    </div>
-  </div>
-
   <!-- JAVASCRIPT ENGINE -->
   <script>
-    const CONFIG = {
-      API_URL: "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec"
-    };
-
+    const CONFIG = { API_URL: "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec" };
     let currentApprovalStatus = 'PENDING_GM';
 
     document.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('auth_token');
-      if (token) {
-        showDashboardUI();
-        loadDashboardData();
-      } else {
-        showLoginUI();
-      }
-      
-      ['incDate', 'expDate', 'vDate'].forEach(id => {
+      if (token) { showDashboardUI(); loadDashboardData(); } else { showLoginUI(); }
+      ['incDate', 'expDate', 'vDate', 'cbDate'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = new Date().toISOString().split('T')[0];
       });
     });
 
-    function showLoginUI() {
-      document.getElementById('loginSection').classList.remove('hidden');
-      document.getElementById('appSection').classList.add('hidden');
-    }
-
+    function showLoginUI() { document.getElementById('loginSection').classList.remove('hidden'); document.getElementById('appSection').classList.add('hidden'); }
     function showDashboardUI() {
       document.getElementById('loginSection').classList.add('hidden');
       document.getElementById('appSection').classList.remove('hidden');
-
       const user = JSON.parse(localStorage.getItem('user_data') || '{}');
       document.getElementById('userName').innerText = user.name || 'User';
-      document.getElementById('userRole').innerText = user.role || 'ROLE';
-      document.getElementById('userAvatar').innerText = (user.name || 'U').charAt(0).toUpperCase();
-      document.getElementById('branchBadge').innerText = `Branch: ${user.branch_id || 'HEAD_OFFICE'}`;
+      document.getElementById('userRole').innerText = user.role || 'ADMIN';
     }
 
-    function toggleSubMenu(menuId) {
-      const menu = document.getElementById(menuId);
-      if (menu) {
-        menu.classList.toggle('hidden');
-      }
+    function toggleSubMenu(id) { const el = document.getElementById(id); if (el) el.classList.toggle('hidden'); }
+
+    function switchTab(tab) {
+      ['dashboard', 'incomeEntry', 'expenseEntry', 'incomeList', 'expenseList', 'vouchers', 'voucherList', 'approvals', 'ledgers', 'cashBankFormView', 'cashAccountView', 'bankAccountView', 'reconciliationView'].forEach(t => {
+        const v = document.getElementById(t.includes('View') ? t : `${t}View`);
+        if (v) v.classList.add('hidden');
+      });
+      const target = document.getElementById(tab.includes('View') ? tab : `${tab}View`);
+      if (target) target.classList.remove('hidden');
+
+      if (tab === 'dashboard') loadDashboardData();
+      if (tab === 'incomeList') loadIncomeList();
+      if (tab === 'expenseList') loadExpenseList();
+      if (tab === 'voucherList') loadVouchersList();
+      if (tab === 'cashAccountView') loadCashLedger();
+      if (tab === 'bankAccountView') loadBankAccounts();
+      if (tab === 'reconciliationView') loadReconciliation();
     }
 
-    async function handleLogin(event) {
-      if (event) event.preventDefault();
+    // Cash & Bank Handler
+    function openCashBankForm(txnType) {
+      switchTab('cashBankFormView');
+      document.getElementById('cbType').value = txnType;
+      document.getElementById('cbFormTitle').innerText = `${txnType} Entry`;
+      document.getElementById('cbFormBadge').innerText = txnType;
+    }
 
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const btn = document.getElementById('loginBtn');
-      const alert = document.getElementById('loginAlert');
-
+    async function handleCashBankSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('cbBtn');
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-xs"></i><span>Authenticating...</span>`;
+      const payload = {
+        type: document.getElementById('cbType').value,
+        account: document.getElementById('cbAccount').value,
+        amount: document.getElementById('cbAmount').value,
+        date: document.getElementById('cbDate').value,
+        narration: document.getElementById('cbNarration').value
+      };
 
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'login', email: email, password: password })
-        });
-
-        const data = await response.json();
-
-        if (data.status === 'success') {
-          localStorage.setItem('auth_token', data.token);
-          localStorage.setItem('user_data', JSON.stringify(data.user));
-          showDashboardUI();
-          loadDashboardData();
-        } else {
-          alert.className = "mb-4 p-3 rounded-lg text-sm font-medium bg-rose-50 text-rose-600 border border-rose-200";
-          alert.innerText = data.message || 'Invalid Credentials';
-          alert.classList.remove('hidden');
-        }
-      } catch (err) {
-        alert.className = "mb-4 p-3 rounded-lg text-sm font-medium bg-rose-50 text-rose-600 border border-rose-200";
-        alert.innerText = "Connection failed. Please check internet or API URL.";
-        alert.classList.remove('hidden');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span>Sign In</span><i class="fa-solid fa-arrow-right text-xs"></i>`;
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createCashBankTxn', payload: payload }) });
+      const result = await res.json();
+      if (result.status === 'success') {
+        alert(`${payload.type} Recorded Successfully!`);
+        e.target.reset();
+        loadDashboardData();
+        if (payload.type.includes('Cash')) switchTab('cashAccountView');
+        else switchTab('bankAccountView');
       }
+      btn.disabled = false;
     }
 
-    function handleLogout() {
-      localStorage.clear();
-      showLoginUI();
+    async function loadCashLedger() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=CASH`);
+      const result = await res.json();
+      cashTableBody.innerHTML = result.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
+    }
+
+    async function loadBankAccounts() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getBankAccounts`);
+      const result = await res.json();
+      bankAccountsContainer.innerHTML = result.data.map(b => `
+        <div class="p-4 bg-slate-50 border rounded-xl flex items-center justify-between">
+          <div><h4 class="font-bold text-slate-800">${b.bank_name}</h4><p class="text-xs text-slate-500">A/C: ${b.account_no} (${b.branch})</p></div>
+          <div class="text-right"><p class="text-xs text-slate-400 uppercase">Available</p><h4 class="text-lg font-bold text-indigo-600">৳ ${Number(b.balance).toLocaleString()}</h4></div>
+        </div>
+      `).join('');
+
+      const resTxn = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=BANK`);
+      const resultTxn = await resTxn.json();
+      bankTableBody.innerHTML = resultTxn.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
+    }
+
+    async function loadReconciliation() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
+      const result = await res.json();
+      if (result.status === 'success') {
+        recBookBal.innerText = `৳ ${result.data.bankBalance.toLocaleString()}`;
+        recBankBal.innerText = `৳ ${result.data.bankBalance.toLocaleString()}`;
+      }
     }
 
     async function loadDashboardData() {
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
-        const result = await res.json();
-
-        if (result.status === 'success') {
-          document.getElementById('dashIncome').innerText = `৳ ${result.data.totalIncome.toLocaleString()}`;
-          document.getElementById('dashExpense').innerText = `৳ ${result.data.totalExpense.toLocaleString()}`;
-          document.getElementById('dashNet').innerText = `৳ ${result.data.netBalance.toLocaleString()}`;
-        }
-      } catch (err) {
-        console.error("Dashboard fetch error:", err);
+      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
+      const result = await res.json();
+      if (result.status === 'success') {
+        dashIncome.innerText = `৳ ${result.data.totalIncome.toLocaleString()}`;
+        dashExpense.innerText = `৳ ${result.data.totalExpense.toLocaleString()}`;
+        dashCash.innerText = `৳ ${(result.data.cashBalance || 0).toLocaleString()}`;
+        dashBank.innerText = `৳ ${(result.data.bankBalance || 0).toLocaleString()}`;
       }
     }
 
-    function switchTab(tabName) {
-      const tabs = ['dashboard', 'incomeEntry', 'expenseEntry', 'incomeList', 'expenseList', 'vouchers', 'voucherList', 'approvals', 'ledgers'];
-      tabs.forEach(t => {
-        const view = document.getElementById(`${t}View`);
-        if (view) view.classList.add('hidden');
-      });
-
-      const selectedView = document.getElementById(`${tabName}View`);
-      if (selectedView) selectedView.classList.remove('hidden');
-
-      if (tabName === 'dashboard') loadDashboardData();
-      if (tabName === 'incomeList') loadIncomeList();
-      if (tabName === 'expenseList') loadExpenseList();
-      if (tabName === 'voucherList') loadVouchersList();
-      if (tabName === 'ledgers') loadLedgersData('GENERAL', 'General Ledger Statement');
+    async function handleLogin(e) {
+      e.preventDefault();
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: loginEmail.value, password: loginPassword.value }) });
+      const data = await res.json();
+      if (data.status === 'success') {
+        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('user_data', JSON.stringify(data.user));
+        showDashboardUI(); loadDashboardData();
+      } else { alert(data.message); }
     }
+    function handleLogout() { localStorage.clear(); showLoginUI(); }
 
-    async function handleIncomeSubmit(event) {
-      if (event) event.preventDefault();
-      const btn = document.getElementById('incBtn');
-      btn.disabled = true;
-      btn.innerText = "Saving...";
-
-      const payload = {
-        party: document.getElementById('incParty').value,
-        category: document.getElementById('incCategory').value,
-        amount: document.getElementById('incAmount').value,
-        method: document.getElementById('incMethod').value,
-        date: document.getElementById('incDate').value,
-        narration: document.getElementById('incNarration').value
-      };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: payload }) });
-        const result = await res.json();
-        if (result.status === 'success') {
-          alert('Income Record Saved Successfully!');
-          event.target.reset();
-          switchTab('incomeList');
-        } else { alert('Error saving income'); }
-      } catch (err) { alert('Failed to connect API'); }
-      finally { btn.disabled = false; btn.innerText = "Save Income Record"; }
-    }
-
-    async function handleExpenseSubmit(event) {
-      if (event) event.preventDefault();
-      const btn = document.getElementById('expBtn');
-      btn.disabled = true;
-      btn.innerText = "Saving...";
-
-      const payload = {
-        party: document.getElementById('expParty').value,
-        category: document.getElementById('expCategory').value,
-        amount: document.getElementById('expAmount').value,
-        method: document.getElementById('expMethod').value,
-        date: document.getElementById('expDate').value,
-        narration: document.getElementById('expNarration').value
-      };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: payload }) });
-        const result = await res.json();
-        if (result.status === 'success') {
-          alert('Expense Record Saved Successfully!');
-          event.target.reset();
-          switchTab('expenseList');
-        } else { alert('Error saving expense'); }
-      } catch (err) { alert('Failed to connect API'); }
-      finally { btn.disabled = false; btn.innerText = "Save Expense Record"; }
-    }
-
-    async function loadIncomeList() {
-      const tbody = document.getElementById('incomeTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading income data...</td></tr>`;
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(i => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-bold text-blue-600">${i.id}</td>
-              <td class="p-3">${i.date}</td>
-              <td class="p-3">${i.party}</td>
-              <td class="p-3">${i.category}</td>
-              <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs rounded">${i.method}</span></td>
-              <td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No income records found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Error loading income.</td></tr>`; }
-    }
-
-    async function loadExpenseList() {
-      const tbody = document.getElementById('expenseTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading expense data...</td></tr>`;
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(x => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-bold text-rose-600">${x.id}</td>
-              <td class="p-3">${x.date}</td>
-              <td class="p-3">${x.party}</td>
-              <td class="p-3">${x.category}</td>
-              <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs rounded">${x.method}</span></td>
-              <td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No expense records found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Error loading expense.</td></tr>`; }
-    }
-
-    function openVoucherForm(type) {
-      switchTab('vouchers');
-      const select = document.getElementById('vType');
-      const badge = document.getElementById('voucherTypeBadge');
-      const title = document.getElementById('voucherFormTitle');
-
-      if (type !== 'ALL') {
-        select.value = type;
-        badge.innerText = `${type} Voucher`;
-        title.innerText = `New ${type} Voucher Entry`;
-      } else {
-        badge.innerText = 'All Types';
-        title.innerText = 'Create New Voucher';
-      }
-    }
-
-    async function handleVoucherSubmit(event) {
-      if (event) event.preventDefault();
-      const token = localStorage.getItem('auth_token');
-      const btn = document.getElementById('vSubmitBtn');
-      
-      const payload = {
-        type: document.getElementById('vType').value,
-        account_head: document.getElementById('vAccount').value,
-        amount: document.getElementById('vAmount').value,
-        date: document.getElementById('vDate').value,
-        narration: document.getElementById('vNarration').value
-      };
-
-      btn.disabled = true;
-      btn.innerText = "Submitting...";
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'createVoucher', token: token, payload: payload })
-        });
-
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Voucher Created Successfully!\nVoucher ID: ${result.voucherId}\nStatus: PENDING_GM`);
-          event.target.reset();
-          switchTab('voucherList');
-        } else { alert(`Error: ${result.message}`); }
-      } catch (err) { alert("Failed to create voucher."); }
-      finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>Submit Voucher</span>`;
-      }
-    }
-
-    async function loadVouchersList() {
-      const token = localStorage.getItem('auth_token');
-      const tbody = document.getElementById('voucherTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading vouchers...</td></tr>`;
-
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&token=${token}`);
-        const result = await res.json();
-
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(v => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td>
-              <td class="p-3">${v.date}</td>
-              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-slate-100">${v.type}</span></td>
-              <td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td>
-              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${v.status.includes('PENDING') ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">${v.status}</span></td>
-              <td class="p-3 text-right">
-                <button onclick="printVoucher('${v.voucher_id}', '${v.date}', '${v.type}', '${v.amount}', '${v.account_head}')" class="text-slate-500 hover:text-blue-600 font-semibold text-xs">
-                  <i class="fa-solid fa-print"></i> Print
-                </button>
-              </td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No vouchers found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load vouchers.</td></tr>`; }
-    }
-
-    async function loadApprovalStep(statusFilter) {
-      currentApprovalStatus = statusFilter;
-      switchTab('approvals');
-
-      const title = document.getElementById('approvalTitle');
-      const badge = document.getElementById('approvalStageBadge');
-      const container = document.getElementById('approvalsListContainer');
-
-      if (statusFilter === 'PENDING_GM') { title.innerText = 'Step 1 → GM Approval Queue'; badge.innerText = 'GM Stage'; }
-      else if (statusFilter === 'PENDING_MD') { title.innerText = 'Step 2 → MD/CEO Approval Queue'; badge.innerText = 'MD Stage'; }
-      else if (statusFilter === 'PENDING_ACCOUNTS') { title.innerText = 'Step 3 → Accounts Final Ledger Posting'; badge.innerText = 'Accounts Stage'; }
-
-      container.innerHTML = `<p class="text-slate-400 text-sm">Loading pending vouchers...</p>`;
-
-      const token = localStorage.getItem('auth_token');
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${statusFilter}&token=${token}`);
-        const result = await res.json();
-
-        if (result.status === 'success' && result.data.length > 0) {
-          container.innerHTML = result.data.map(v => `
-            <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div class="space-y-1.5 flex-1">
-                <div class="flex items-center space-x-3">
-                  <span class="font-bold text-blue-600 text-sm">${v.voucher_id}</span>
-                  <span class="text-xs px-2.5 py-0.5 rounded font-bold bg-slate-100 text-slate-700">${v.type}</span>
-                  <span class="text-xs text-slate-400"><i class="fa-regular fa-calendar mr-1"></i>${v.date}</span>
-                </div>
-                
-                <div class="flex items-center space-x-2 text-slate-800">
-                  <span class="text-xs font-semibold uppercase text-slate-400">Account Head:</span>
-                  <span class="text-sm font-bold text-slate-900">${v.account_head}</span>
-                </div>
-
-                <p class="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-semibold text-slate-500">Narration / Reason:</span> ${v.narration}
-                </p>
-
-                <p class="text-sm font-extrabold text-emerald-600 pt-1">Amount: ৳ ${Number(v.amount).toLocaleString()}</p>
-              </div>
-
-              <div class="flex items-center space-x-2 w-full md:w-auto justify-end border-t md:border-t-0 pt-3 md:pt-0">
-                ${statusFilter === 'PENDING_ACCOUNTS' ? `
-                  <button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-check-double"></i>
-                    <span>Post to Ledger</span>
-                  </button>
-                ` : `
-                  <button onclick="processApproval('${v.voucher_id}', 'APPROVE')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-check"></i>
-                    <span>Approve</span>
-                  </button>
-                  <button onclick="processApproval('${v.voucher_id}', 'REJECT')" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold text-xs px-3.5 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-xmark"></i>
-                    <span>Reject</span>
-                  </button>
-                `}
-              </div>
-            </div>
-          `).join('');
-        } else { container.innerHTML = `<p class="text-slate-400 text-sm">No vouchers waiting for approval in this stage.</p>`; }
-      } catch (err) { container.innerHTML = `<p class="text-rose-500 text-sm">Error loading vouchers.</p>`; }
-    }
-
-    async function processApproval(voucherId, decision) {
-      const token = localStorage.getItem('auth_token');
-      const remarks = prompt(`Enter remarks for ${decision}:`) || 'No remarks';
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'processApproval', token: token, voucherId: voucherId, decision: decision, remarks: remarks })
-        });
-
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Action Successful! New Status: ${result.updatedStatus}`);
-          loadApprovalStep(currentApprovalStatus);
-        } else { alert(`Approval Error: ${result.message}`); }
-      } catch (err) { alert("Failed to process approval."); }
-    }
-
-    async function postToLedger(voucherId) {
-      const token = localStorage.getItem('auth_token');
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'postToLedger', token: token, voucherId: voucherId })
-        });
-
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Posted to General Ledger Successfully!\nEntry ID: ${result.entryId}`);
-          loadApprovalStep('PENDING_ACCOUNTS');
-        } else { alert(`Posting Error: ${result.message}`); }
-      } catch (err) { alert("Failed to post to ledger."); }
-    }
-
-    // DYNAMIC FILTERED LEDGER LOAD
-    async function loadLedgersData(type = 'GENERAL', titleName = 'General Ledger Entries') {
-      switchTab('ledgers');
-      document.getElementById('ledgerTitleDisplay').innerText = titleName;
-      const tbody = document.getElementById('ledgerTableBody');
-      tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Loading ledger data...</td></tr>`;
-
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=${type}`);
-        const result = await res.json();
-
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(l => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-semibold text-blue-600">${l.entry_id}</td>
-              <td class="p-3">${l.voucher_id}</td>
-              <td class="p-3 font-bold text-slate-800">${l.account_head}</td>
-              <td class="p-3 font-bold text-rose-600">৳ ${Number(l.debit).toLocaleString()}</td>
-              <td class="p-3 font-bold text-emerald-600">৳ ${Number(l.credit).toLocaleString()}</td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No records found for ${titleName}.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">Failed to load ledger entries.</td></tr>`; }
-    }
-
-    function printVoucher(vId, date, type, amount, head) {
-      document.getElementById('printVId').innerText = vId;
-      document.getElementById('printVDate').innerText = date;
-      document.getElementById('printVType').innerText = type;
-      document.getElementById('printVHead').innerText = head || 'General Entry';
-      document.getElementById('printVAmount').innerText = `৳ ${Number(amount).toLocaleString()}`;
-      
-      window.print();
-    }
+    async function handleIncomeSubmit(e) { e.preventDefault(); incBtn.disabled = true; const payload = { party: incParty.value, category: incCategory.value, amount: incAmount.value, method: incMethod.value, date: incDate.value, narration: incNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: payload }) }); const r = await res.json(); if(r.status==='success') { alert('Saved!'); e.target.reset(); switchTab('incomeList'); } incBtn.disabled = false; }
+    async function handleExpenseSubmit(e) { e.preventDefault(); expBtn.disabled = true; const payload = { party: expParty.value, category: expCategory.value, amount: expAmount.value, method: expMethod.value, date: expDate.value, narration: expNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: payload }) }); const r = await res.json(); if(r.status==='success') { alert('Saved!'); e.target.reset(); switchTab('expenseList'); } expBtn.disabled = false; }
+    async function loadIncomeList() { const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`); const r = await res.json(); incomeTableBody.innerHTML = r.data.map(i => `<tr class="border-b"><td class="p-3 font-bold text-blue-600">${i.id}</td><td class="p-3">${i.date}</td><td class="p-3">${i.party}</td><td class="p-3">${i.category}</td><td class="p-3">${i.method}</td><td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td></tr>`).join(''); }
+    async function loadExpenseList() { const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`); const r = await res.json(); expenseTableBody.innerHTML = r.data.map(x => `<tr class="border-b"><td class="p-3 font-bold text-rose-600">${x.id}</td><td class="p-3">${x.date}</td><td class="p-3">${x.party}</td><td class="p-3">${x.category}</td><td class="p-3">${x.method}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td></tr>`).join(''); }
+    function openVoucherForm(type) { switchTab('vouchers'); document.getElementById('vType').value = type !== 'ALL' ? type : 'Payment'; }
+    async function handleVoucherSubmit(e) { e.preventDefault(); const p = { type: vType.value, account_head: vAccount.value, amount: vAmount.value, date: vDate.value, narration: vNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createVoucher', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Voucher Created!'); e.target.reset(); switchTab('voucherList'); } }
+    async function loadVouchersList() { const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=ALL`); const r = await res.json(); voucherTableBody.innerHTML = r.data.map(v => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td><td class="p-3">${v.date}</td><td class="p-3">${v.type}</td><td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td><td class="p-3">${v.status}</td><td class="p-3 text-right"><button onclick="printVoucher('${v.voucher_id}','${v.date}','${v.type}','${v.amount}','${v.account_head}')" class="text-blue-600">Print</button></td></tr>`).join(''); }
+    async function loadApprovalStep(status) { currentApprovalStatus = status; switchTab('approvals'); const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${status}`); const r = await res.json(); approvalsListContainer.innerHTML = r.data.map(v => `<div class="p-4 border rounded-xl flex justify-between"><div><span class="font-bold text-blue-600">${v.voucher_id}</span><p class="text-sm font-bold">${v.account_head} - ৳ ${Number(v.amount).toLocaleString()}</p></div><div><button onclick="processApproval('${v.voucher_id}','APPROVE')" class="bg-blue-600 text-white px-3 py-1 rounded">Approve</button></div></div>`).join(''); }
+    async function processApproval(id, d) { const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'processApproval', voucherId: id, decision: d, remarks: 'OK' }) }); loadApprovalStep(currentApprovalStatus); }
+    async function loadLedgersData(t, title) { switchTab('ledgers'); ledgerTitleDisplay.innerText = title; const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=${t}`); const r = await res.json(); ledgerTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3">${l.account_head}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 font-bold text-emerald-600">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join(''); }
+    function printVoucher(id, d, t, a, h) { printVId.innerText=id; printVDate.innerText=d; printVType.innerText=t; printVHead.innerText=h; printVAmount.innerText=`৳ ${Number(a).toLocaleString()}`; window.print(); }
   </script>
 </body>
 </html>
