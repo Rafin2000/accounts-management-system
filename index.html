@@ -19,8 +19,8 @@
     
     @media print {
       body * { visibility: hidden !important; }
-      #printableArea, #printableArea *, #supplierStatementPrintArea, #supplierStatementPrintArea * { visibility: visible !important; }
-      #printableArea, #supplierStatementPrintArea {
+      #printableArea, #printableArea * { visibility: visible !important; }
+      #printableArea {
         position: absolute;
         left: 0;
         top: 0;
@@ -268,9 +268,11 @@
     <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
       
       <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between shadow-sm sticky top-0 z-30">
-        <div>
-          <h2 class="text-lg font-extrabold text-slate-800" id="pageTitle">Executive Financial Dashboard</h2>
-          <p class="text-xs text-slate-400">Enterprise Accounting & Liquidity Monitor</p>
+        <div class="flex items-center space-x-3">
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-800" id="pageTitle">Executive Financial Dashboard</h2>
+            <p class="text-xs text-slate-400">Enterprise Accounting & Liquidity Monitor</p>
+          </div>
         </div>
         <div class="flex items-center space-x-3">
           <select id="dashboardBranchFilter" onchange="loadDashboardData()" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg focus:ring-2 focus:ring-blue-500">
@@ -291,10 +293,22 @@
         <!-- 1. DASHBOARD VIEW -->
         <div id="dashboardView" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Income</span><span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></span></div><h3 class="text-2xl font-black text-slate-800" id="dashIncome">৳ 0.00</h3></div>
-            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Expense</span><span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-down"></i></span></div><h3 class="text-2xl font-black text-slate-800" id="dashExpense">৳ 0.00</h3></div>
-            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Customer Due (Rec)</span><span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-hand-holding-dollar"></i></span></div><h3 class="text-2xl font-black text-amber-700" id="dashDue">৳ 0.00</h3></div>
-            <div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Supplier Due (Payable)</span><span class="w-9 h-9 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center"><i class="fa-solid fa-file-invoice-dollar"></i></span></div><h3 class="text-2xl font-black text-rose-700" id="dashPayable">৳ 0.00</h3></div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Income</span><span class="w-9 h-9 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></span></div>
+              <h3 class="text-2xl font-black text-slate-800" id="dashIncome">৳ 0.00</h3>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Total Expense</span><span class="w-9 h-9 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-arrow-trend-down"></i></span></div>
+              <h3 class="text-2xl font-black text-slate-800" id="dashExpense">৳ 0.00</h3>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Customer Due (Rec)</span><span class="w-9 h-9 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-hand-holding-dollar"></i></span></div>
+              <h3 class="text-2xl font-black text-amber-700" id="dashDue">৳ 0.00</h3>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-3"><span class="text-xs font-bold uppercase text-slate-400">Supplier Due (Payable)</span><span class="w-9 h-9 bg-rose-50 text-rose-700 rounded-xl flex items-center justify-center"><i class="fa-solid fa-file-invoice-dollar"></i></span></div>
+              <h3 class="text-2xl font-black text-rose-700" id="dashPayable">৳ 0.00</h3>
+            </div>
           </div>
 
           <!-- Quick Actions -->
@@ -324,7 +338,32 @@
           </div>
         </div>
 
-        <!-- 2. SUPPLIER STATEMENT VIEW (WITH EXCEL EXPORT) -->
+        <!-- 2. SUPPLIER PAYMENT SETTLEMENT VIEW -->
+        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-teal-600">Supplier Payment Settlement</h3>
+              <p class="text-xs text-slate-500">Disburse payments to vendors, generate payment voucher slip and take signature.</p>
+            </div>
+          </div>
+          <form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier *</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Current Payable Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Amount (BDT) *</label><input type="number" step="0.01" id="spAmount" required placeholder="0.00" class="py-2.5 px-3 border rounded-lg text-sm w-full"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Account *</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">Date *</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"></div>
+            </div>
+            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Payment Remarks / Cheque Details</label><textarea id="spNarration" rows="2" placeholder="e.g. Cleared via Cheque #9021 or Cash payment..." class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea></div>
+            <button type="submit" id="spBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md flex items-center space-x-2">
+              <i class="fa-solid fa-file-invoice-dollar"></i><span>Post Supplier Payment & Generate Receipt</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- 3. SUPPLIER STATEMENT VIEW -->
         <div id="supplierStatementView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
             <div>
@@ -333,10 +372,6 @@
             </div>
             <div class="flex items-center space-x-3">
               <select id="statementSupplierSelect" onchange="loadSpecificSupplierStatement()" class="py-2 px-3 bg-slate-50 border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-teal-500"></select>
-              <!-- Excel Export Button -->
-              <button onclick="exportSupplierStatementExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-lg font-semibold flex items-center space-x-1 shadow-sm">
-                <i class="fa-solid fa-file-excel mr-1"></i><span>Export Excel</span>
-              </button>
               <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-4 py-2 rounded-lg font-semibold flex items-center space-x-1 shadow-sm">
                 <i class="fa-solid fa-print mr-1"></i><span>Print Statement</span>
               </button>
@@ -353,7 +388,7 @@
               </div>
             </div>
             <div class="overflow-x-auto">
-              <table id="supplierExcelTable" class="w-full text-left text-xs border border-collapse border-slate-400">
+              <table class="w-full text-left text-xs border border-collapse border-slate-400">
                 <thead>
                   <tr class="bg-slate-100 uppercase text-[11px] font-bold text-slate-800 text-center border-b border-slate-400">
                     <th class="p-2 border-r border-slate-400 w-12">SL</th>
@@ -377,32 +412,31 @@
           </div>
         </div>
 
-        <!-- 3. ALL OTHER FUNCTIONAL VIEWS -->
+        <!-- 4. OTHER VIEWS (VOUCHERS, INCOMES, EXPENSES, PERMISSIONS, ETC.) -->
         <div id="purchaseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Purchase Entry</h3><form onsubmit="handlePurchaseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold mb-1">Supplier</label><select id="purSupplierSelect" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></select></div><div><label class="block text-xs font-semibold mb-1">Invoice</label><input type="text" id="purInvoice" placeholder="INV-001" class="w-full py-2.5 px-3 border rounded-lg text-sm"></div></div><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold mb-1">Amount</label><input type="number" step="0.01" id="purAmount" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div><div><label class="block text-xs font-semibold mb-1">Date</label><input type="date" id="purDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div></div><textarea id="purDetails" placeholder="Details" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="purBtn" class="bg-teal-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Purchase Bill</button></form></div>
-        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><div><h3 class="text-md font-bold text-slate-800">All Suppliers</h3></div><button onclick="toggleSupplierModal(true)" class="bg-teal-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">+ Add Supplier</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div></div>
-        <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Supplier Payables</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table></div></div>
-        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Payment Settlement</h3><form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold mb-1">Select Supplier *</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"></select></div><div><label class="block text-xs font-semibold mb-1">Current Payable Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div></div><div class="grid grid-cols-3 gap-4"><div><label class="block text-xs font-semibold mb-1">Amount (BDT) *</label><input type="number" step="0.01" id="spAmount" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div><div><label class="block text-xs font-semibold mb-1">Account *</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div><div><label class="block text-xs font-semibold mb-1">Date *</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full bg-slate-50"></div></div><div><label class="block text-xs font-semibold mb-1">Remarks</label><textarea id="spNarration" rows="2" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea></div><button type="submit" id="spBtn" class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-md">Post Payment & Print Slip</button></form></div>
-        <div id="vouchersView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="voucherFormTitle">Create Voucher</h3><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl"><div class="grid grid-cols-2 gap-4"><select id="vType" required class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment</option><option value="Receipt">Receipt</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
-        <div id="approvalsView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="approvalTitle">Pending Approvals</h3><div id="approvalsListContainer" class="space-y-4"></div></div>
-        <div id="permissionsView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-lg font-bold">Permissions</h3><button onclick="saveCurrentPermissions()" class="bg-blue-600 text-white font-bold text-xs px-4 py-2 rounded-lg">Save</button></div><select id="permRoleSelect" onchange="loadRolePermissionsIntoUI()" class="py-2.5 px-3 border rounded-lg text-sm font-bold mb-4"><option value="GM">GM</option><option value="MD">MD / CEO</option><option value="ACCOUNTS">ACCOUNTS</option></select><div class="grid grid-cols-3 gap-4" id="modulesChecklist"><label class="p-3 border rounded-xl flex items-center space-x-2"><input type="checkbox" value="dashboard"><span>Dashboard</span></label><label class="p-3 border rounded-xl flex items-center space-x-2"><input type="checkbox" value="supplier"><span>Supplier</span></label></div></div>
-        <div id="incomeEntryView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Income Entry</h3><form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="incParty" required placeholder="Customer" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="incCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="incAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="incMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option></select><input type="date" id="incDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="incBtn" class="bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save</button></form></div>
-        <div id="expenseEntryView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold text-rose-600 mb-4">Expense Entry</h3><form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="expParty" required placeholder="Supplier" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="expCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="expAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="expMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option></select><input type="date" id="expDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="expBtn" class="bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save</button></form></div>
-        <div id="voucherListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div>
-        <div id="incomeListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Party</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div>
-        <div id="expenseListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Party</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
-        <div id="ledgersView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div>
-        <div id="cashBankFormView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><form onsubmit="handleCashBankSubmit(event)" class="space-y-4 max-w-2xl"><input type="text" id="cbType" readonly class="py-2.5 px-3 border rounded-lg text-sm"><select id="cbAccount" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash</option></select><input type="number" step="0.01" id="cbAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><button type="submit" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm">Submit</button></form></div>
-        <div id="cashAccountView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Account</th></tr></thead><tbody id="cashTableBody"></tbody></table></div>
-        <div id="bankAccountView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th></tr></thead><tbody id="bankTableBody"></tbody></table></div>
-        <div id="reconciliationView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div>
-        <div id="customerListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due</th></tr></thead><tbody id="customerTableBody"></tbody></table></div>
-        <div id="customerDueView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div>
-        <div id="customerPaymentView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl"><select id="cpCustomerSelect" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></select><input type="number" step="0.01" id="cpAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm w-full"><button type="submit" id="cpBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm">Collect</button></form></div>
-        <div id="reportsView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div id="reportContentArea"></div></div>
-        <div id="branchView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div class="grid grid-cols-3 gap-4" id="branchesContainer"></div></div>
-        <div id="userView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th></tr></thead><tbody id="userTableBody"></tbody></table></div>
-        <div id="auditView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Action</th></tr></thead><tbody id="auditTableBody"></tbody></table></div>
-        <div id="settingsView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><form onsubmit="handleSaveSettings(event)" class="space-y-4 max-w-2xl"><input type="text" id="setCompName" required class="w-full py-2 px-3 border rounded-lg text-sm"><button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm">Save</button></form></div>
+        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold text-slate-800">All Suppliers</h3><button onclick="toggleSupplierModal(true)" class="bg-teal-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">+ Add Supplier</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div>
+        <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Supplier Payables</h3><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table></div>
+        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="voucherFormTitle">Create Voucher</h3><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl"><div class="grid grid-cols-2 gap-4"><select id="vType" required class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment</option><option value="Receipt">Receipt</option><option value="Journal">Journal</option><option value="Contra">Contra</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
+        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="approvalTitle">Pending Approvals</h3><div id="approvalsListContainer" class="space-y-4"></div></div>
+        <div id="permissionsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold text-slate-800">Role Permissions</h3></div><button onclick="saveCurrentPermissions()" class="bg-blue-600 text-white font-bold text-xs px-4 py-2 rounded-lg">Save Permissions</button></div><div class="mb-4 max-w-xs"><select id="permRoleSelect" onchange="loadRolePermissionsIntoUI()" class="w-full py-2.5 px-3 bg-slate-50 border rounded-lg text-sm font-bold"><option value="GM">GM</option><option value="MD">MD / CEO</option><option value="ACCOUNTS">ACCOUNTS</option><option value="BRANCH_MANAGER">BRANCH MANAGER</option></select></div><div class="grid grid-cols-3 gap-4" id="modulesChecklist"><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="dashboard" class="w-4 h-4 rounded"><span>Dashboard</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="vouchers" class="w-4 h-4 rounded"><span>Vouchers</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="approvals" class="w-4 h-4 rounded"><span>Approvals</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="income" class="w-4 h-4 rounded"><span>Income</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="expense" class="w-4 h-4 rounded"><span>Expense</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="ledger" class="w-4 h-4 rounded"><span>Ledger</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="cashbank" class="w-4 h-4 rounded"><span>Cash & Bank</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="customer" class="w-4 h-4 rounded"><span>Customer</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="supplier" class="w-4 h-4 rounded"><span>Supplier</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="reports" class="w-4 h-4 rounded"><span>Reports</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="branch" class="w-4 h-4 rounded"><span>Branch</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="users" class="w-4 h-4 rounded"><span>Users</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="audit" class="w-4 h-4 rounded"><span>Audit</span></label><label class="p-3 border rounded-xl flex items-center space-x-3 bg-slate-50 cursor-pointer"><input type="checkbox" value="settings" class="w-4 h-4 rounded"><span>Settings</span></label></div></div>
+        <div id="incomeEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Income Entry</h3><form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="incParty" required placeholder="Customer" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="incCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="incAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="incMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="incDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="incNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="incBtn" class="bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Income Record</button></form></div>
+        <div id="expenseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-rose-600 mb-4">Expense Entry</h3><form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="expParty" required placeholder="Supplier" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="expCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="expAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="expMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="expDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="expNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="expBtn" class="bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Expense Record</button></form></div>
+        <div id="customerListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">All Customers</h3><button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">+ Add Customer</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Address</th><th class="p-3 text-rose-600">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table></div>
+        <div id="customerDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Customer Dues</h3><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div>
+        <div id="customerPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Customer Payment</h3><form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="cpCustomerSelect" required onchange="handleCustomerSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm"></select><input type="text" id="cpCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="cpAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><select id="cpMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select><input type="date" id="cpDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cpBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Collect</button></form></div>
+        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div>
+        <div id="incomeListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div>
+        <div id="expenseListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
+        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Ref</th><th class="p-3">Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div>
+        <div id="cashBankFormView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="cbFormTitle">Cash/Bank</h3><form onsubmit="handleCashBankSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="cbType" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-indigo-700"><select id="cbAccount" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="cbAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="cbDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cbBtn" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Submit</button></form></div>
+        <div id="cashAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table></div>
+        <div id="bankAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table></div>
+        <div id="reconciliationView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="grid grid-cols-2 gap-4"><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Book Balance</p><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Bank Balance</p><h4 class="text-lg font-bold text-blue-600" id="recBankBal">৳ 0.00</h4></div></div></div>
+        <div id="reportsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4 border-b pb-3"><h3 class="text-lg font-bold text-slate-800" id="reportTitle">Financial Statement</h3><button onclick="window.print()" class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-print mr-1"></i> Print</button></div><div id="reportContentArea"></div></div>
+        <div id="branchView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Outlets Directory</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="branchesContainer"></div></div>
+        <div id="userView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold">System Users</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table></div>
+        <div id="auditView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Audit Trail Logs</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Date Time</th><th class="p-3">Action</th><th class="p-3">Entity ID</th><th class="p-3">User</th><th class="p-3">Details</th></tr></thead><tbody id="auditTableBody"></tbody></table></div>
+        <div id="settingsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4">Company Settings</h3><form onsubmit="handleSaveSettings(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="setCompName" required placeholder="Company" class="w-full py-2 px-3 border rounded-lg text-sm"></div><button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Settings</button></form></div>
 
       </div>
     </main>
@@ -471,28 +505,7 @@
     </div>
   </div>
 
-  <!-- ADD SUPPLIER MODAL WITH ADDRESS -->
-  <div id="supplierModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
-    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
-      <div class="flex justify-between items-center mb-4 pb-2 border-b">
-        <h3 class="font-bold text-slate-800">Add New Supplier</h3>
-        <button onclick="toggleSupplierModal(false)" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <form onsubmit="handleAddSupplierSubmit(event)" class="space-y-4">
-        <div><label class="block text-xs font-semibold mb-1">Supplier Contact Name *</label><input type="text" id="newSuppName" required placeholder="e.g. Rafin Mir" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Company / Vendor Name *</label><input type="text" id="newSuppCompany" required placeholder="e.g. Sanvees by tony" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Phone</label><input type="text" id="newSuppPhone" placeholder="01800000000" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Address</label><input type="text" id="newSuppAddress" placeholder="e.g. Dhaka, Bangladesh" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Opening Payable Due (BDT) *</label><input type="number" step="0.01" id="newSuppDue" value="0" placeholder="0.00" class="w-full py-2 px-3 border rounded-lg text-sm font-bold text-rose-600"></div>
-        <div class="flex justify-end space-x-2 pt-2">
-          <button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button>
-          <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-5 py-2 rounded-lg text-sm">Save Supplier</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ADD CUSTOMER MODAL -->
+  <!-- MODALS -->
   <div id="customerModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
     <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
       <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Customer</h3>
@@ -506,12 +519,24 @@
     </div>
   </div>
 
+  <div id="supplierModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Supplier</h3>
+      <form onsubmit="handleAddSupplierSubmit(event)" class="space-y-4">
+        <input type="text" id="newSuppName" required placeholder="Supplier Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppCompany" required placeholder="Company Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppPhone" placeholder="Phone" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="number" step="0.01" id="newSuppDue" value="0" placeholder="Opening Payable Due" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <div class="flex justify-end space-x-2"><button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm">Save Supplier</button></div>
+      </form>
+    </div>
+  </div>
+
   <!-- JAVASCRIPT ENGINE -->
   <script>
     const CONFIG = { API_URL: "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec" };
     let currentApprovalStatus = 'PENDING_GM';
     let globalSuppliers = [], globalCustomers = [], globalPermissions = {};
-    let financialChartInstance = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('auth_token');
@@ -529,7 +554,7 @@
       const user = JSON.parse(localStorage.getItem('user_data') || '{}');
       document.getElementById('userName').innerText = user.name || 'User';
       document.getElementById('userRole').innerText = user.role || 'ADMIN';
-      document.getElementById('branchBadge').innerText = `Branch: ${user.branch_id || 'HEAD_OFFICE'}`;
+      document.getElementById('branchBadge').innerText = Branch: ${user.branch_id || 'HEAD_OFFICE'};
 
       applyRolePermissions(user.permissions || ['dashboard']);
     }
@@ -550,10 +575,10 @@
     function switchTab(tab) {
       const allTabs = ['dashboard', 'incomeEntry', 'expenseEntry', 'incomeList', 'expenseList', 'vouchers', 'voucherList', 'approvals', 'ledgers', 'cashBankFormView', 'cashAccountView', 'bankAccountView', 'reconciliationView', 'customerListView', 'customerDueView', 'customerPaymentView', 'purchaseEntryView', 'supplierListView', 'supplierDueView', 'supplierPaymentView', 'supplierStatementView', 'reportsView', 'branchView', 'userView', 'permissionsView', 'auditView', 'settingsView'];
       allTabs.forEach(t => {
-        const v = document.getElementById(t.includes('View') ? t : `${t}View`);
+        const v = document.getElementById(t.includes('View') ? t : ${t}View);
         if (v) v.classList.add('hidden');
       });
-      const target = document.getElementById(tab.includes('View') ? tab : `${tab}View`);
+      const target = document.getElementById(tab.includes('View') ? tab : ${tab}View);
       if (target) target.classList.remove('hidden');
 
       if (tab === 'dashboard') loadDashboardData();
@@ -568,85 +593,94 @@
       if (tab === 'permissionsView') loadPermissionsData();
     }
 
-    // DASHBOARD & CHART
-    async function loadDashboardData() {
-      const branchFilter = document.getElementById('dashboardBranchFilter')?.value || 'ALL';
+    // SUPPLIER PAYMENT & INSTANT BILL PRINT MODAL
+    function togglePaymentSlipModal(show) {
+      document.getElementById('paymentSlipModal').classList.toggle('hidden', !show);
+    }
+
+    async function handleSupplierPaymentSubmit(e) {
+      e.preventDefault();
+      const select = document.getElementById('spSupplierSelect');
+      const selected = select.options[select.selectedIndex];
+      const btn = document.getElementById('spBtn');
+      btn.disabled = true;
+
+      const p = {
+        supplier_id: select.value,
+        supplier_name: selected.getAttribute('data-name'),
+        amount: Number(document.getElementById('spAmount').value),
+        method: document.getElementById('spMethod').value,
+        date: document.getElementById('spDate').value,
+        narration: document.getElementById('spNarration').value
+      };
+
       try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData&branch=${branchFilter}`);
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'paySupplier', payload: p }) });
         const r = await res.json();
         if (r.status === 'success') {
-          const inc = Number(r.data.totalIncome) || 0;
-          const exp = Number(r.data.totalExpense) || 0;
-          const net = Number(r.data.netBalance) || 0;
+          // Populate Printable Money Receipt Slip
+          document.getElementById('slipBillNo').innerText = r.bill_no;
+          document.getElementById('slipSupplier').innerText = p.supplier_name;
+          document.getElementById('slipAccount').innerText = p.method;
+          document.getElementById('slipDate').innerText = formatDateDisplay(p.date);
+          document.getElementById('slipRemarks').innerText = p.narration ? Remarks: ${p.narration} : 'Full / Partial Settlement';
+          document.getElementById('slipAmount').innerText = ৳ ${Number(r.paid_amount).toLocaleString()};
+          document.getElementById('slipPrevDue').innerText = ৳ ${Number(r.previous_due).toLocaleString()};
+          document.getElementById('slipRemDue').innerText = ৳ ${Number(r.remaining_due).toLocaleString()};
 
-          document.getElementById('dashIncome').innerText = `৳ ${inc.toLocaleString()}`;
-          document.getElementById('dashExpense').innerText = `৳ ${exp.toLocaleString()}`;
-          document.getElementById('dashDue').innerText = `৳ ${Number(r.data.totalReceivable || 0).toLocaleString()}`;
-          document.getElementById('dashPayable').innerText = `৳ ${Number(r.data.totalPayable || 0).toLocaleString()}`;
-
-          renderFinancialChart(inc, exp, net);
+          togglePaymentSlipModal(true);
+          e.target.reset();
+          loadDashboardData();
+        } else {
+          alert('Error processing supplier payment.');
         }
-      } catch (e) {}
-    }
-
-    function renderFinancialChart(income, expense, netProfit) {
-      const ctx = document.getElementById('financialChart');
-      if (!ctx) return;
-      if (financialChartInstance) financialChartInstance.destroy();
-
-      financialChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Total Income', 'Total Expense', 'Net Profit'],
-          datasets: [{
-            label: 'Amount in BDT (৳)',
-            data: [income, expense, netProfit],
-            backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(244, 63, 94, 0.8)', 'rgba(37, 99, 235, 0.8)'],
-            borderColor: ['rgb(16, 185, 129)', 'rgb(244, 63, 94)', 'rgb(37, 99, 235)'],
-            borderWidth: 2,
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, grid: { color: 'rgba(226, 232, 240, 0.6)' } },
-            x: { grid: { display: false } }
-          }
-        }
-      });
-    }
-
-    // SUPPLIER & ADD SUPPLIER MODAL WITH ADDRESS
-    function toggleSupplierModal(show) {
-      const modal = document.getElementById('supplierModal');
-      if (modal) modal.classList.toggle('hidden', !show);
-    }
-
-    async function handleAddSupplierSubmit(e) {
-      e.preventDefault();
-      const p = {
-        name: document.getElementById('newSuppName').value,
-        company: document.getElementById('newSuppCompany').value,
-        phone: document.getElementById('newSuppPhone').value,
-        address: document.getElementById('newSuppAddress').value,
-        due_amount: Number(document.getElementById('newSuppDue').value) || 0
-      };
-      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addSupplier', payload: p }) });
-      const r = await res.json();
-      if (r.status === 'success') {
-        alert('Supplier Added Successfully with Opening Balance!');
-        toggleSupplierModal(false);
-        e.target.reset();
-        loadSuppliersData();
-        loadDashboardData();
+      } catch (err) {
+        alert('API connection failed.');
+      } finally {
+        btn.disabled = false;
       }
     }
 
+    // DASHBOARD DATA ENGINE
+    async function loadDashboardData() {
+      const branchFilter = document.getElementById('dashboardBranchFilter')?.value || 'ALL';
+      try {
+        const res = await fetch(${CONFIG.API_URL}?action=getDashboardData&branch=${branchFilter});
+        const r = await res.json();
+        if (r.status === 'success') {
+          document.getElementById('dashIncome').innerText = ৳ ${Number(r.data.totalIncome).toLocaleString()};
+          document.getElementById('dashExpense').innerText = ৳ ${Number(r.data.totalExpense).toLocaleString()};
+          document.getElementById('dashDue').innerText = ৳ ${Number(r.data.totalReceivable || 0).toLocaleString()};
+          document.getElementById('dashPayable').innerText = ৳ ${Number(r.data.totalPayable || 0).toLocaleString()};
+        }
+      } catch (e) {}
+
+      try {
+        const resL = await fetch(${CONFIG.API_URL}?action=getLedgerReport&type=GENERAL&branch=${branchFilter});
+        const rL = await resL.json();
+        const dBody = document.getElementById('dashRecentTableBody');
+        if (rL.status === 'success' && rL.data.length > 0) {
+          const recent = rL.data.slice(-5).reverse();
+          dBody.innerHTML = recent.map(l => `
+            <tr class="border-b hover:bg-slate-50">
+              <td class="p-3 font-semibold text-blue-600">${l.entry_id}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
+              <td class="p-3 font-bold text-slate-800">${l.account_head}</td>
+              <td class="p-3 text-right font-bold text-rose-600">${Number(l.debit) > 0 ? '৳ ' + Number(l.debit).toLocaleString() : '-'}</td>
+              <td class="p-3 text-right font-bold text-emerald-600">${Number(l.credit) > 0 ? '৳ ' + Number(l.credit).toLocaleString() : '-'}</td>
+            </tr>
+          `).join('');
+        } else {
+          dBody.innerHTML = <tr><td colspan="5" class="p-4 text-center text-slate-400">No recent transactions.</td></tr>;
+        }
+      } catch (err) {}
+    }
+
+    // SUPPLIER & EXCEL STATEMENT FUNCTIONS
+    function toggleSupplierModal(show) { document.getElementById('supplierModal').classList.toggle('hidden', !show); }
+
     async function loadSuppliersData() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getSuppliers`);
+      const res = await fetch(${CONFIG.API_URL}?action=getSuppliers);
       const result = await res.json();
       if (result.status === 'success') {
         globalSuppliers = result.data;
@@ -681,26 +715,26 @@
                 <button onclick="paySpecificSupplier('${s.supplier_id}')" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs px-3 py-1 rounded">Clear Due</button>
               </td>
             </tr>
-          `).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">No pending supplier dues.</td></tr>`;
+          ).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">No pending supplier dues.</td></tr>;
         }
 
         const purSelect = document.getElementById('purSupplierSelect');
         if (purSelect) {
-          purSelect.innerHTML = `<option value="">-- Choose Supplier --</option>` + globalSuppliers.map(s => `
+          purSelect.innerHTML = <option value="">-- Choose Supplier --</option> + globalSuppliers.map(s => `
             <option value="${s.supplier_id}" data-name="${s.name}">${s.name} (${s.company})</option>
           `).join('');
         }
 
         const spSelect = document.getElementById('spSupplierSelect');
         if (spSelect) {
-          spSelect.innerHTML = `<option value="">-- Choose Supplier --</option>` + globalSuppliers.map(s => `
+          spSelect.innerHTML = <option value="">-- Choose Supplier --</option> + globalSuppliers.map(s => `
             <option value="${s.supplier_id}" data-due="${s.due_amount}" data-name="${s.name}">${s.name} (${s.company})</option>
           `).join('');
         }
 
         const statSelect = document.getElementById('statementSupplierSelect');
         if (statSelect) {
-          statSelect.innerHTML = `<option value="">-- Select Supplier to View Statement --</option>` + globalSuppliers.map(s => `
+          statSelect.innerHTML = <option value="">-- Select Supplier to View Statement --</option> + globalSuppliers.map(s => `
             <option value="${s.name}">${s.name} (${s.company})</option>
           `).join('');
         }
@@ -722,7 +756,7 @@
         const day = String(d.getDate()).padStart(2, '0');
         const month = String(d.getMonth() + 1).padStart(2, '0');
         const year = d.getFullYear();
-        return `${day}.${month}.${year}`;
+        return ${day}.${month}.${year};
       } catch(e) { return dStr; }
     }
 
@@ -731,10 +765,10 @@
       if (!supplierName) return;
 
       const sTableBody = document.getElementById('supplierStatementTableBody');
-      sTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Loading statement...</td></tr>`;
+      sTableBody.innerHTML = <tr><td colspan="8" class="p-4 text-center text-slate-400">Loading statement...</td></tr>;
 
       try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getSupplierStatement&supplier_name=${encodeURIComponent(supplierName)}`);
+        const res = await fetch(${CONFIG.API_URL}?action=getSupplierStatement&supplier_name=${encodeURIComponent(supplierName)});
         const result = await res.json();
 
         if (result.status === 'success') {
@@ -795,36 +829,8 @@
           sTableBody.innerHTML = statementHTML;
         }
       } catch (err) {
-        sTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500">Failed to load statement.</td></tr>`;
+        sTableBody.innerHTML = <tr><td colspan="8" class="p-4 text-center text-rose-500">Failed to load statement.</td></tr>;
       }
-    }
-
-    // EXPORT SUPPLIER STATEMENT TO EXCEL (CSV DOWNLOAD)
-    function exportSupplierStatementExcel() {
-      const supplierName = document.getElementById('printSuppName').innerText || 'Supplier_Statement';
-      const table = document.getElementById('supplierExcelTable');
-      if (!table) return;
-
-      let csv = [];
-      let rows = table.querySelectorAll('tr');
-      
-      for (let i = 0; i < rows.length; i++) {
-        let row = [], cols = rows[i].querySelectorAll('td, th');
-        for (let j = 0; j < cols.length; j++) {
-          let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-          data = data.replace(/"/g, '""');
-          row.push('"' + data + '"');
-        }
-        csv.push(row.join(','));
-      }
-
-      let csvFile = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
-      let downloadLink = document.createElement('a');
-      downloadLink.href = window.URL.createObjectURL(csvFile);
-      downloadLink.setAttribute('download', `${supplierName}_Statement.csv`);
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
     }
 
     async function handlePurchaseSubmit(e) {
@@ -851,15 +857,15 @@
           e.target.reset();
           loadDashboardData();
           viewSupplierStatement(payload.supplier_name);
-        } else { alert('Error saving purchase.'); }
-      } catch (err) { alert('API connection error.'); }
+        }
+      } catch (err) {}
       finally { btn.disabled = false; }
     }
 
     function handleSupplierSelectChange() {
       const select = document.getElementById('spSupplierSelect');
       const selected = select.options[select.selectedIndex];
-      document.getElementById('spCurrentDue').value = `৳ ${Number(selected.getAttribute('data-due') || '0').toLocaleString()}`;
+      document.getElementById('spCurrentDue').value = ৳ ${Number(selected.getAttribute('data-due') || '0').toLocaleString()};
     }
 
     function paySpecificSupplier(id) {
@@ -868,50 +874,28 @@
       handleSupplierSelectChange();
     }
 
-    async function handleSupplierPaymentSubmit(e) {
+    async function handleAddSupplierSubmit(e) {
       e.preventDefault();
-      const select = document.getElementById('spSupplierSelect');
-      const selected = select.options[select.selectedIndex];
-      const btn = document.getElementById('spBtn');
-      btn.disabled = true;
-
       const p = {
-        supplier_id: select.value,
-        supplier_name: selected.getAttribute('data-name'),
-        amount: Number(document.getElementById('spAmount').value),
-        method: document.getElementById('spMethod').value,
-        date: document.getElementById('spDate').value,
-        narration: document.getElementById('spNarration').value
+        name: document.getElementById('newSuppName').value,
+        company: document.getElementById('newSuppCompany').value,
+        phone: document.getElementById('newSuppPhone').value,
+        due_amount: Number(document.getElementById('newSuppDue').value) || 0
       };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'paySupplier', payload: p }) });
-        const r = await res.json();
-        if (r.status === 'success') {
-          document.getElementById('slipBillNo').innerText = r.bill_no;
-          document.getElementById('slipSupplier').innerText = p.supplier_name;
-          document.getElementById('slipAccount').innerText = p.method;
-          document.getElementById('slipDate').innerText = formatDateDisplay(p.date);
-          document.getElementById('slipRemarks').innerText = p.narration ? `Remarks: ${p.narration}` : 'Full / Partial Settlement';
-          document.getElementById('slipAmount').innerText = `৳ ${Number(r.paid_amount).toLocaleString()}`;
-          document.getElementById('slipPrevDue').innerText = `৳ ${Number(r.previous_due).toLocaleString()}`;
-          document.getElementById('slipRemDue').innerText = `৳ ${Number(r.remaining_due).toLocaleString()}`;
-
-          togglePaymentSlipModal(true);
-          e.target.reset();
-          loadDashboardData();
-        }
-      } catch (err) { alert('Payment failed.'); }
-      finally { btn.disabled = false; }
-    }
-
-    function togglePaymentSlipModal(show) {
-      document.getElementById('paymentSlipModal').classList.toggle('hidden', !show);
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addSupplier', payload: p }) });
+      const r = await res.json();
+      if (r.status === 'success') {
+        alert('Supplier Added Successfully!');
+        toggleSupplierModal(false);
+        e.target.reset();
+        loadSuppliersData();
+        loadDashboardData();
+      }
     }
 
     // PERMISSIONS MANAGEMENT
     async function loadPermissionsData() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getPermissions`);
+      const res = await fetch(${CONFIG.API_URL}?action=getPermissions);
       const result = await res.json();
       if (result.status === 'success') {
         globalPermissions = result.data;
@@ -936,7 +920,7 @@
       });
       const r = await res.json();
       if (r.status === 'success') {
-        alert(`Permissions updated for role: ${selectedRole}!`);
+        alert(Permissions updated for role: ${selectedRole}!);
         globalPermissions[selectedRole] = checkedBoxes;
       }
     }
@@ -948,10 +932,7 @@
     }
 
     async function handleVoucherSubmit(event) {
-      if (event) event.preventDefault();
-      const token = localStorage.getItem('auth_token');
-      const btn = document.getElementById('vSubmitBtn');
-      
+      event.preventDefault();
       const payload = {
         type: document.getElementById('vType').value,
         account_head: document.getElementById('vAccount').value,
@@ -959,236 +940,80 @@
         date: document.getElementById('vDate').value,
         narration: document.getElementById('vNarration').value
       };
-
-      btn.disabled = true;
-      btn.innerText = "Submitting...";
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'createVoucher', token: token, payload: payload })
-        });
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Voucher Created Successfully!\nVoucher ID: ${result.voucherId}\nStatus: PENDING_GM`);
-          event.target.reset();
-          switchTab('voucherList');
-        } else { alert(`Error: ${result.message}`); }
-      } catch (err) { alert("Failed to create voucher."); }
-      finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>Submit Voucher</span>`;
-      }
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createVoucher', payload: payload }) });
+      const r = await res.json();
+      if (r.status === 'success') { alert('Voucher Submitted!'); event.target.reset(); switchTab('voucherList'); }
     }
 
     async function loadApprovalStep(statusFilter) {
       currentApprovalStatus = statusFilter;
       switchTab('approvals');
-
-      const title = document.getElementById('approvalTitle');
-      const badge = document.getElementById('approvalStageBadge');
+      document.getElementById('approvalTitle').innerText = statusFilter;
       const container = document.getElementById('approvalsListContainer');
-
-      if (statusFilter === 'PENDING_GM') { title.innerText = 'Step 1 → GM Approval Queue'; badge.innerText = 'GM Stage'; }
-      else if (statusFilter === 'PENDING_MD') { title.innerText = 'Step 2 → MD/CEO Approval Queue'; badge.innerText = 'MD Stage'; }
-      else if (statusFilter === 'PENDING_ACCOUNTS') { title.innerText = 'Step 3 → Accounts Final Ledger Posting'; badge.innerText = 'Accounts Stage'; }
-
-      container.innerHTML = `<p class="text-slate-400 text-sm">Loading pending vouchers...</p>`;
-
-      const token = localStorage.getItem('auth_token');
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${statusFilter}&token=${token}`);
-        const result = await res.json();
-
-        if (result.status === 'success' && result.data.length > 0) {
-          container.innerHTML = result.data.map(v => `
-            <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div class="space-y-1.5 flex-1">
-                <div class="flex items-center space-x-3">
-                  <span class="font-bold text-blue-600 text-sm">${v.voucher_id}</span>
-                  <span class="text-xs px-2.5 py-0.5 rounded font-bold bg-slate-100 text-slate-700">${v.type}</span>
-                  <span class="text-xs text-slate-400"><i class="fa-regular fa-calendar mr-1"></i>${v.date}</span>
-                </div>
-                
-                <div class="flex items-center space-x-2 text-slate-800">
-                  <span class="text-xs font-semibold uppercase text-slate-400">Account Head:</span>
-                  <span class="text-sm font-bold text-slate-900">${v.account_head}</span>
-                </div>
-
-                <p class="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-semibold text-slate-500">Narration / Reason:</span> ${v.narration || 'No description provided'}
-                </p>
-
-                <p class="text-sm font-extrabold text-emerald-600 pt-1">Amount: ৳ ${Number(v.amount).toLocaleString()}</p>
-              </div>
-
-              <div class="flex items-center space-x-2 w-full md:w-auto justify-end border-t md:border-t-0 pt-3 md:pt-0">
-                ${statusFilter === 'PENDING_ACCOUNTS' ? `
-                  <button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-check-double"></i><span>Post to Ledger</span>
-                  </button>
-                ` : `
-                  <button onclick="processApproval('${v.voucher_id}', 'APPROVE')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-check"></i><span>Approve</span>
-                  </button>
-                  <button onclick="processApproval('${v.voucher_id}', 'REJECT')" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold text-xs px-3.5 py-2.5 rounded-lg shadow-sm transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-xmark"></i><span>Reject</span>
-                  </button>
-                `}
-              </div>
-            </div>
-          `).join('');
-        } else { container.innerHTML = `<p class="text-slate-400 text-sm">No vouchers waiting for approval in this stage.</p>`; }
-      } catch (err) { container.innerHTML = `<p class="text-rose-500 text-sm">Error loading vouchers.</p>`; }
+      const res = await fetch(${CONFIG.API_URL}?action=getVouchers&status=${statusFilter});
+      const r = await res.json();
+      if (r.status === 'success' && r.data.length > 0) {
+        container.innerHTML = r.data.map(v => `
+          <div class="p-4 border rounded-xl bg-white flex justify-between items-center">
+            <div><span class="font-bold text-blue-600">${v.voucher_id}</span><p class="font-bold">${v.account_head} - ৳ ${Number(v.amount).toLocaleString()}</p><p class="text-xs text-slate-500">${v.narration||''}</p></div>
+            <div>${statusFilter === 'PENDING_ACCOUNTS' ? <button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs font-bold">Post</button> : `<button onclick="processApproval('${v.voucher_id}','APPROVE')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold mr-1">Approve</button><button onclick="processApproval('${v.voucher_id}','REJECT')" class="bg-rose-500 text-white px-3 py-1 rounded text-xs font-bold">Reject</button>`}</div>
+          </div>
+        `).join('');
+      } else { container.innerHTML = <p class="text-slate-400 text-sm">No vouchers in this stage.</p>; }
     }
 
-    async function processApproval(voucherId, decision) {
-      const token = localStorage.getItem('auth_token');
-      const remarks = prompt(`Enter remarks for ${decision}:`) || 'Approved';
+    async function processApproval(id, d) {
       const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'processApproval', token: token, voucherId: voucherId, decision: decision, remarks: remarks, userName: user.name })
-        });
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Action Successful! New Status: ${result.updatedStatus}`);
-          loadApprovalStep(currentApprovalStatus);
-        } else { alert(`Approval Error: ${result.message}`); }
-      } catch (err) { alert("Failed to process approval."); }
+      await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'processApproval', voucherId: id, decision: d, remarks: 'OK', userName: user.name }) });
+      loadApprovalStep(currentApprovalStatus);
     }
 
-    async function postToLedger(voucherId) {
-      const token = localStorage.getItem('auth_token');
+    async function postToLedger(id) {
       const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'postToLedger', token: token, voucherId: voucherId, userName: user.name })
-        });
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert(`Posted to General Ledger Successfully!\nEntry ID: ${result.entryId}`);
-          loadApprovalStep('PENDING_ACCOUNTS');
-        } else { alert(`Posting Error: ${result.message}`); }
-      } catch (err) { alert("Failed to post to ledger."); }
+      await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'postToLedger', voucherId: id, userName: user.name }) });
+      loadApprovalStep('PENDING_ACCOUNTS');
     }
 
     async function loadVouchersList() {
-      const token = localStorage.getItem('auth_token');
-      const tbody = document.getElementById('voucherTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading vouchers...</td></tr>`;
-
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&token=${token}`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(v => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td>
-              <td class="p-3">${v.date}</td>
-              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-slate-100">${v.type}</span></td>
-              <td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td>
-              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${v.status.includes('PENDING') ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">${v.status}</span></td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No vouchers found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load vouchers.</td></tr>`; }
+      const res = await fetch(${CONFIG.API_URL}?action=getVouchers&status=ALL);
+      const r = await res.json();
+      voucherTableBody.innerHTML = r.data.map(v => <tr class="border-b"><td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td><td class="p-3">${v.date}</td><td class="p-3">${v.type}</td><td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td><td class="p-3">${v.status}</td></tr>).join('');
     }
 
-    async function handleIncomeSubmit(event) {
-      if (event) event.preventDefault();
-      const btn = document.getElementById('incBtn');
-      btn.disabled = true;
-      const payload = {
-        party: document.getElementById('incParty').value,
-        category: document.getElementById('incCategory').value,
-        amount: document.getElementById('incAmount').value,
-        method: document.getElementById('incMethod').value,
-        date: document.getElementById('incDate').value,
-        narration: document.getElementById('incNarration').value
-      };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: payload }) });
-        const result = await res.json();
-        if (result.status === 'success') {
-          alert('Income Record Saved Successfully!');
-          event.target.reset();
-          switchTab('incomeList');
-        } else { alert('Error saving income'); }
-      } catch (err) { alert('Failed to connect API'); }
-      finally { btn.disabled = false; }
+    async function handleIncomeSubmit(e) {
+      e.preventDefault();
+      const p = { party: incParty.value, category: incCategory.value, amount: incAmount.value, method: incMethod.value, date: incDate.value, narration: incNarration.value };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: p }) });
+      const r = await res.json();
+      if (r.status === 'success') { alert('Saved!'); e.target.reset(); switchTab('incomeList'); }
     }
 
-    async function handleExpenseSubmit(event) {
-      if (event) event.preventDefault();
-      const btn = document.getElementById('expBtn');
-      btn.disabled = true;
-      const payload = {
-        party: document.getElementById('expParty').value,
-        category: document.getElementById('expCategory').value,
-        amount: document.getElementById('expAmount').value,
-        method: document.getElementById('expMethod').value,
-        date: document.getElementById('expDate').value,
-        narration: document.getElementById('expNarration').value
-      };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: payload }) });
-        const result = await res.json();
-        if (result.status === 'success') {
-          alert('Expense Record Saved Successfully!');
-          event.target.reset();
-          switchTab('expenseList');
-        } else { alert('Error saving expense'); }
-      } catch (err) { alert('Failed to connect API'); }
-      finally { btn.disabled = false; }
+    async function handleExpenseSubmit(e) {
+      e.preventDefault();
+      const p = { party: expParty.value, category: expCategory.value, amount: expAmount.value, method: expMethod.value, date: expDate.value, narration: expNarration.value };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: p }) });
+      const r = await res.json();
+      if (r.status === 'success') { alert('Saved!'); e.target.reset(); switchTab('expenseList'); }
     }
 
     async function loadIncomeList() {
-      const tbody = document.getElementById('incomeTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading income data...</td></tr>`;
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(i => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-bold text-blue-600">${i.id}</td>
-              <td class="p-3">${i.date}</td>
-              <td class="p-3">${i.party}</td>
-              <td class="p-3">${i.category}</td>
-              <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs rounded">${i.method}</span></td>
-              <td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No income records found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Error loading income.</td></tr>`; }
+      const res = await fetch(${CONFIG.API_URL}?action=getIncomeList);
+      const r = await res.json();
+      incomeTableBody.innerHTML = r.data.map(i => <tr class="border-b"><td class="p-3 font-bold text-blue-600">${i.id}</td><td class="p-3">${i.date}</td><td class="p-3">${i.party}</td><td class="p-3">${i.category}</td><td class="p-3">${i.method}</td><td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td></tr>).join('');
     }
 
     async function loadExpenseList() {
-      const tbody = document.getElementById('expenseTableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading expense data...</td></tr>`;
-      try {
-        const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`);
-        const result = await res.json();
-        if (result.status === 'success' && result.data.length > 0) {
-          tbody.innerHTML = result.data.map(x => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="p-3 font-bold text-rose-600">${x.id}</td>
-              <td class="p-3">${x.date}</td>
-              <td class="p-3">${x.party}</td>
-              <td class="p-3">${x.category}</td>
-              <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs rounded">${x.method}</span></td>
-              <td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td>
-            </tr>
-          `).join('');
-        } else { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No expense records found.</td></tr>`; }
-      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Error loading expense.</td></tr>`; }
+      const res = await fetch(${CONFIG.API_URL}?action=getExpenseList);
+      const r = await res.json();
+      expenseTableBody.innerHTML = r.data.map(x => <tr class="border-b"><td class="p-3 font-bold text-rose-600">${x.id}</td><td class="p-3">${x.date}</td><td class="p-3">${x.party}</td><td class="p-3">${x.category}</td><td class="p-3">${x.method}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td></tr>).join('');
+    }
+
+    async function loadLedgersData(type, title) {
+      switchTab('ledgers');
+      ledgerTitleDisplay.innerText = title;
+      const res = await fetch(${CONFIG.API_URL}?action=getLedgerReport&type=${type});
+      const r = await res.json();
+      ledgerTableBody.innerHTML = r.data.map(l => <tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>).join('');
     }
 
     async function handleLogin(e) {
@@ -1203,82 +1028,51 @@
     }
     function handleLogout() { localStorage.clear(); showLoginUI(); }
 
-    async function loadLedgersData(type, title) {
-      switchTab('ledgers');
-      ledgerTitleDisplay.innerText = title;
-      const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=${type}`);
-      const r = await res.json();
-      ledgerTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
-    }
-
-    function openCashBankForm(t) { switchTab('cashBankFormView'); cbType.value = t; cbFormTitle.innerText = `${t} Entry`; }
+    function openCashBankForm(t) { switchTab('cashBankFormView'); cbType.value = t; }
     async function handleCashBankSubmit(e) {
       e.preventDefault();
       const p = { type: cbType.value, account: cbAccount.value, amount: cbAmount.value, date: cbDate.value, narration: cbNarration.value };
       const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createCashBankTxn', payload: p }) });
       const r = await res.json();
-      if (r.status === 'success') { alert(`${p.type} Recorded!`); e.target.reset(); loadDashboardData(); switchTab(p.type.includes('Cash') ? 'cashAccountView' : 'bankAccountView'); }
+      if (r.status === 'success') { alert('Recorded!'); e.target.reset(); loadDashboardData(); }
     }
-    async function loadCashLedger() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=CASH`);
-      const r = await res.json();
-      cashTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
-    }
-    async function loadBankAccounts() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getBankAccounts`);
-      const r = await res.json();
-      bankAccountsContainer.innerHTML = r.data.map(b => `<div class="p-4 bg-slate-50 border rounded-xl flex justify-between"><div><h4 class="font-bold text-slate-800">${b.bank_name}</h4><p class="text-xs text-slate-500">A/C: ${b.account_no}</p></div><span class="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">Active</span></div>`).join('');
-      const resTxn = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=BANK`);
-      const rTxn = await resTxn.json();
-      bankTableBody.innerHTML = rTxn.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
-    }
-    async function loadReconciliation() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
-      const r = await res.json();
-      if(r.status==='success') { recBookBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; recBankBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; }
-    }
+    async function loadCashLedger() { const res = await fetch(${CONFIG.API_URL}?action=getLedgerReport&type=CASH); const r = await res.json(); cashTableBody.innerHTML = r.data.map(l => <tr class="border-b"><td class="p-3">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>).join(''); }
+    async function loadBankAccounts() { const res = await fetch(${CONFIG.API_URL}?action=getBankAccounts); const r = await res.json(); bankAccountsContainer.innerHTML = r.data.map(b => <div class="p-4 bg-slate-50 border rounded-xl flex justify-between"><div><h4 class="font-bold">${b.bank_name}</h4><p class="text-xs text-slate-500">${b.account_no}</p></div><span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">Active</span></div>).join(''); }
+    async function loadReconciliation() { const res = await fetch(${CONFIG.API_URL}?action=getDashboardData); const r = await res.json(); if (r.status==='success') { recBookBal.innerText = ৳ ${(r.data.bankBalance||0).toLocaleString()}; recBankBal.innerText = ৳ ${(r.data.bankBalance||0).toLocaleString()}; } }
 
     function toggleCustomerModal(s) { document.getElementById('customerModal').classList.toggle('hidden', !s); }
     async function loadCustomersData() {
-      const res = await fetch(`${CONFIG.API_URL}?action=getCustomers`);
+      const res = await fetch(${CONFIG.API_URL}?action=getCustomers);
       const r = await res.json();
-      if(r.status==='success') {
+      if (r.status === 'success') {
         globalCustomers = r.data;
-        customerTableBody.innerHTML = globalCustomers.map(c => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3">${c.phone}</td><td class="p-3">${c.address}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-emerald-50 text-emerald-600 px-2 py-1 rounded text-xs font-bold">Collect</button></td></tr>`).join('');
+        customerTableBody.innerHTML = globalCustomers.map(c => <tr class="border-b"><td class="p-3 font-semibold text-blue-600">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3">${c.phone}</td><td class="p-3">${c.address}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-emerald-50 text-emerald-600 px-2 py-1 rounded text-xs font-bold">Collect</button></td></tr>).join('');
         const dueList = globalCustomers.filter(c => Number(c.due_amount) > 0);
-        customerDueTableBody.innerHTML = dueList.map(c => `<tr class="border-b"><td class="p-3 font-semibold">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-rose-600 text-white px-2 py-1 rounded text-xs font-bold">Pay Due</button></td></tr>`).join('');
-        cpCustomerSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `<option value="${c.customer_id}" data-due="${c.due_amount}" data-name="${c.name}">${c.name}</option>`).join('');
+        customerDueTableBody.innerHTML = dueList.map(c => <tr class="border-b"><td class="p-3 font-semibold">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-rose-600 text-white px-2 py-1 rounded text-xs font-bold">Pay Due</button></td></tr>).join('');
+        cpCustomerSelect.innerHTML = <option value="">-- Choose Customer --</option> + globalCustomers.map(c => <option value="${c.customer_id}" data-due="${c.due_amount}" data-name="${c.name}">${c.name}</option>).join('');
       }
     }
-    function handleCustomerSelectChange() { const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; cpCurrentDue.value = `৳ ${Number(s.getAttribute('data-due') || '0').toLocaleString()}`; }
+    function handleCustomerSelectChange() { const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; cpCurrentDue.value = ৳ ${Number(s.getAttribute('data-due') || '0').toLocaleString()}; }
     function paySpecificCustomer(id) { switchTab('customerPaymentView'); cpCustomerSelect.value = id; handleCustomerSelectChange(); }
     async function handleAddCustomerSubmit(e) { e.preventDefault(); const p = { name: newCustName.value, phone: newCustPhone.value, address: newCustAddress.value, due_amount: Number(newCustDue.value)||0 }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Customer Added!'); toggleCustomerModal(false); loadCustomersData(); loadDashboardData(); } }
     async function handleCustomerPaymentSubmit(e) { e.preventDefault(); const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; const p = { customer_id: cpCustomerSelect.value, customer_name: s.getAttribute('data-name'), amount: Number(cpAmount.value), method: cpMethod.value, date: cpDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'collectCustomerPayment', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Payment Collected!'); e.target.reset(); loadDashboardData(); switchTab('customerDueView'); } }
 
     async function loadReport(t) {
       switchTab('reportsView');
-      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
+      const res = await fetch(${CONFIG.API_URL}?action=getDashboardData);
       const r = await res.json();
       const area = document.getElementById('reportContentArea');
       if (t === 'TRIAL_BALANCE') {
         reportTitle.innerText = 'Trial Balance Summary';
-        area.innerHTML = `<table class="w-full text-sm border"><tr class="bg-slate-100 font-bold"><th class="p-3">Particulars</th><th class="p-3 text-right">Debit (৳)</th><th class="p-3 text-right">Credit (৳)</th></tr><tr><td class="p-3">Total Income</td><td class="p-3 text-right">0.00</td><td class="p-3 text-right font-bold">${Number(r.data.totalIncome).toLocaleString()}</td></tr><tr><td class="p-3">Total Expense</td><td class="p-3 text-right font-bold">${Number(r.data.totalExpense).toLocaleString()}</td><td class="p-3 text-right">0.00</td></tr></table>`;
+        area.innerHTML = <table class="w-full text-sm border"><tr class="bg-slate-100 font-bold"><th class="p-3">Particulars</th><th class="p-3 text-right">Debit (৳)</th><th class="p-3 text-right">Credit (৳)</th></tr><tr><td class="p-3">Total Income</td><td class="p-3 text-right">0.00</td><td class="p-3 text-right font-bold">${Number(r.data.totalIncome).toLocaleString()}</td></tr><tr><td class="p-3">Total Expense</td><td class="p-3 text-right font-bold">${Number(r.data.totalExpense).toLocaleString()}</td><td class="p-3 text-right">0.00</td></tr></table>;
       } else if (t === 'PROFIT_LOSS') {
         reportTitle.innerText = 'Profit & Loss Statement';
-        area.innerHTML = `<div class="p-4 bg-slate-50 border rounded-xl space-y-2"><div class="flex justify-between font-bold"><span>Total Income</span><span class="text-emerald-600">৳ ${Number(r.data.totalIncome).toLocaleString()}</span></div><div class="flex justify-between font-bold"><span>Total Expenses</span><span class="text-rose-600">৳ ${Number(r.data.totalExpense).toLocaleString()}</span></div><div class="flex justify-between font-extrabold text-lg border-t pt-2"><span>Net Profit</span><span class="text-blue-600">৳ ${Number(r.data.netBalance).toLocaleString()}</span></div></div>`;
+        area.innerHTML = <div class="p-4 bg-slate-50 border rounded-xl space-y-2"><div class="flex justify-between font-bold"><span>Total Income</span><span class="text-emerald-600">৳ ${Number(r.data.totalIncome).toLocaleString()}</span></div><div class="flex justify-between font-bold"><span>Total Expenses</span><span class="text-rose-600">৳ ${Number(r.data.totalExpense).toLocaleString()}</span></div><div class="flex justify-between font-extrabold text-lg border-t pt-2"><span>Net Profit</span><span class="text-blue-600">৳ ${Number(r.data.netBalance).toLocaleString()}</span></div></div>;
       } else if (t === 'BALANCE_SHEET') {
         reportTitle.innerText = 'Balance Sheet Statement';
-        area.innerHTML = `<div class="grid grid-cols-2 gap-4"><div class="p-4 border rounded-xl"><h4 class="font-bold border-b pb-1">Assets</h4><p class="flex justify-between text-xs py-1"><span>Customer Due:</span><b>৳ ${Number(r.data.totalReceivable).toLocaleString()}</b></p></div><div class="p-4 border rounded-xl"><h4 class="font-bold border-b pb-1">Liabilities</h4><p class="flex justify-between text-xs py-1"><span>Supplier Due:</span><b>৳ ${Number(r.data.totalPayable).toLocaleString()}</b></p></div></div>`;
+        area.innerHTML = <div class="grid grid-cols-2 gap-4"><div class="p-4 border rounded-xl"><h4 class="font-bold border-b pb-1">Assets</h4><p class="flex justify-between text-xs py-1"><span>Customer Due:</span><b>৳ ${Number(r.data.totalReceivable).toLocaleString()}</b></p></div><div class="p-4 border rounded-xl"><h4 class="font-bold border-b pb-1">Liabilities</h4><p class="flex justify-between text-xs py-1"><span>Supplier Due:</span><b>৳ ${Number(r.data.totalPayable).toLocaleString()}</b></p></div></div>;
       }
     }
-
-    async function loadBranchesData() { const res = await fetch(`${CONFIG.API_URL}?action=getBranches`); const r = await res.json(); branchesContainer.innerHTML = r.data.map(b => `<div class="p-4 border rounded-xl bg-slate-50 flex justify-between items-center"><div><h4 class="font-bold text-slate-800 text-sm">${b.branch_name}</h4><p class="text-xs text-slate-500">${b.location}</p></div><span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded">${b.branch_id}</span></div>`).join(''); }
-    function toggleUserModal(s) { document.getElementById('userModal').classList.toggle('hidden', !s); }
-    async function loadUsersData() { const res = await fetch(`${CONFIG.API_URL}?action=getUsers`); const r = await res.json(); userTableBody.innerHTML = r.data.map(u => `<tr class="border-b"><td class="p-3 font-semibold text-sky-600">${u.user_id}</td><td class="p-3 font-bold">${u.name}</td><td class="p-3 text-slate-500">${u.email}</td><td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs font-bold rounded">${u.role}</span></td><td class="p-3 text-xs text-slate-500">${u.branch_id}</td></tr>`).join(''); }
-    async function handleAddUserSubmit(e) { e.preventDefault(); const p = { name: newUserName.value, email: newUserEmail.value, password: newUserPass.value, role: newUserRole.value, branch_id: newUserBranch.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addUser', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('User Created!'); toggleUserModal(false); loadUsersData(); } }
-    async function loadAuditData() { const res = await fetch(`${CONFIG.API_URL}?action=getAuditTrail`); const r = await res.json(); auditTableBody.innerHTML = r.data.map(a => `<tr class="border-b text-xs"><td class="p-3 text-slate-400">${new Date(a.date_time).toLocaleString()}</td><td class="p-3 font-bold">${a.action}</td><td class="p-3 text-blue-600">${a.entity_id}</td><td class="p-3">${a.performed_by}</td><td class="p-3">${a.details}</td></tr>`).join(''); }
-    async function loadSettingsData() { const res = await fetch(`${CONFIG.API_URL}?action=getSettings`); const r = await res.json(); setCompName.value = r.data.company_name; }
-    async function handleSaveSettings(e) { e.preventDefault(); const p = { company_name: setCompName.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', payload: p }) }); const r = await res.json(); if(r.status==='success') alert('Settings Saved!'); }
   </script>
 </body>
-</html>
+</html> 
