@@ -22,7 +22,7 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
 
-  <!-- 1. LOGIN SECTION -->
+  <!-- LOGIN SECTION -->
   <div id="loginSection" class="min-h-screen flex items-center justify-center p-4">
     <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
       <div class="text-center mb-8">
@@ -32,27 +32,25 @@
         <h2 class="text-2xl font-bold text-slate-900">Sign In to Accounts</h2>
         <p class="text-sm text-slate-500 mt-1">Multi-branch Enterprise Management ERP</p>
       </div>
-
       <div id="loginAlert" class="hidden mb-4 p-3 rounded-lg text-sm font-medium"></div>
-
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-5">
         <div>
           <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Email Address</label>
-          <input type="email" id="loginEmail" required placeholder="admin@system.com" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="email" id="loginEmail" required placeholder="admin@system.com" class="w-full px-4 py-2.5 bg-slate-50 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
         <div>
           <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Password</label>
-          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 bg-slate-50 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
         <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow-md transition-all">Sign In</button>
       </form>
     </div>
   </div>
 
-  <!-- 2. MAIN APP DASHBOARD -->
+  <!-- MAIN APP DASHBOARD -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- FULL ERP SIDEBAR -->
+    <!-- FULL ERP SIDEBAR (ALL 14 MODULES WORKING) -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -66,14 +64,14 @@
         </div>
 
         <nav class="p-3 space-y-1 text-sm">
+          <!-- 1. Dashboard -->
           <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium">
-            <i class="fa-solid fa-house w-5 text-blue-200"></i>
-            <span>Dashboard</span>
+            <i class="fa-solid fa-house w-5 text-blue-200"></i><span>Dashboard</span>
           </a>
 
-          <!-- Voucher Management -->
+          <!-- 2. Voucher Management -->
           <div>
-            <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-slate-400"></i><span>Voucher Management</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
@@ -87,9 +85,9 @@
             </div>
           </div>
 
-          <!-- Voucher Approval -->
+          <!-- 3. Voucher Approval -->
           <div>
-            <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-slate-400"></i><span>Voucher Approval</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
@@ -100,9 +98,9 @@
             </div>
           </div>
 
-          <!-- Income -->
+          <!-- 4. Income -->
           <div>
-            <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i><span>Income</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
@@ -112,9 +110,9 @@
             </div>
           </div>
 
-          <!-- Expense -->
+          <!-- 5. Expense -->
           <div>
-            <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i><span>Expense</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
@@ -124,9 +122,9 @@
             </div>
           </div>
 
-          <!-- Accounts / Ledger -->
+          <!-- 6. Accounts / Ledger -->
           <div>
-            <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i><span>Accounts / Ledger</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
@@ -141,9 +139,9 @@
             </div>
           </div>
 
-          <!-- Cash & Bank -->
+          <!-- 7. Cash & Bank -->
           <div>
-            <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-indigo-400"></i><span>Cash & Bank</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
@@ -158,9 +156,9 @@
             </div>
           </div>
 
-          <!-- Customer -->
+          <!-- 8. Customer -->
           <div>
-            <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
+            <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-users w-5 text-amber-400"></i><span>Customer</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
@@ -168,58 +166,63 @@
               <a href="#" onclick="switchTab('customerListView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-slate-200">Customer List</a>
               <a href="#" onclick="switchTab('customerDueView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Customer Due</a>
               <a href="#" onclick="switchTab('customerPaymentView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Customer Payment</a>
-              <a href="#" onclick="loadLedgersData('CUSTOMER', 'Customer Ledger Statement')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-blue-300">Customer Statement</a>
             </div>
           </div>
 
-          <!-- Remaining Module Placeholders -->
+          <!-- 9. Supplier (LIVE) -->
           <div>
-            <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-slate-400"></i><span>Supplier</span></div>
+            <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-teal-400"></i><span>Supplier</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuSupplier" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Supplier List</a>
+              <a href="#" onclick="switchTab('supplierListView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-slate-200">Supplier List</a>
+              <a href="#" onclick="switchTab('supplierDueView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-rose-300">Supplier Due</a>
+              <a href="#" onclick="switchTab('supplierPaymentView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Supplier Payment</a>
             </div>
           </div>
 
+          <!-- 10. Reports (LIVE) -->
           <div>
-            <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-slate-400"></i><span>Reports</span></div>
+            <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-cyan-400"></i><span>Reports</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuReports" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
+              <a href="#" onclick="loadReport('TRIAL_BALANCE')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Trial Balance</a>
+              <a href="#" onclick="loadReport('PROFIT_LOSS')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-emerald-300">Profit & Loss Statement</a>
+              <a href="#" onclick="loadReport('BALANCE_SHEET')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-indigo-300">Balance Sheet</a>
             </div>
           </div>
 
+          <!-- 11. Branch / Shop (LIVE) -->
           <div>
-            <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-store w-5 text-slate-400"></i><span>Branch / Shop</span></div>
+            <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-store w-5 text-purple-400"></i><span>Branch / Shop</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuBranch" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Head Office</a>
+              <a href="#" onclick="switchTab('branchView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800 text-purple-300">All Branches (Head + 15 Shops)</a>
             </div>
           </div>
 
+          <!-- 12. User Management (LIVE) -->
           <div>
-            <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-slate-400"></i><span>User Management</span></div>
+            <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-sky-400"></i><span>User Management</span></div>
               <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
             </button>
             <div id="menuUsers" class="hidden pl-9 pr-2 py-1 space-y-1 text-xs">
-              <a href="#" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users</a>
+              <a href="#" onclick="switchTab('userView')" class="block py-1.5 px-2 rounded hover:text-white hover:bg-slate-800">Users, Roles & Permissions</a>
             </div>
           </div>
 
-          <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-            <i class="fa-solid fa-file-shield w-5 text-slate-400"></i>
-            <span>Audit Trail</span>
+          <!-- 13. Audit Trail & 14. Settings (LIVE) -->
+          <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+            <i class="fa-solid fa-file-shield w-5 text-emerald-400"></i><span>Audit Trail</span>
           </a>
-          <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
-            <i class="fa-solid fa-sliders w-5 text-slate-400"></i>
-            <span>Settings</span>
+          <a href="#" onclick="switchTab('settingsView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
+            <i class="fa-solid fa-sliders w-5 text-rose-400"></i><span>Settings</span>
           </a>
         </nav>
       </div>
@@ -247,109 +250,161 @@
 
       <div class="p-6 space-y-6">
 
-        <!-- 1. Dashboard View -->
+        <!-- 1. DASHBOARD -->
         <div id="dashboardView" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
               <div><p class="text-xs font-semibold uppercase text-slate-400">Total Income</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashIncome">৳ 0.00</h3></div>
               <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-arrow-trend-up"></i></div>
             </div>
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
               <div><p class="text-xs font-semibold uppercase text-slate-400">Total Expense</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashExpense">৳ 0.00</h3></div>
               <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-arrow-trend-down"></i></div>
             </div>
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-              <div><p class="text-xs font-semibold uppercase text-slate-400">Total Receivable (Due)</p><h3 class="text-xl font-bold text-amber-600 mt-1" id="dashDue">৳ 0.00</h3></div>
+            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
+              <div><p class="text-xs font-semibold uppercase text-slate-400">Customer Due (Rec)</p><h3 class="text-xl font-bold text-amber-600 mt-1" id="dashDue">৳ 0.00</h3></div>
               <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-hand-holding-dollar"></i></div>
             </div>
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-              <div><p class="text-xs font-semibold uppercase text-slate-400">Bank Balance</p><h3 class="text-xl font-bold text-slate-800 mt-1" id="dashBank">৳ 0.00</h3></div>
-              <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg"><i class="fa-solid fa-building-columns"></i></div>
+            <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
+              <div><p class="text-xs font-semibold uppercase text-slate-400">Supplier Due (Payable)</p><h3 class="text-xl font-bold text-rose-600 mt-1" id="dashPayable">৳ 0.00</h3></div>
+              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-file-invoice-dollar"></i></div>
             </div>
           </div>
         </div>
 
-        <!-- 2. Customer Views -->
-        <div id="customerListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <div><h3 class="text-md font-bold text-slate-800">All Customers List</h3></div>
-            <button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-user-plus mr-1"></i> Add Customer</button>
+        <!-- 2. SUPPLIER MODULE -->
+        <div id="supplierListView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-md font-bold text-slate-800">All Registered Suppliers</h3>
+            <button onclick="toggleSupplierModal(true)" class="bg-teal-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-plus mr-1"></i> Add Supplier</button>
           </div>
-          <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Address</th><th class="p-3 text-rose-600">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table>
+          <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table>
         </div>
 
-        <div id="customerDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-md font-bold text-rose-600 mb-4">Outstanding Customer Due List</h3>
-          <table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table>
+        <div id="supplierDueView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <h3 class="text-md font-bold text-rose-600 mb-4">Outstanding Supplier Payables</h3>
+          <table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table>
         </div>
 
-        <div id="customerPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-emerald-600 mb-4">Customer Payment Collection</h3>
-          <form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl">
+        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Payment Settlement</h3>
+          <form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl">
             <div class="grid grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold mb-1">Customer</label><select id="cpCustomerSelect" required onchange="handleCustomerSelectChange()" class="w-full py-2.5 px-3 border rounded-lg text-sm"></select></div>
-              <div><label class="block text-xs font-semibold mb-1">Due</label><input type="text" id="cpCurrentDue" readonly class="w-full py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div>
+              <div><label class="block text-xs font-semibold mb-1">Select Supplier</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="w-full py-2.5 px-3 border rounded-lg text-sm"></select></div>
+              <div><label class="block text-xs font-semibold mb-1">Current Payable Due</label><input type="text" id="spCurrentDue" readonly class="w-full py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div>
             </div>
             <div class="grid grid-cols-3 gap-4">
-              <div><label class="block text-xs font-semibold mb-1">Amount</label><input type="number" step="0.01" id="cpAmount" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
-              <div><label class="block text-xs font-semibold mb-1">Account</label><select id="cpMethod" class="w-full py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand (প্রধান ক্যাশ)</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
-              <div><label class="block text-xs font-semibold mb-1">Date</label><input type="date" id="cpDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold mb-1">Payment Amount</label><input type="number" step="0.01" id="spAmount" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold mb-1">Account</label><select id="spMethod" class="w-full py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
+              <div><label class="block text-xs font-semibold mb-1">Date</label><input type="date" id="spDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm"></div>
             </div>
-            <textarea id="cpNarration" placeholder="Remarks" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea>
-            <button type="submit" id="cpBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Collection Record</button>
+            <textarea id="spNarration" placeholder="Payment remarks / Cheque details" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea>
+            <button type="submit" id="spBtn" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Post Supplier Payment</button>
           </form>
         </div>
 
-        <!-- 3. Cash & Bank Universal Entry View -->
-        <div id="cashBankFormView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold mb-4" id="cbFormTitle">Cash / Bank Transaction Entry</h3>
-          <form onsubmit="handleCashBankSubmit(event)" class="space-y-4 max-w-2xl">
+        <!-- 3. FINANCIAL REPORTS -->
+        <div id="reportsView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <div class="flex justify-between items-center mb-4 border-b pb-3">
+            <div><h3 class="text-lg font-bold text-slate-800" id="reportTitle">Financial Statement</h3><p class="text-xs text-slate-500">Real-time enterprise balance</p></div>
+            <button onclick="window.print()" class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-print mr-1"></i> Print</button>
+          </div>
+          <div id="reportContentArea"></div>
+        </div>
+
+        <!-- 4. BRANCH / SHOP -->
+        <div id="branchView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold text-slate-800">Multi-Branch Outlets Directory</h3><span class="text-xs px-2.5 py-1 bg-purple-100 text-purple-700 rounded-full font-bold">16 Operating Locations</span></div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="branchesContainer"></div>
+        </div>
+
+        <!-- 5. USER MANAGEMENT -->
+        <div id="userView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold text-slate-800">System Users & Roles</h3><button onclick="toggleUserModal(true)" class="bg-sky-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-user-plus mr-1"></i> Create User</button></div>
+          <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">User ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table>
+        </div>
+
+        <!-- 6. AUDIT TRAIL -->
+        <div id="auditView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <h3 class="text-md font-bold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-file-shield text-emerald-600 mr-2"></i> Audit Trail History</h3>
+          <table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Date Time</th><th class="p-3">Action</th><th class="p-3">Entity / ID</th><th class="p-3">Performed By</th><th class="p-3">Details</th></tr></thead><tbody id="auditTableBody"></tbody></table>
+        </div>
+
+        <!-- 7. SETTINGS -->
+        <div id="settingsView" class="hidden bg-white rounded-xl border p-6 shadow-sm">
+          <h3 class="text-lg font-bold text-slate-800 mb-4">Enterprise System Configuration</h3>
+          <form onsubmit="handleSaveSettings(event)" class="space-y-4 max-w-2xl">
             <div class="grid grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold mb-1">Type</label><input type="text" id="cbType" readonly class="w-full py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-indigo-700"></div>
-              <div><label class="block text-xs font-semibold mb-1">Account</label><select id="cbAccount" class="w-full py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand (প্রধান ক্যাশ)</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div>
+              <div><label class="block text-xs font-semibold mb-1">Company Name</label><input type="text" id="setCompName" required class="w-full py-2 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold mb-1">Trade / TIN No</label><input type="text" id="setTaxNo" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
             </div>
             <div class="grid grid-cols-2 gap-4">
-              <input type="number" step="0.01" id="cbAmount" required placeholder="Amount" class="w-full py-2.5 px-3 border rounded-lg text-sm">
-              <input type="date" id="cbDate" required class="w-full py-2.5 px-3 border rounded-lg text-sm">
+              <div><label class="block text-xs font-semibold mb-1">Fiscal Year</label><input type="text" id="setFiscal" required class="w-full py-2 px-3 border rounded-lg text-sm"></div>
+              <div><label class="block text-xs font-semibold mb-1">Currency Symbol</label><input type="text" id="setCurrency" required class="w-full py-2 px-3 border rounded-lg text-sm"></div>
             </div>
-            <textarea id="cbNarration" placeholder="Remarks" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea>
-            <button type="submit" id="cbBtn" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Submit Transaction</button>
+            <div><label class="block text-xs font-semibold mb-1">Office Address</label><textarea id="setAddress" rows="2" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea></div>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Configuration</button>
           </form>
         </div>
 
-        <div id="cashAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">Cash Account Summary</h3><button onclick="openCashBankForm('Cash Deposit')" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold">Deposit</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table></div>
-        <div id="bankAccountView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">Bank Accounts List</h3><button onclick="openCashBankForm('Bank Deposit')" class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold">Deposit</button></div><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table></div>
-        <div id="reconciliationView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-amber-600 mb-2">Bank Reconciliation</h3><div class="grid grid-cols-3 gap-4"><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Book Balance</p><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Bank Balance</p><h4 class="text-lg font-bold text-blue-600" id="recBankBal">৳ 0.00</h4></div><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Diff</p><h4 class="text-lg font-bold text-emerald-600">৳ 0.00</h4></div></div></div>
-
-        <!-- 4. Income & Expense Forms/Lists -->
-        <div id="incomeEntryView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Income Entry</h3><form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="incParty" required placeholder="Customer Name" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="incCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="incAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="incMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank</option></select><input type="date" id="incDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="incNarration" placeholder="Narration" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="incBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Income</button></form></div>
-        <div id="expenseEntryView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold text-rose-600 mb-4">Expense Entry</h3><form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="expParty" required placeholder="Supplier Name" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="expCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="expAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="expMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank</option></select><input type="date" id="expDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="expNarration" placeholder="Narration" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="expBtn" class="bg-rose-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Expense</button></form></div>
-        <div id="incomeListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Income List</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Customer</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div>
-        <div id="expenseListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Expense List</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Supplier</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
-
-        <!-- 5. Vouchers, Approvals & Ledgers -->
-        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="voucherFormTitle">Create Voucher</h3><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="vType" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment</option><option value="Receipt">Receipt</option><option value="Journal">Journal</option><option value="Contra">Contra</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" placeholder="Narration" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
-        <div id="voucherListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">All Vouchers</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div>
-        <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="approvalTitle">Approvals Queue</h3><div id="approvalsListContainer" class="space-y-4"></div></div>
-        <div id="ledgersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Reference</th><th class="p-3">Account Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div>
+        <!-- EXISTING CUSTOMER, CASH/BANK, VOUCHERS & LEDGERS VIEWS -->
+        <div id="customerListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div class="flex justify-between mb-4"><h3 class="text-md font-bold">Customers</h3><button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold">Add Customer</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table></div>
+        <div id="customerDueView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Customer Dues</h3><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div>
+        <div id="customerPaymentView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Customer Payment</h3><form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="cpCustomerSelect" required onchange="handleCustomerSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm"></select><input type="text" id="cpCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="cpAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><select id="cpMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select><input type="date" id="cpDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cpBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Collect</button></form></div>
+        <div id="cashBankFormView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-lg font-bold mb-4" id="cbFormTitle">Cash/Bank</h3><form onsubmit="handleCashBankSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="cbType" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-indigo-700"><select id="cbAccount" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="cbAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="cbDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cbBtn" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Submit</button></form></div>
+        <div id="cashAccountView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Account</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="cashTableBody"></tbody></table></div>
+        <div id="bankAccountView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div id="bankAccountsContainer" class="grid grid-cols-3 gap-4 mb-6"></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Bank Details</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="bankTableBody"></tbody></table></div>
+        <div id="reconciliationView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div class="grid grid-cols-3 gap-4"><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Book Balance</p><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Bank Balance</p><h4 class="text-lg font-bold text-blue-600" id="recBankBal">৳ 0.00</h4></div></div></div>
+        <div id="incomeEntryView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="incParty" required placeholder="Customer" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="incCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="incAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><select id="incMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank</option></select><input type="date" id="incDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="incBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Income</button></form></div>
+        <div id="expenseEntryView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="expParty" required placeholder="Supplier" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="expCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="expAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><select id="expMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank</option></select><input type="date" id="expDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="expBtn" class="bg-rose-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Expense</button></form></div>
+        <div id="incomeListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="incomeTableBody"></tbody></table></div>
+        <div id="expenseListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Party</th><th class="p-3">Category</th><th class="p-3">Method</th><th class="p-3">Amount</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
+        <div id="vouchersView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="vType" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment</option><option value="Receipt">Receipt</option><option value="Journal">Journal</option><option value="Contra">Contra</option></select><input type="text" id="vAccount" required placeholder="Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
+        <div id="voucherListView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Amount</th><th class="p-3">Status</th></tr></thead><tbody id="voucherTableBody"></tbody></table></div>
+        <div id="approvalsView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><div id="approvalsListContainer" class="space-y-4"></div></div>
+        <div id="ledgersView" class="hidden bg-white rounded-xl border p-6 shadow-sm"><h3 class="text-md font-bold mb-4" id="ledgerTitleDisplay">General Ledger</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Ref</th><th class="p-3">Head</th><th class="p-3 text-rose-600">Debit</th><th class="p-3 text-emerald-600">Credit</th></tr></thead><tbody id="ledgerTableBody"></tbody></table></div>
 
       </div>
     </main>
   </div>
 
-  <!-- CUSTOMER MODAL -->
+  <!-- MODALS -->
   <div id="customerModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
     <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
-      <div class="flex justify-between items-center mb-4 pb-2 border-b">
-        <h3 class="font-bold text-slate-800">Add New Customer</h3>
-        <button onclick="toggleCustomerModal(false)" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
-      </div>
+      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Customer</h3>
       <form onsubmit="handleAddCustomerSubmit(event)" class="space-y-4">
-        <div><label class="block text-xs font-semibold mb-1">Customer Name *</label><input type="text" id="newCustName" required class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Phone Number</label><input type="text" id="newCustPhone" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Address</label><input type="text" id="newCustAddress" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <div><label class="block text-xs font-semibold mb-1">Opening Due (BDT)</label><input type="number" step="0.01" id="newCustDue" value="0" class="w-full py-2 px-3 border rounded-lg text-sm"></div>
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg text-sm">Register Customer</button>
+        <input type="text" id="newCustName" required placeholder="Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newCustPhone" placeholder="Phone" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newCustAddress" placeholder="Address" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="number" step="0.01" id="newCustDue" value="0" placeholder="Opening Due" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <div class="flex justify-end space-x-2"><button type="button" onclick="toggleCustomerModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Save</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="supplierModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Supplier</h3>
+      <form onsubmit="handleAddSupplierSubmit(event)" class="space-y-4">
+        <input type="text" id="newSuppName" required placeholder="Supplier Contact Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppCompany" required placeholder="Company / Vendor Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppPhone" placeholder="Phone" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="number" step="0.01" id="newSuppDue" value="0" placeholder="Opening Payable Due" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <div class="flex justify-end space-x-2"><button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm">Save Supplier</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="userModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Create System User</h3>
+      <form onsubmit="handleAddUserSubmit(event)" class="space-y-4">
+        <input type="text" id="newUserName" required placeholder="Full Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="email" id="newUserEmail" required placeholder="Email Address" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="password" id="newUserPass" required placeholder="Password" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <select id="newUserRole" class="w-full py-2 px-3 border rounded-lg text-sm"><option value="ADMIN">ADMIN</option><option value="GM">GM (General Manager)</option><option value="MD">MD / CEO</option><option value="ACCOUNTS">ACCOUNTS EXECUTIVE</option><option value="BRANCH_MANAGER">BRANCH MANAGER</option></select>
+        <select id="newUserBranch" class="w-full py-2 px-3 border rounded-lg text-sm"><option value="HEAD_OFFICE">HEAD_OFFICE</option><option value="SHOP_01">SHOP_01</option><option value="SHOP_02">SHOP_02</option></select>
+        <div class="flex justify-end space-x-2"><button type="button" onclick="toggleUserModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-sky-600 text-white px-4 py-2 rounded-lg text-sm">Create</button></div>
       </form>
     </div>
   </div>
@@ -358,12 +413,12 @@
   <script>
     const CONFIG = { API_URL: "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec" };
     let currentApprovalStatus = 'PENDING_GM';
-    let globalCustomers = [];
+    let globalSuppliers = [], globalCustomers = [];
 
     document.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('auth_token');
       if (token) { showDashboardUI(); loadDashboardData(); } else { showLoginUI(); }
-      ['incDate', 'expDate', 'vDate', 'cbDate', 'cpDate'].forEach(id => {
+      ['incDate', 'expDate', 'vDate', 'cbDate', 'cpDate', 'spDate'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = new Date().toISOString().split('T')[0];
       });
@@ -381,7 +436,7 @@
     function toggleSubMenu(id) { const el = document.getElementById(id); if (el) el.classList.toggle('hidden'); }
 
     function switchTab(tab) {
-      const allTabs = ['dashboard', 'incomeEntry', 'expenseEntry', 'incomeList', 'expenseList', 'vouchers', 'voucherList', 'approvals', 'ledgers', 'cashBankFormView', 'cashAccountView', 'bankAccountView', 'reconciliationView', 'customerListView', 'customerDueView', 'customerPaymentView'];
+      const allTabs = ['dashboard', 'incomeEntry', 'expenseEntry', 'incomeList', 'expenseList', 'vouchers', 'voucherList', 'approvals', 'ledgers', 'cashBankFormView', 'cashAccountView', 'bankAccountView', 'reconciliationView', 'customerListView', 'customerDueView', 'customerPaymentView', 'supplierListView', 'supplierDueView', 'supplierPaymentView', 'reportsView', 'branchView', 'userView', 'auditView', 'settingsView'];
       allTabs.forEach(t => {
         const v = document.getElementById(t.includes('View') ? t : `${t}View`);
         if (v) v.classList.add('hidden');
@@ -390,87 +445,158 @@
       if (target) target.classList.remove('hidden');
 
       if (tab === 'dashboard') loadDashboardData();
-      if (tab === 'incomeList') loadIncomeList();
-      if (tab === 'expenseList') loadExpenseList();
-      if (tab === 'voucherList') loadVouchersList();
-      if (tab === 'cashAccountView') loadCashLedger();
-      if (tab === 'bankAccountView') loadBankAccounts();
-      if (tab === 'reconciliationView') loadReconciliation();
-      if (tab === 'customerListView' || tab === 'customerDueView' || tab === 'customerPaymentView') loadCustomersData();
-      if (tab === 'ledgers') loadLedgersData('GENERAL', 'General Ledger Statement');
+      if (tab === 'supplierListView' || tab === 'supplierDueView' || tab === 'supplierPaymentView') loadSuppliersData();
+      if (tab === 'branchView') loadBranchesData();
+      if (tab === 'userView') loadUsersData();
+      if (tab === 'auditView') loadAuditData();
+      if (tab === 'settingsView') loadSettingsData();
+      if (tab === 'customerListView' || tab === 'customerDueView') loadCustomersData();
     }
 
-    function toggleCustomerModal(show) { document.getElementById('customerModal').classList.toggle('hidden', !show); }
+    // SUPPLIER ACTIONS
+    function toggleSupplierModal(show) { document.getElementById('supplierModal').classList.toggle('hidden', !show); }
+    async function loadSuppliersData() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getSuppliers`);
+      const result = await res.json();
+      if (result.status === 'success') {
+        globalSuppliers = result.data;
+        supplierTableBody.innerHTML = globalSuppliers.map(s => `<tr class="border-b"><td class="p-3 font-semibold text-teal-600">${s.supplier_id}</td><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.company}</td><td class="p-3 text-slate-500">${s.phone}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(s.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificSupplier('${s.supplier_id}')" class="bg-teal-50 text-teal-600 font-bold text-xs px-2.5 py-1 rounded">Pay</button></td></tr>`).join('');
+        const dueList = globalSuppliers.filter(s => Number(s.due_amount) > 0);
+        supplierDueTableBody.innerHTML = dueList.length > 0 ? dueList.map(s => `<tr class="border-b"><td class="p-3 font-semibold">${s.supplier_id}</td><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.company}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(s.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificSupplier('${s.supplier_id}')" class="bg-rose-600 text-white font-bold text-xs px-3 py-1 rounded">Clear Due</button></td></tr>`).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">No pending supplier dues.</td></tr>`;
+        spSupplierSelect.innerHTML = `<option value="">-- Choose Supplier --</option>` + globalSuppliers.map(s => `<option value="${s.supplier_id}" data-due="${s.due_amount}" data-name="${s.name}">${s.name} (${s.company})</option>`).join('');
+      }
+    }
+    function handleSupplierSelectChange() {
+      const selected = spSupplierSelect.options[spSupplierSelect.selectedIndex];
+      spCurrentDue.value = `৳ ${Number(selected.getAttribute('data-due') || '0').toLocaleString()}`;
+    }
+    function paySpecificSupplier(id) { switchTab('supplierPaymentView'); spSupplierSelect.value = id; handleSupplierSelectChange(); }
+    async function handleAddSupplierSubmit(e) {
+      e.preventDefault();
+      const p = { name: newSuppName.value, company: newSuppCompany.value, phone: newSuppPhone.value, due_amount: Number(newSuppDue.value)||0 };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addSupplier', payload: p }) });
+      const r = await res.json();
+      if (r.status==='success') { alert('Supplier Added!'); toggleSupplierModal(false); loadSuppliersData(); loadDashboardData(); }
+    }
+    async function handleSupplierPaymentSubmit(e) {
+      e.preventDefault();
+      const selected = spSupplierSelect.options[spSupplierSelect.selectedIndex];
+      spBtn.disabled = true;
+      const p = { supplier_id: spSupplierSelect.value, supplier_name: selected.getAttribute('data-name'), amount: Number(spAmount.value), method: spMethod.value, date: spDate.value, narration: spNarration.value };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'paySupplier', payload: p }) });
+      const r = await res.json();
+      if (r.status==='success') { alert('Supplier Payment Settled!'); e.target.reset(); loadDashboardData(); switchTab('supplierDueView'); }
+      spBtn.disabled = false;
+    }
 
+    // REPORTS GENERATOR
+    async function loadReport(reportType) {
+      switchTab('reportsView');
+      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
+      const r = await res.json();
+      const area = document.getElementById('reportContentArea');
+      if (reportType === 'TRIAL_BALANCE') {
+        reportTitle.innerText = 'Trial Balance Summary';
+        area.innerHTML = `<table class="w-full text-sm border"><tr class="bg-slate-100 font-bold"><th class="p-3">Particulars</th><th class="p-3 text-right">Debit (৳)</th><th class="p-3 text-right">Credit (৳)</th></tr><tr><td class="p-3">Total Income Accounts</td><td class="p-3 text-right">0.00</td><td class="p-3 text-right font-bold">${Number(r.data.totalIncome).toLocaleString()}</td></tr><tr><td class="p-3">Total Expense Accounts</td><td class="p-3 text-right font-bold">${Number(r.data.totalExpense).toLocaleString()}</td><td class="p-3 text-right">0.00</td></tr><tr><td class="p-3">Cash & Bank Accounts</td><td class="p-3 text-right font-bold">${Number(r.data.cashBalance + r.data.bankBalance).toLocaleString()}</td><td class="p-3 text-right">0.00</td></tr></table>`;
+      } else if (reportType === 'PROFIT_LOSS') {
+        reportTitle.innerText = 'Profit & Loss Statement';
+        area.innerHTML = `<div class="p-4 bg-slate-50 border rounded-xl space-y-2"><div class="flex justify-between font-bold"><span>Total Operational Revenue</span><span class="text-emerald-600">৳ ${Number(r.data.totalIncome).toLocaleString()}</span></div><div class="flex justify-between font-bold"><span>Less: Operating Expenses</span><span class="text-rose-600">৳ ${Number(r.data.totalExpense).toLocaleString()}</span></div><div class="flex justify-between font-extrabold text-lg border-t pt-2"><span>Net Profit / (Loss)</span><span class="text-blue-600">৳ ${Number(r.data.netBalance).toLocaleString()}</span></div></div>`;
+      } else if (reportType === 'BALANCE_SHEET') {
+        reportTitle.innerText = 'Balance Sheet Statement';
+        area.innerHTML = `<div class="grid grid-cols-2 gap-4"><div class="p-4 border rounded-xl"><h4 class="font-bold text-slate-800 mb-2 border-b pb-1">Assets</h4><p class="flex justify-between text-xs py-1"><span>Cash in Hand & Banks:</span><b>৳ ${Number(r.data.cashBalance + r.data.bankBalance).toLocaleString()}</b></p><p class="flex justify-between text-xs py-1"><span>Accounts Receivable (Customer Due):</span><b>৳ ${Number(r.data.totalReceivable).toLocaleString()}</b></p></div><div class="p-4 border rounded-xl"><h4 class="font-bold text-slate-800 mb-2 border-b pb-1">Liabilities & Equity</h4><p class="flex justify-between text-xs py-1"><span>Accounts Payable (Supplier Due):</span><b>৳ ${Number(r.data.totalPayable).toLocaleString()}</b></p><p class="flex justify-between text-xs py-1"><span>Retained Earnings:</span><b>৳ ${Number(r.data.netBalance).toLocaleString()}</b></p></div></div>`;
+      }
+    }
+
+    // BRANCHES, USERS, AUDIT, SETTINGS
+    async function loadBranchesData() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getBranches`);
+      const r = await res.json();
+      branchesContainer.innerHTML = r.data.map(b => `<div class="p-4 border rounded-xl bg-slate-50 flex justify-between items-center"><div><h4 class="font-bold text-slate-800 text-sm">${b.branch_name}</h4><p class="text-xs text-slate-500">${b.location}</p></div><span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded">${b.branch_id}</span></div>`).join('');
+    }
+    function toggleUserModal(show) { document.getElementById('userModal').classList.toggle('hidden', !show); }
+    async function loadUsersData() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getUsers`);
+      const r = await res.json();
+      userTableBody.innerHTML = r.data.map(u => `<tr class="border-b"><td class="p-3 font-semibold text-sky-600">${u.user_id}</td><td class="p-3 font-bold">${u.name}</td><td class="p-3 text-slate-500">${u.email}</td><td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs font-bold rounded">${u.role}</span></td><td class="p-3 text-xs text-slate-500">${u.branch_id}</td></tr>`).join('');
+    }
+    async function handleAddUserSubmit(e) {
+      e.preventDefault();
+      const p = { name: newUserName.value, email: newUserEmail.value, password: newUserPass.value, role: newUserRole.value, branch_id: newUserBranch.value };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addUser', payload: p }) });
+      const r = await res.json();
+      if(r.status==='success') { alert('User Created!'); toggleUserModal(false); loadUsersData(); }
+    }
+    async function loadAuditData() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getAuditTrail`);
+      const r = await res.json();
+      auditTableBody.innerHTML = r.data.map(a => `<tr class="border-b text-xs"><td class="p-3 text-slate-400">${new Date(a.date_time).toLocaleString()}</td><td class="p-3 font-bold text-slate-700">${a.action}</td><td class="p-3 font-mono text-blue-600">${a.entity_id}</td><td class="p-3 font-semibold text-slate-800">${a.performed_by}</td><td class="p-3 text-slate-500">${a.details}</td></tr>`).join('');
+    }
+    async function loadSettingsData() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getSettings`);
+      const r = await res.json();
+      setCompName.value = r.data.company_name;
+      setTaxNo.value = r.data.tax_no;
+      setFiscal.value = r.data.fiscal_year;
+      setCurrency.value = r.data.currency;
+      setAddress.value = r.data.address;
+    }
+    async function handleSaveSettings(e) {
+      e.preventDefault();
+      const p = { company_name: setCompName.value, tax_no: setTaxNo.value, fiscal_year: setFiscal.value, currency: setCurrency.value, address: setAddress.value };
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', payload: p }) });
+      const r = await res.json();
+      if(r.status==='success') alert('Configuration Updated!');
+    }
+
+    // DASHBOARD & COMMON ENGINES
+    async function loadDashboardData() {
+      const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
+      const r = await res.json();
+      if (r.status === 'success') {
+        dashIncome.innerText = `৳ ${r.data.totalIncome.toLocaleString()}`;
+        dashExpense.innerText = `৳ ${r.data.totalExpense.toLocaleString()}`;
+        dashDue.innerText = `৳ ${(r.data.totalReceivable||0).toLocaleString()}`;
+        dashPayable.innerText = `৳ ${(r.data.totalPayable||0).toLocaleString()}`;
+        dashBank.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`;
+      }
+    }
+    async function handleLogin(e) {
+      e.preventDefault();
+      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: loginEmail.value, password: loginPassword.value }) });
+      const d = await res.json();
+      if (d.status === 'success') { localStorage.setItem('auth_token', d.token); localStorage.setItem('user_data', JSON.stringify(d.user)); showDashboardUI(); loadDashboardData(); } else { alert(d.message); }
+    }
+    function handleLogout() { localStorage.clear(); showLoginUI(); }
+
+    function toggleCustomerModal(s) { document.getElementById('customerModal').classList.toggle('hidden', !s); }
     async function loadCustomersData() {
       const res = await fetch(`${CONFIG.API_URL}?action=getCustomers`);
-      const result = await res.json();
-      if (result.status === 'success') {
-        globalCustomers = result.data;
-        customerTableBody.innerHTML = globalCustomers.map(c => `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold text-blue-600">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3 text-slate-500">${c.phone || '-'}</td><td class="p-3 text-slate-500">${c.address || '-'}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-semibold text-xs px-2.5 py-1 rounded">Collect</button></td></tr>`).join('');
+      const r = await res.json();
+      if(r.status==='success') {
+        globalCustomers = r.data;
+        customerTableBody.innerHTML = globalCustomers.map(c => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3">${c.phone}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-emerald-50 text-emerald-600 px-2 py-1 rounded text-xs font-bold">Collect</button></td></tr>`).join('');
         const dueList = globalCustomers.filter(c => Number(c.due_amount) > 0);
-        customerDueTableBody.innerHTML = dueList.length > 0 ? dueList.map(c => `<tr class="border-b"><td class="p-3 font-semibold">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3">${c.phone || '-'}</td><td class="p-3 font-extrabold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-rose-600 text-white font-semibold text-xs px-3 py-1 rounded">Pay Due</button></td></tr>`).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">No outstanding customer dues found.</td></tr>`;
-        cpCustomerSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `<option value="${c.customer_id}" data-due="${c.due_amount}" data-name="${c.name}">${c.name} (${c.customer_id})</option>`).join('');
+        customerDueTableBody.innerHTML = dueList.map(c => `<tr class="border-b"><td class="p-3 font-semibold">${c.customer_id}</td><td class="p-3 font-bold">${c.name}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(c.due_amount).toLocaleString()}</td><td class="p-3 text-right"><button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-rose-600 text-white px-2 py-1 rounded text-xs font-bold">Pay Due</button></td></tr>`).join('');
+        cpCustomerSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `<option value="${c.customer_id}" data-due="${c.due_amount}" data-name="${c.name}">${c.name}</option>`).join('');
       }
     }
+    function handleCustomerSelectChange() { const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; cpCurrentDue.value = `৳ ${Number(s.getAttribute('data-due') || '0').toLocaleString()}`; }
+    function paySpecificCustomer(id) { switchTab('customerPaymentView'); cpCustomerSelect.value = id; handleCustomerSelectChange(); }
+    async function handleAddCustomerSubmit(e) { e.preventDefault(); const p = { name: newCustName.value, phone: newCustPhone.value, address: newCustAddress.value, due_amount: Number(newCustDue.value)||0 }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Customer Added!'); toggleCustomerModal(false); loadCustomersData(); loadDashboardData(); } }
+    async function handleCustomerPaymentSubmit(e) { e.preventDefault(); const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; cpBtn.disabled = true; const p = { customer_id: cpCustomerSelect.value, customer_name: s.getAttribute('data-name'), amount: Number(cpAmount.value), method: cpMethod.value, date: cpDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'collectCustomerPayment', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Payment Collected!'); e.target.reset(); loadDashboardData(); switchTab('customerDueView'); } cpBtn.disabled = false; }
 
-    function handleCustomerSelectChange() {
-      const selected = cpCustomerSelect.options[cpCustomerSelect.selectedIndex];
-      cpCurrentDue.value = `৳ ${Number(selected.getAttribute('data-due') || '0').toLocaleString()}`;
-    }
-
-    function paySpecificCustomer(custId) {
-      switchTab('customerPaymentView');
-      cpCustomerSelect.value = custId;
-      handleCustomerSelectChange();
-    }
-
-    async function handleAddCustomerSubmit(e) {
-      e.preventDefault();
-      const payload = { name: newCustName.value, phone: newCustPhone.value, address: newCustAddress.value, due_amount: Number(newCustDue.value) || 0 };
-      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: payload }) });
-      const result = await res.json();
-      if (result.status === 'success') {
-        alert('Customer Registered Successfully!');
-        toggleCustomerModal(false);
-        e.target.reset();
-        loadCustomersData();
-        loadDashboardData();
-      }
-    }
-
-    async function handleCustomerPaymentSubmit(e) {
-      e.preventDefault();
-      const selected = cpCustomerSelect.options[cpCustomerSelect.selectedIndex];
-      if (!cpCustomerSelect.value) { alert('Please select customer'); return; }
-      cpBtn.disabled = true;
-      const payload = { customer_id: cpCustomerSelect.value, customer_name: selected.getAttribute('data-name'), amount: Number(cpAmount.value), method: cpMethod.value, date: cpDate.value, narration: cpNarration.value };
-      const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'collectCustomerPayment', payload: payload }) });
-      const result = await res.json();
-      if (result.status === 'success') {
-        alert('Payment Collected & Due Updated!');
-        e.target.reset();
-        loadDashboardData();
-        switchTab('customerDueView');
-      }
-      cpBtn.disabled = false;
-    }
-
-    function openCashBankForm(txnType) { switchTab('cashBankFormView'); cbType.value = txnType; cbFormTitle.innerText = `${txnType} Entry`; cbFormBadge.innerText = txnType; }
-    async function handleCashBankSubmit(e) { e.preventDefault(); cbBtn.disabled = true; const p = { type: cbType.value, account: cbAccount.value, amount: cbAmount.value, date: cbDate.value, narration: cbNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createCashBankTxn', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert(`${p.type} Recorded!`); e.target.reset(); loadDashboardData(); switchTab(p.type.includes('Cash') ? 'cashAccountView' : 'bankAccountView'); } cbBtn.disabled = false; }
+    function openCashBankForm(t) { switchTab('cashBankFormView'); cbType.value = t; cbFormTitle.innerText = `${t} Entry`; }
+    async function handleCashBankSubmit(e) { e.preventDefault(); cbBtn.disabled = true; const p = { type: cbType.value, account: cbAccount.value, amount: cbAmount.value, date: cbDate.value, narration: cbNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createCashBankTxn', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Recorded!'); e.target.reset(); loadDashboardData(); switchTab(p.type.includes('Cash') ? 'cashAccountView' : 'bankAccountView'); } cbBtn.disabled = false; }
     async function loadCashLedger() { const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=CASH`); const r = await res.json(); cashTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join(''); }
     async function loadBankAccounts() { const res = await fetch(`${CONFIG.API_URL}?action=getBankAccounts`); const r = await res.json(); bankAccountsContainer.innerHTML = r.data.map(b => `<div class="p-4 bg-slate-50 border rounded-xl flex justify-between"><div><h4 class="font-bold text-slate-800">${b.bank_name}</h4><p class="text-xs text-slate-500">A/C: ${b.account_no}</p></div><span class="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">Active</span></div>`).join(''); const resTxn = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=BANK`); const rTxn = await resTxn.json(); bankTableBody.innerHTML = rTxn.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.date}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join(''); }
     async function loadReconciliation() { const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`); const r = await res.json(); if(r.status==='success') { recBookBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; recBankBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; } }
-    async function loadDashboardData() { const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`); const r = await res.json(); if(r.status==='success') { dashIncome.innerText = `৳ ${r.data.totalIncome.toLocaleString()}`; dashExpense.innerText = `৳ ${r.data.totalExpense.toLocaleString()}`; dashDue.innerText = `৳ ${(r.data.totalReceivable||0).toLocaleString()}`; dashBank.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; } }
-    async function handleLogin(e) { e.preventDefault(); const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: loginEmail.value, password: loginPassword.value }) }); const data = await res.json(); if(data.status==='success') { localStorage.setItem('auth_token', data.token); localStorage.setItem('user_data', JSON.stringify(data.user)); showDashboardUI(); loadDashboardData(); } else { alert(data.message); } }
-    function handleLogout() { localStorage.clear(); showLoginUI(); }
-    async function handleIncomeSubmit(e) { e.preventDefault(); incBtn.disabled = true; const p = { party: incParty.value, category: incCategory.value, amount: incAmount.value, method: incMethod.value, date: incDate.value, narration: incNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Saved!'); e.target.reset(); switchTab('incomeList'); } incBtn.disabled = false; }
-    async function handleExpenseSubmit(e) { e.preventDefault(); expBtn.disabled = true; const p = { party: expParty.value, category: expCategory.value, amount: expAmount.value, method: expMethod.value, date: expDate.value, narration: expNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Saved!'); e.target.reset(); switchTab('expenseList'); } expBtn.disabled = false; }
-    async function loadIncomeList() { const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`); const r = await res.json(); incomeTableBody.innerHTML = r.data.map(i => `<tr class="border-b"><td class="p-3 font-bold text-blue-600">${i.id}</td><td class="p-3">${i.date}</td><td class="p-3">${i.party}</td><td class="p-3">${i.category}</td><td class="p-3">${i.method}</td><td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td></tr>`).join(''); }
-    async function loadExpenseList() { const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`); const r = await res.json(); expenseTableBody.innerHTML = r.data.map(x => `<tr class="border-b"><td class="p-3 font-bold text-rose-600">${x.id}</td><td class="p-3">${x.date}</td><td class="p-3">${x.party}</td><td class="p-3">${x.category}</td><td class="p-3">${x.method}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td></tr>`).join(''); }
-    function openVoucherForm(type) { switchTab('vouchers'); vType.value = type !== 'ALL' ? type : 'Payment'; }
-    async function handleVoucherSubmit(e) { e.preventDefault(); const p = { type: vType.value, account_head: vAccount.value, amount: vAmount.value, date: vDate.value, narration: vNarration.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createVoucher', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Voucher Created!'); e.target.reset(); switchTab('voucherList'); } }
-    async function loadVouchersList() { const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=ALL`); const r = await res.json(); voucherTableBody.innerHTML = r.data.map(v => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td><td class="p-3">${v.date}</td><td class="p-3">${v.type}</td><td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td><td class="p-3">${v.status}</td><td class="p-3 text-right"><button onclick="printVoucher('${v.voucher_id}','${v.date}','${v.type}','${v.amount}','${v.account_head}')" class="text-blue-600">Print</button></td></tr>`).join(''); }
+    async function handleIncomeSubmit(e) { e.preventDefault(); incBtn.disabled = true; const p = { party: incParty.value, category: incCategory.value, amount: incAmount.value, method: incMethod.value, date: incDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Saved!'); e.target.reset(); switchTab('incomeList'); } incBtn.disabled = false; }
+    async function handleExpenseSubmit(e) { e.preventDefault(); expBtn.disabled = true; const p = { party: expParty.value, category: expCategory.value, amount: expAmount.value, method: expMethod.value, date: expDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Saved!'); e.target.reset(); switchTab('expenseList'); } expBtn.disabled = false; }
+    async function loadIncomeList() { const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`); const r = await res.json(); incomeTableBody.innerHTML = r.data.map(i => `<tr class="border-b"><td class="p-3 font-bold text-blue-600">${i.id}</td><td class="p-3">${i.date}</td><td class="p-3">${i.party}</td><td class="p-3">${i.category}</td><td class="p-3 font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td></tr>`).join(''); }
+    async function loadExpenseList() { const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`); const r = await res.json(); expenseTableBody.innerHTML = r.data.map(x => `<tr class="border-b"><td class="p-3 font-bold text-rose-600">${x.id}</td><td class="p-3">${x.date}</td><td class="p-3">${x.party}</td><td class="p-3">${x.category}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td></tr>`).join(''); }
+    function openVoucherForm(t) { switchTab('vouchers'); vType.value = t!=='ALL'?t:'Payment'; }
+    async function handleVoucherSubmit(e) { e.preventDefault(); const p = { type: vType.value, account_head: vAccount.value, amount: vAmount.value, date: vDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createVoucher', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Voucher Created!'); e.target.reset(); switchTab('voucherList'); } }
+    async function loadVouchersList() { const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=ALL`); const r = await res.json(); voucherTableBody.innerHTML = r.data.map(v => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td><td class="p-3">${v.date}</td><td class="p-3">${v.type}</td><td class="p-3 font-bold">৳ ${Number(v.amount).toLocaleString()}</td><td class="p-3">${v.status}</td></tr>`).join(''); }
     async function loadApprovalStep(status) { currentApprovalStatus = status; switchTab('approvals'); const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${status}`); const r = await res.json(); approvalsListContainer.innerHTML = r.data.map(v => `<div class="p-4 border rounded-xl flex justify-between"><div><span class="font-bold text-blue-600">${v.voucher_id}</span><p class="text-sm font-bold">${v.account_head} - ৳ ${Number(v.amount).toLocaleString()}</p></div><div><button onclick="processApproval('${v.voucher_id}','APPROVE')" class="bg-blue-600 text-white px-3 py-1 rounded">Approve</button></div></div>`).join(''); }
     async function processApproval(id, d) { const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'processApproval', voucherId: id, decision: d, remarks: 'OK' }) }); loadApprovalStep(currentApprovalStatus); }
     async function loadLedgersData(t, title) { switchTab('ledgers'); ledgerTitleDisplay.innerText = title; const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=${t}`); const r = await res.json(); ledgerTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3">${l.account_head}</td><td class="p-3 font-bold text-rose-600">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 font-bold text-emerald-600">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join(''); }
