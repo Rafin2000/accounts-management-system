@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accounts Management System</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
@@ -64,7 +62,7 @@
   <!-- 2. MAIN APP DASHBOARD -->
   <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
 
-    <!-- FULL ERP SIDEBAR -->
+    <!-- SIDEBAR -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex h-screen sticky top-0">
       <div class="overflow-y-auto">
         <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -78,12 +76,11 @@
         </div>
 
         <nav class="p-3 space-y-1 text-sm">
-          <!-- 1. Dashboard -->
           <a href="#" onclick="switchTab('dashboard')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-white bg-blue-600 font-medium">
             <i class="fa-solid fa-house w-5 text-blue-200"></i><span>Dashboard</span>
           </a>
 
-          <!-- 2. Voucher Management -->
+          <!-- Voucher Management -->
           <div>
             <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-slate-400"></i><span>Voucher Management</span></div>
@@ -99,7 +96,7 @@
             </div>
           </div>
 
-          <!-- 3. Voucher Approval -->
+          <!-- Voucher Approval -->
           <div>
             <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-slate-400"></i><span>Voucher Approval</span></div>
@@ -112,7 +109,7 @@
             </div>
           </div>
 
-          <!-- 4. Income -->
+          <!-- Income -->
           <div>
             <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i><span>Income</span></div>
@@ -124,7 +121,7 @@
             </div>
           </div>
 
-          <!-- 5. Expense -->
+          <!-- Expense -->
           <div>
             <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i><span>Expense</span></div>
@@ -136,7 +133,7 @@
             </div>
           </div>
 
-          <!-- 6. Accounts / Ledger -->
+          <!-- Accounts / Ledger -->
           <div>
             <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-slate-400"></i><span>Accounts / Ledger</span></div>
@@ -153,7 +150,7 @@
             </div>
           </div>
 
-          <!-- 7. Cash & Bank -->
+          <!-- Cash & Bank -->
           <div>
             <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-indigo-400"></i><span>Cash & Bank</span></div>
@@ -170,7 +167,7 @@
             </div>
           </div>
 
-          <!-- 8. Customer -->
+          <!-- Customer -->
           <div>
             <button onclick="toggleSubMenu('menuCustomer')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-users w-5 text-amber-400"></i><span>Customer</span></div>
@@ -183,7 +180,7 @@
             </div>
           </div>
 
-          <!-- 9. Supplier (WITH PURCHASE ENTRY) -->
+          <!-- Supplier -->
           <div>
             <button onclick="toggleSubMenu('menuSupplier')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-teal-400"></i><span>Supplier</span></div>
@@ -198,7 +195,7 @@
             </div>
           </div>
 
-          <!-- 10. Reports -->
+          <!-- Reports -->
           <div>
             <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-cyan-400"></i><span>Reports</span></div>
@@ -211,7 +208,7 @@
             </div>
           </div>
 
-          <!-- 11. Branch / Shop -->
+          <!-- Branch -->
           <div>
             <button onclick="toggleSubMenu('menuBranch')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-store w-5 text-purple-400"></i><span>Branch / Shop</span></div>
@@ -222,7 +219,7 @@
             </div>
           </div>
 
-          <!-- 12. User Management -->
+          <!-- User Management -->
           <div>
             <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all">
               <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-sky-400"></i><span>User Management</span></div>
@@ -233,7 +230,6 @@
             </div>
           </div>
 
-          <!-- 13. Audit Trail & 14. Settings -->
           <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white">
             <i class="fa-solid fa-file-shield w-5 text-emerald-400"></i><span>Audit Trail</span>
           </a>
@@ -288,7 +284,67 @@
           </div>
         </div>
 
-        <!-- 2. PURCHASE / BILL ENTRY FORM (NEWLY INTEGRATED) -->
+        <!-- 2. SUPPLIER STATEMENT VIEW (MATCHED EXACTLY TO EXCEL FORMAT) -->
+        <div id="supplierStatementView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800">Supplier Ledger Statement</h3>
+              <p class="text-xs text-slate-500">Live ledger statement with opening balance, purchases, payments, returns & running due.</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <select id="statementSupplierSelect" onchange="loadSpecificSupplierStatement()" class="py-2 px-3 bg-slate-50 border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-teal-500"></select>
+              <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-4 py-2 rounded-lg font-semibold flex items-center space-x-1 shadow-sm">
+                <i class="fa-solid fa-print mr-1"></i><span>Print Statement</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Printable Statement Layout -->
+          <div id="supplierStatementPrintArea" class="bg-white">
+            
+            <!-- Excel Header Box -->
+            <div class="border border-slate-700 mb-3 text-center">
+              <div class="bg-slate-700 text-white py-2 px-4">
+                <h1 class="text-xl font-bold tracking-wide uppercase" id="printSuppName">SUPPLIER STATEMENT</h1>
+              </div>
+              <div class="bg-slate-200 text-slate-800 py-1 px-4 text-xs font-bold border-t border-slate-700 flex justify-between">
+                <span>Con / Person : <b id="printSuppCompany" class="font-bold">-</b></span>
+                <span>Contact : <b id="printSuppPhone" class="font-bold">-</b></span>
+                <span>Account ID : <b id="printSuppId" class="font-bold font-mono">-</b></span>
+              </div>
+            </div>
+
+            <!-- Statement Table Structured Exactly Like Excel -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border border-collapse border-slate-400">
+                <thead>
+                  <tr class="bg-slate-100 uppercase text-[11px] font-bold text-slate-800 text-center border-b border-slate-400">
+                    <th class="p-2 border-r border-slate-400 w-12">SL</th>
+                    <th class="p-2 border-r border-slate-400 text-left">Particular</th>
+                    <th class="p-2 border-r border-slate-400 w-24">Date</th>
+                    <th class="p-2 border-r border-slate-400 text-right w-28">Purchase</th>
+                    <th class="p-2 border-r border-slate-400 text-right w-28">Payment</th>
+                    <th class="p-2 border-r border-slate-400 text-right w-24">Return</th>
+                    <th class="p-2 border-r border-slate-400 text-right font-extrabold text-slate-900 w-32">Due</th>
+                    <th class="p-2 text-left w-36">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody id="supplierStatementTableBody">
+                  <tr><td colspan="8" class="p-4 text-center text-slate-400">Select a supplier to view detailed statement.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Signatures Footer -->
+            <div class="flex justify-between items-center text-xs text-slate-500 pt-16 mt-8 border-t">
+              <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Prepared By</span></div>
+              <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Verified By (Accounts)</span></div>
+              <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Supplier Signature</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. PURCHASE / BILL ENTRY FORM -->
         <div id="purchaseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
@@ -323,7 +379,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-600 mb-1">Item / Goods Details & Remarks</label>
-              <textarea id="purDetails" rows="2" placeholder="e.g. 500 Meters Cotton Fabric..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500"></textarea>
+              <textarea id="purDetails" rows="2" placeholder="e.g. Cotton Fabrics, Yarn..." class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500"></textarea>
             </div>
 
             <button type="submit" id="purBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm shadow-md transition-all flex items-center space-x-2">
@@ -332,105 +388,14 @@
           </form>
         </div>
 
-        <!-- 3. SUPPLIER STATEMENT VIEW -->
-        <div id="supplierStatementView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
-            <div>
-              <h3 class="text-lg font-bold text-slate-800">Supplier Ledger Statement</h3>
-              <p class="text-xs text-slate-500">Track opening balance, total bills, payments & current balance.</p>
-            </div>
-            <div class="flex items-center space-x-3">
-              <select id="statementSupplierSelect" onchange="loadSpecificSupplierStatement()" class="py-2 px-3 bg-slate-50 border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-teal-500"></select>
-              <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-4 py-2 rounded-lg font-semibold flex items-center space-x-1 shadow-sm">
-                <i class="fa-solid fa-print mr-1"></i><span>Print Statement</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Printable Area -->
-          <div id="supplierStatementPrintArea" class="bg-white">
-            <div class="border-b pb-4 mb-4">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h1 class="text-2xl font-bold text-slate-900 uppercase tracking-tight" id="printCompName">Accounts Management ERP</h1>
-                  <p class="text-xs text-slate-500" id="printCompAddr">Head Office, Dhaka, Bangladesh</p>
-                  <p class="text-xs text-slate-500">Email: accounts@system.com | Phone: +880 1700-000000</p>
-                </div>
-                <div class="text-right">
-                  <span class="inline-block px-3 py-1 bg-slate-100 text-slate-800 text-xs font-bold uppercase rounded border">Supplier Statement</span>
-                  <p class="text-[11px] text-slate-400 mt-1">Printed On: <span id="printDateTime" class="font-semibold text-slate-700"></span></p>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-4 mt-4 p-3 bg-slate-50 border rounded-lg text-xs">
-                <div>
-                  <p class="text-slate-400 uppercase font-semibold">Supplier Details</p>
-                  <h4 class="text-sm font-bold text-slate-900 mt-0.5" id="printSuppName">-</h4>
-                  <p class="text-slate-600 font-medium" id="printSuppCompany">-</p>
-                  <p class="text-slate-500" id="printSuppPhone">-</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-slate-400 uppercase font-semibold">Account Reference</p>
-                  <h4 class="text-sm font-bold text-teal-700 mt-0.5" id="printSuppId">-</h4>
-                  <p class="text-slate-600">Branch: <b id="printBranchName">HEAD_OFFICE</b></p>
-                  <p class="text-slate-600">Currency: <b>BDT (৳)</b></p>
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-4 gap-3 mb-4 text-xs">
-              <div class="p-2.5 bg-slate-50 border rounded text-center">
-                <p class="text-slate-400 uppercase font-semibold text-[10px]">Opening Due</p>
-                <h4 class="font-bold text-slate-800 text-sm mt-0.5" id="statOpening">৳ 0.00</h4>
-              </div>
-              <div class="p-2.5 bg-slate-50 border rounded text-center">
-                <p class="text-slate-400 uppercase font-semibold text-[10px]">Total Purchase (Credit)</p>
-                <h4 class="font-bold text-blue-600 text-sm mt-0.5" id="statCredit">৳ 0.00</h4>
-              </div>
-              <div class="p-2.5 bg-slate-50 border rounded text-center">
-                <p class="text-slate-400 uppercase font-semibold text-[10px]">Total Paid (Debit)</p>
-                <h4 class="font-bold text-emerald-600 text-sm mt-0.5" id="statDebit">৳ 0.00</h4>
-              </div>
-              <div class="p-2.5 bg-rose-50 border border-rose-200 rounded text-center">
-                <p class="text-rose-600 uppercase font-bold text-[10px]">Closing Due Balance</p>
-                <h4 class="font-extrabold text-rose-700 text-sm mt-0.5" id="statClosing">৳ 0.00</h4>
-              </div>
-            </div>
-
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs border border-collapse">
-                <thead>
-                  <tr class="bg-slate-100 uppercase text-[10px] text-slate-600 font-bold border-b">
-                    <th class="p-2.5 border-r">Date</th>
-                    <th class="p-2.5 border-r">Reference / ID</th>
-                    <th class="p-2.5 border-r">Particulars / Transaction Details</th>
-                    <th class="p-2.5 border-r text-emerald-700 text-right">Debit / Paid (৳)</th>
-                    <th class="p-2.5 border-r text-blue-700 text-right">Credit / Bill (৳)</th>
-                    <th class="p-2.5 text-rose-700 text-right">Balance Due (৳)</th>
-                  </tr>
-                </thead>
-                <tbody id="supplierStatementTableBody">
-                  <tr><td colspan="6" class="p-4 text-center text-slate-400">Select a supplier to view detailed statement.</td></tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="flex justify-between items-center text-xs text-slate-500 pt-16 mt-8 border-t">
-              <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Prepared By</span></div>
-              <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Verified By (Accounts)</span></div>
-              <div class="text-center"><div class="w-36 border-t border-slate-400 mx-auto mb-1"></div><span>Authorized Signatory</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. VOUCHERS, APPROVALS, INCOME, EXPENSE, CUSTOMER & SUPPLIER LISTS -->
-        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100"><div><h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3></div><span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span></div><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl"><div class="grid grid-cols-2 gap-4"><select id="vType" required class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment Voucher</option><option value="Receipt">Receipt Voucher</option><option value="Journal">Journal Voucher</option><option value="Contra">Contra Voucher</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" rows="3" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
+        <!-- 4. VOUCHERS, APPROVALS, INCOME, EXPENSE, CUSTOMER & SUPPLIER -->
+        <div id="vouchersView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold text-slate-800" id="voucherFormTitle">Create New Voucher</h3></div><span id="voucherTypeBadge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">All Types</span></div><form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl"><div class="grid grid-cols-2 gap-4"><select id="vType" required class="py-2.5 px-3 border rounded-lg text-sm"><option value="Payment">Payment Voucher</option><option value="Receipt">Receipt Voucher</option><option value="Journal">Journal Voucher</option><option value="Contra">Contra Voucher</option></select><input type="text" id="vAccount" required placeholder="Account Head" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="number" step="0.01" id="vAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><input type="date" id="vDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="vNarration" rows="3" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="vSubmitBtn" class="bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Submit Voucher</button></form></div>
         <div id="approvalsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex items-center justify-between mb-6 pb-4 border-b"><div><h3 class="text-lg font-bold" id="approvalTitle">Pending Approvals Queue</h3></div><span id="approvalStageBadge" class="bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Pending</span></div><div id="approvalsListContainer" class="space-y-4"></div></div>
         <div id="incomeEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Income Entry</h3><form onsubmit="handleIncomeSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="incParty" required placeholder="Customer" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="incCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="incAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="incMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="incDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="incNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="incBtn" class="bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Income</button></form></div>
         <div id="expenseEntryView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-rose-600 mb-4">Expense Entry</h3><form onsubmit="handleExpenseSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="expParty" required placeholder="Supplier" class="py-2.5 px-3 border rounded-lg text-sm"><input type="text" id="expCategory" required placeholder="Category" class="py-2.5 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="expAmount" required placeholder="Amount" class="py-2.5 px-3 border rounded-lg text-sm"><select id="expMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash">Cash</option><option value="Bank">Bank Account</option></select><input type="date" id="expDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="expNarration" rows="2" placeholder="Narration" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="expBtn" class="bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Save Expense</button></form></div>
-        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><div><h3 class="text-md font-bold text-slate-800">All Registered Suppliers</h3></div><button onclick="toggleSupplierModal(true)" class="bg-teal-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-plus mr-1"></i> Add Supplier</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div></div>
+        <div id="supplierListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><div><h3 class="text-md font-bold text-slate-800">All Registered Suppliers</h3><p class="text-xs text-slate-500">Click on any supplier to view their ledger statement</p></div><button onclick="toggleSupplierModal(true)" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3.5 py-2 rounded-lg font-semibold"><i class="fa-solid fa-plus mr-1"></i> Add Supplier</button></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3">Phone</th><th class="p-3 text-rose-600">Payable Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div></div>
         <div id="supplierDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Outstanding Supplier Payables</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b text-rose-800"><tr><th class="p-3">ID</th><th class="p-3">Supplier Name</th><th class="p-3">Company</th><th class="p-3 text-rose-700 font-bold">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="supplierDueTableBody"></tbody></table></div></div>
-        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Payment Settlement</h3><form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm"></select><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="spAmount" required placeholder="0.00" class="py-2.5 px-3 border rounded-lg text-sm"><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><textarea id="spNarration" rows="2" placeholder="Remarks" class="w-full py-2.5 px-3 border rounded-lg text-sm"></textarea><button type="submit" id="spBtn" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Post Supplier Payment</button></form></div>
+        <div id="supplierPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-teal-600 mb-4">Supplier Payment Settlement</h3><form onsubmit="handleSupplierPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Select Supplier</label><select id="spSupplierSelect" required onchange="handleSupplierSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm w-full"></select></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Due</label><input type="text" id="spCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600 w-full"></div></div><div class="grid grid-cols-3 gap-4"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Amount</label><input type="number" step="0.01" id="spAmount" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Method</label><select id="spMethod" class="py-2.5 px-3 border rounded-lg text-sm w-full"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Date</label><input type="date" id="spDate" required class="py-2.5 px-3 border rounded-lg text-sm w-full"></div></div><button type="submit" id="spBtn" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Post Payment</button></form></div>
         <div id="customerListView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4"><h3 class="text-md font-bold">All Customers</h3><button onclick="toggleCustomerModal(true)" class="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg font-semibold">Add Customer</button></div><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Phone</th><th class="p-3">Address</th><th class="p-3 text-rose-600">Due</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerTableBody"></tbody></table></div>
         <div id="customerDueView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold text-rose-600 mb-4">Customer Dues</h3><table class="w-full text-left text-sm"><thead class="bg-rose-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3 text-rose-600">Due (BDT)</th><th class="p-3 text-right">Action</th></tr></thead><tbody id="customerDueTableBody"></tbody></table></div>
         <div id="customerPaymentView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold text-emerald-600 mb-4">Customer Payment</h3><form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><select id="cpCustomerSelect" required onchange="handleCustomerSelectChange()" class="py-2.5 px-3 border rounded-lg text-sm"></select><input type="text" id="cpCurrentDue" readonly class="py-2.5 px-3 bg-slate-100 border rounded-lg text-sm font-bold text-rose-600"></div><div class="grid grid-cols-3 gap-4"><input type="number" step="0.01" id="cpAmount" required class="py-2.5 px-3 border rounded-lg text-sm"><select id="cpMethod" class="py-2.5 px-3 border rounded-lg text-sm"><option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option><option value="Islami Bank Bangladesh (IBBL)">IBBL</option><option value="City Bank Ltd">City Bank</option><option value="BRAC Bank Ltd">BRAC Bank</option><option value="Dutch-Bangla Bank (DBBL)">DBBL</option><option value="United Commercial Bank (UCB)">UCB</option></select><input type="date" id="cpDate" required class="py-2.5 px-3 border rounded-lg text-sm"></div><button type="submit" id="cpBtn" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Collect</button></form></div>
@@ -444,9 +409,9 @@
         <div id="reconciliationView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="grid grid-cols-2 gap-4"><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Book Balance</p><h4 class="text-lg font-bold" id="recBookBal">৳ 0.00</h4></div><div class="p-4 bg-slate-50 border rounded-xl"><p class="text-xs text-slate-500">Bank Balance</p><h4 class="text-lg font-bold text-blue-600" id="recBankBal">৳ 0.00</h4></div></div></div>
         <div id="reportsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><div class="flex justify-between items-center mb-4 border-b pb-3"><h3 class="text-lg font-bold text-slate-800" id="reportTitle">Financial Statement</h3><button onclick="window.print()" class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-print mr-1"></i> Print</button></div><div id="reportContentArea"></div></div>
         <div id="branchView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Outlets Directory</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="branchesContainer"></div></div>
-        <div id="userView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold">System Users</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table></div>
+        <div id="userView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">System Users</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Role</th><th class="p-3">Branch</th></tr></thead><tbody id="userTableBody"></tbody></table></div>
         <div id="auditView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-md font-bold mb-4">Audit Trail Logs</h3><table class="w-full text-left text-sm"><thead class="bg-slate-50 uppercase text-xs border-b"><tr><th class="p-3">Date Time</th><th class="p-3">Action</th><th class="p-3">Entity ID</th><th class="p-3">User</th><th class="p-3">Details</th></tr></thead><tbody id="auditTableBody"></tbody></table></div>
-        <div id="settingsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4">Company Settings</h3><form onsubmit="handleSaveSettings(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="setCompName" required placeholder="Company" class="w-full py-2 px-3 border rounded-lg text-sm"><input type="text" id="setTaxNo" placeholder="TIN" class="w-full py-2 px-3 border rounded-lg text-sm"></div><div class="grid grid-cols-2 gap-4"><input type="text" id="setFiscal" required placeholder="Fiscal" class="w-full py-2 px-3 border rounded-lg text-sm"><input type="text" id="setCurrency" required placeholder="Currency" class="w-full py-2 px-3 border rounded-lg text-sm"></div><textarea id="setAddress" placeholder="Address" class="w-full py-2 px-3 border rounded-lg text-sm"></textarea><button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Settings</button></form></div>
+        <div id="settingsView" class="hidden bg-white rounded-xl border border-slate-200 p-6 shadow-sm"><h3 class="text-lg font-bold mb-4">Company Settings</h3><form onsubmit="handleSaveSettings(event)" class="space-y-4 max-w-2xl"><div class="grid grid-cols-2 gap-4"><input type="text" id="setCompName" required placeholder="Company" class="w-full py-2 px-3 border rounded-lg text-sm"></div><button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold">Save Settings</button></form></div>
 
       </div>
     </main>
@@ -470,8 +435,8 @@
     <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
       <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Supplier</h3>
       <form onsubmit="handleAddSupplierSubmit(event)" class="space-y-4">
-        <input type="text" id="newSuppName" required placeholder="Supplier Name" class="w-full py-2 px-3 border rounded-lg text-sm">
-        <input type="text" id="newSuppCompany" required placeholder="Company Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppName" required placeholder="Supplier Contact Name" class="w-full py-2 px-3 border rounded-lg text-sm">
+        <input type="text" id="newSuppCompany" required placeholder="Company / Vendor Name" class="w-full py-2 px-3 border rounded-lg text-sm">
         <input type="text" id="newSuppPhone" placeholder="Phone" class="w-full py-2 px-3 border rounded-lg text-sm">
         <input type="number" step="0.01" id="newSuppDue" value="0" placeholder="Opening Payable Due" class="w-full py-2 px-3 border rounded-lg text-sm">
         <div class="flex justify-end space-x-2"><button type="button" onclick="toggleSupplierModal(false)" class="px-4 py-2 border rounded-lg text-sm">Cancel</button><button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm">Save Supplier</button></div>
@@ -530,37 +495,8 @@
       if (tab === 'settingsView') loadSettingsData();
     }
 
-    // PURCHASE & SUPPLIER FUNCTIONS
+    // SUPPLIER & EXCEL STATEMENT FUNCTIONS
     function toggleSupplierModal(show) { document.getElementById('supplierModal').classList.toggle('hidden', !show); }
-
-    async function handlePurchaseSubmit(e) {
-      e.preventDefault();
-      const select = document.getElementById('purSupplierSelect');
-      const selected = select.options[select.selectedIndex];
-      const btn = document.getElementById('purBtn');
-      btn.disabled = true;
-
-      const payload = {
-        supplier_id: select.value,
-        supplier_name: selected.getAttribute('data-name'),
-        invoice_no: document.getElementById('purInvoice').value,
-        amount: Number(document.getElementById('purAmount').value),
-        date: document.getElementById('purDate').value,
-        item_details: document.getElementById('purDetails').value
-      };
-
-      try {
-        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createPurchase', payload: payload }) });
-        const r = await res.json();
-        if (r.status === 'success') {
-          alert('Purchase Bill Recorded & Payable Due Updated!');
-          e.target.reset();
-          loadDashboardData();
-          viewSupplierStatement(payload.supplier_name);
-        } else { alert('Error saving purchase.'); }
-      } catch (err) { alert('API connection error.'); }
-      finally { btn.disabled = false; }
-    }
 
     async function loadSuppliersData() {
       const res = await fetch(`${CONFIG.API_URL}?action=getSuppliers`);
@@ -631,75 +567,121 @@
       loadSpecificSupplierStatement();
     }
 
+    function formatDateDisplay(dStr) {
+      if (!dStr || dStr === '-') return '-';
+      try {
+        const d = new Date(dStr);
+        if (isNaN(d.getTime())) return dStr.split('T')[0];
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}.${month}.${year}`;
+      } catch(e) {
+        return dStr;
+      }
+    }
+
     async function loadSpecificSupplierStatement() {
       const supplierName = document.getElementById('statementSupplierSelect').value;
       if (!supplierName) return;
 
       const sTableBody = document.getElementById('supplierStatementTableBody');
-      sTableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading ledger statement...</td></tr>`;
+      sTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Loading statement...</td></tr>`;
 
       try {
         const res = await fetch(`${CONFIG.API_URL}?action=getSupplierStatement&supplier_name=${encodeURIComponent(supplierName)}`);
         const result = await res.json();
 
         if (result.status === 'success') {
-          let runningBalance = Number(result.openingBalance) || 0;
-          let totalDebit = 0;
-          let totalCredit = 0;
+          let runningDue = Number(result.openingBalance) || 0;
 
-          document.getElementById('printDateTime').innerText = new Date().toLocaleString();
           document.getElementById('printSuppName').innerText = result.supplier.name || supplierName;
           document.getElementById('printSuppCompany').innerText = result.supplier.company || 'Direct Supplier';
-          document.getElementById('printSuppPhone').innerText = result.supplier.phone ? `Phone: ${result.supplier.phone}` : 'Phone: -';
+          document.getElementById('printSuppPhone').innerText = result.supplier.phone ? result.supplier.phone : '-';
           document.getElementById('printSuppId').innerText = result.supplier.supplier_id || 'SUPP-DIR';
 
-          const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-          document.getElementById('printBranchName').innerText = user.branch_id || 'HEAD_OFFICE';
-
-          document.getElementById('statOpening').innerText = `৳ ${runningBalance.toLocaleString()}`;
-
           let statementHTML = `
-            <tr class="bg-slate-50 font-bold border-b">
-              <td class="p-2.5 border-r">-</td>
-              <td class="p-2.5 border-r font-mono text-slate-500">OPENING</td>
-              <td class="p-2.5 border-r font-semibold">Opening Balance Payable</td>
-              <td class="p-2.5 border-r text-right">-</td>
-              <td class="p-2.5 border-r text-right">-</td>
-              <td class="p-2.5 text-right font-extrabold text-rose-600">৳ ${runningBalance.toLocaleString()}</td>
+            <tr class="bg-slate-50 font-bold border-b border-slate-300">
+              <td class="p-2 border-r border-slate-300 text-center">1</td>
+              <td class="p-2 border-r border-slate-300 font-bold">Opening B/L</td>
+              <td class="p-2 border-r border-slate-300 text-center">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">${runningDue > 0 ? Number(runningDue).toLocaleString() : '0'}</td>
+              <td class="p-2 text-slate-500">Initial balance</td>
             </tr>
           `;
 
+          let sl = 2;
           if (result.transactions && result.transactions.length > 0) {
             result.transactions.forEach(t => {
-              const debit = Number(t.debit) || 0;
-              const credit = Number(t.credit) || 0;
+              const debit = Number(t.debit) || 0; // Payment
+              const credit = Number(t.credit) || 0; // Purchase
+              const isReturn = t.particulars.toLowerCase().includes('return');
+              
+              let returnAmt = 0;
+              let purchaseAmt = credit;
+              let paymentAmt = debit;
 
-              totalDebit += debit;
-              totalCredit += credit;
-              runningBalance = runningBalance + credit - debit;
+              if (isReturn) {
+                returnAmt = debit || credit;
+                purchaseAmt = 0;
+                paymentAmt = 0;
+                runningDue = runningDue - returnAmt;
+              } else {
+                runningDue = runningDue + purchaseAmt - paymentAmt;
+              }
 
               statementHTML += `
-                <tr class="border-b hover:bg-slate-50">
-                  <td class="p-2.5 border-r">${t.date}</td>
-                  <td class="p-2.5 border-r font-semibold text-teal-600">${t.entry_id}</td>
-                  <td class="p-2.5 border-r">${t.particulars}</td>
-                  <td class="p-2.5 border-r text-right font-bold text-emerald-600">${debit > 0 ? '৳ ' + debit.toLocaleString() : '-'}</td>
-                  <td class="p-2.5 border-r text-right font-bold text-blue-600">${credit > 0 ? '৳ ' + credit.toLocaleString() : '-'}</td>
-                  <td class="p-2.5 text-right font-extrabold text-rose-600">৳ ${runningBalance.toLocaleString()}</td>
+                <tr class="border-b border-slate-300 hover:bg-slate-50">
+                  <td class="p-2 border-r border-slate-300 text-center font-semibold text-slate-600">${sl++}</td>
+                  <td class="p-2 border-r border-slate-300 font-medium text-slate-800">${t.particulars}</td>
+                  <td class="p-2 border-r border-slate-300 text-center text-slate-600">${formatDateDisplay(t.date)}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-blue-700">${purchaseAmt > 0 ? Number(purchaseAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-emerald-700">${paymentAmt > 0 ? Number(paymentAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-amber-700">${returnAmt > 0 ? Number(returnAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">${Number(Math.max(0, runningDue)).toLocaleString()}</td>
+                  <td class="p-2 text-slate-500 text-[11px]">${t.ref || ''}</td>
                 </tr>
               `;
             });
           }
 
-          document.getElementById('statDebit').innerText = `৳ ${totalDebit.toLocaleString()}`;
-          document.getElementById('statCredit').innerText = `৳ ${totalCredit.toLocaleString()}`;
-          document.getElementById('statClosing').innerText = `৳ ${runningBalance.toLocaleString()}`;
-
           sTableBody.innerHTML = statementHTML;
         }
       } catch (err) {
-        sTableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load supplier statement.</td></tr>`;
+        sTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500">Failed to load statement.</td></tr>`;
       }
+    }
+
+    async function handlePurchaseSubmit(e) {
+      e.preventDefault();
+      const select = document.getElementById('purSupplierSelect');
+      const selected = select.options[select.selectedIndex];
+      const btn = document.getElementById('purBtn');
+      btn.disabled = true;
+
+      const payload = {
+        supplier_id: select.value,
+        supplier_name: selected.getAttribute('data-name'),
+        invoice_no: document.getElementById('purInvoice').value,
+        amount: Number(document.getElementById('purAmount').value),
+        date: document.getElementById('purDate').value,
+        item_details: document.getElementById('purDetails').value
+      };
+
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createPurchase', payload: payload }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Purchase Bill Recorded & Due Updated!');
+          e.target.reset();
+          loadDashboardData();
+          viewSupplierStatement(payload.supplier_name);
+        } else { alert('Error saving purchase.'); }
+      } catch (err) { alert('API connection error.'); }
+      finally { btn.disabled = false; }
     }
 
     function handleSupplierSelectChange() {
@@ -753,12 +735,12 @@
         alert('Supplier Payment Recorded Successfully!');
         e.target.reset();
         loadDashboardData();
-        switchTab('supplierDueView');
+        viewSupplierStatement(p.supplier_name);
       }
       btn.disabled = false;
     }
 
-    // 1. VOUCHERS & APPROVALS
+    // COMMON / DASHBOARD / AUTH
     function openVoucherForm(type) {
       switchTab('vouchers');
       const select = document.getElementById('vType');
@@ -927,7 +909,6 @@
       } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Failed to load vouchers.</td></tr>`; }
     }
 
-    // 2. INCOME & EXPENSE
     async function handleIncomeSubmit(event) {
       if (event) event.preventDefault();
       const btn = document.getElementById('incBtn');
@@ -1020,7 +1001,6 @@
       } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">Error loading expense.</td></tr>`; }
     }
 
-    // 3. COMMON & AUTH
     async function handleLogin(e) {
       e.preventDefault();
       const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: loginEmail.value, password: loginPassword.value }) });
@@ -1052,7 +1032,6 @@
       ledgerTableBody.innerHTML = r.data.map(l => `<tr class="border-b"><td class="p-3 font-semibold text-blue-600">${l.entry_id}</td><td class="p-3">${l.voucher_id}</td><td class="p-3 font-bold">${l.account_head}</td><td class="p-3 text-rose-600 font-bold">৳ ${Number(l.debit).toLocaleString()}</td><td class="p-3 text-emerald-600 font-bold">৳ ${Number(l.credit).toLocaleString()}</td></tr>`).join('');
     }
 
-    // 4. CASH & BANK
     function openCashBankForm(t) { switchTab('cashBankFormView'); cbType.value = t; cbFormTitle.innerText = `${t} Entry`; }
     async function handleCashBankSubmit(e) {
       e.preventDefault();
@@ -1080,7 +1059,6 @@
       if(r.status==='success') { recBookBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; recBankBal.innerText = `৳ ${(r.data.bankBalance||0).toLocaleString()}`; }
     }
 
-    // 5. CUSTOMER
     function toggleCustomerModal(s) { document.getElementById('customerModal').classList.toggle('hidden', !s); }
     async function loadCustomersData() {
       const res = await fetch(`${CONFIG.API_URL}?action=getCustomers`);
@@ -1098,7 +1076,6 @@
     async function handleAddCustomerSubmit(e) { e.preventDefault(); const p = { name: newCustName.value, phone: newCustPhone.value, address: newCustAddress.value, due_amount: Number(newCustDue.value)||0 }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Customer Added!'); toggleCustomerModal(false); loadCustomersData(); loadDashboardData(); } }
     async function handleCustomerPaymentSubmit(e) { e.preventDefault(); const s = cpCustomerSelect.options[cpCustomerSelect.selectedIndex]; const p = { customer_id: cpCustomerSelect.value, customer_name: s.getAttribute('data-name'), amount: Number(cpAmount.value), method: cpMethod.value, date: cpDate.value, narration: '' }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'collectCustomerPayment', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('Payment Collected!'); e.target.reset(); loadDashboardData(); switchTab('customerDueView'); } }
 
-    // 6. REPORTS & MANAGEMENT
     async function loadReport(t) {
       switchTab('reportsView');
       const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
@@ -1121,8 +1098,8 @@
     async function loadUsersData() { const res = await fetch(`${CONFIG.API_URL}?action=getUsers`); const r = await res.json(); userTableBody.innerHTML = r.data.map(u => `<tr class="border-b"><td class="p-3 font-semibold text-sky-600">${u.user_id}</td><td class="p-3 font-bold">${u.name}</td><td class="p-3 text-slate-500">${u.email}</td><td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-xs font-bold rounded">${u.role}</span></td><td class="p-3 text-xs text-slate-500">${u.branch_id}</td></tr>`).join(''); }
     async function handleAddUserSubmit(e) { e.preventDefault(); const p = { name: newUserName.value, email: newUserEmail.value, password: newUserPass.value, role: newUserRole.value, branch_id: newUserBranch.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addUser', payload: p }) }); const r = await res.json(); if(r.status==='success') { alert('User Created!'); toggleUserModal(false); loadUsersData(); } }
     async function loadAuditData() { const res = await fetch(`${CONFIG.API_URL}?action=getAuditTrail`); const r = await res.json(); auditTableBody.innerHTML = r.data.map(a => `<tr class="border-b text-xs"><td class="p-3 text-slate-400">${new Date(a.date_time).toLocaleString()}</td><td class="p-3 font-bold">${a.action}</td><td class="p-3 text-blue-600">${a.entity_id}</td><td class="p-3">${a.performed_by}</td><td class="p-3">${a.details}</td></tr>`).join(''); }
-    async function loadSettingsData() { const res = await fetch(`${CONFIG.API_URL}?action=getSettings`); const r = await res.json(); setCompName.value = r.data.company_name; setTaxNo.value = r.data.tax_no; setFiscal.value = r.data.fiscal_year; setCurrency.value = r.data.currency; setAddress.value = r.data.address; }
-    async function handleSaveSettings(e) { e.preventDefault(); const p = { company_name: setCompName.value, tax_no: setTaxNo.value, fiscal_year: setFiscal.value, currency: setCurrency.value, address: setAddress.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', payload: p }) }); const r = await res.json(); if(r.status==='success') alert('Configuration Updated!'); }
+    async function loadSettingsData() { const res = await fetch(`${CONFIG.API_URL}?action=getSettings`); const r = await res.json(); setCompName.value = r.data.company_name; }
+    async function handleSaveSettings(e) { e.preventDefault(); const p = { company_name: setCompName.value }; const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', payload: p }) }); const r = await res.json(); if(r.status==='success') alert('Settings Saved!'); }
   </script>
 </body>
 </html>
