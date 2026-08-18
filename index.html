@@ -66,11 +66,11 @@
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4 relative">
         <div>
           <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Email Address</label>
-          <input type="email" id="loginEmail" required placeholder="admin@system.com" value="admin@system.com" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+          <input type="email" id="loginEmail" required placeholder="admin@system.com" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
         </div>
         <div>
           <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Password</label>
-          <input type="password" id="loginPassword" required placeholder="••••••••" value="123456" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
         </div>
         
         <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center space-x-2">
@@ -78,18 +78,6 @@
           <i class="fa-solid fa-arrow-right text-xs"></i>
         </button>
       </form>
-
-      <!-- Quick Fast Login Buttons -->
-      <div class="mt-6 pt-5 border-t border-slate-100">
-        <p class="text-[11px] font-bold uppercase text-slate-400 mb-2.5 text-center">⚡ 1-Click Fast Roles Login</p>
-        <div class="grid grid-cols-3 gap-1.5 text-[11px]">
-          <button onclick="quickFillLogin('admin@system.com','123456')" class="bg-slate-100 hover:bg-blue-50 hover:text-blue-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Admin</button>
-          <button onclick="quickFillLogin('gm@system.com','123456')" class="bg-slate-100 hover:bg-amber-50 hover:text-amber-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">GM</button>
-          <button onclick="quickFillLogin('md@system.com','123456')" class="bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">MD/CEO</button>
-          <button onclick="quickFillLogin('accounts@system.com','123456')" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Accounts</button>
-          <button onclick="quickFillLogin('shop1@system.com','123456')" class="col-span-2 bg-slate-100 hover:bg-purple-50 hover:text-purple-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Branch Manager (Shop 01)</button>
-        </div>
-      </div>
     </div>
   </div>
 
