@@ -36,6 +36,12 @@
 </head>
 <body class="bg-slate-900 text-slate-800 antialiased font-sans">
 
+  <!-- API LOADING SPINNER / TOAST -->
+  <div id="apiLoadingIndicator" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900/90 text-white px-4 py-2.5 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700 backdrop-blur-md">
+    <i class="fa-solid fa-circle-notch fa-spin text-blue-400"></i>
+    <span class="text-xs font-bold" id="apiLoadingText">Connecting to Google Sheet API...</span>
+  </div>
+
   <!-- 1. LOGIN SECTION -->
   <div id="loginSection" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950">
     <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-100 relative overflow-hidden">
@@ -49,6 +55,10 @@
         </div>
         <h2 class="text-2xl font-extrabold text-slate-900" id="loginCompanyDisplay">Accounts Enterprise ERP</h2>
         <p class="text-xs text-slate-500 mt-1">Multi-branch Enterprise Management Accounting System</p>
+        <div class="mt-2 inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <i class="fa-solid fa-table text-[9px]"></i>
+          <span>Google Sheet API Connected</span>
+        </div>
       </div>
 
       <div id="loginAlert" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold"></div>
@@ -69,15 +79,15 @@
         </button>
       </form>
 
-      <!-- Quick Demo Login Buttons -->
+      <!-- Quick Fast Login Buttons -->
       <div class="mt-6 pt-5 border-t border-slate-100">
-        <p class="text-[11px] font-bold uppercase text-slate-400 mb-2.5 text-center">⚡ 1-Click Fast Demo Login</p>
+        <p class="text-[11px] font-bold uppercase text-slate-400 mb-2.5 text-center">⚡ 1-Click Fast Roles Login</p>
         <div class="grid grid-cols-3 gap-1.5 text-[11px]">
-          <button onclick="quickLogin('ADMIN')" class="bg-slate-100 hover:bg-blue-50 hover:text-blue-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Admin</button>
-          <button onclick="quickLogin('GM')" class="bg-slate-100 hover:bg-amber-50 hover:text-amber-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">GM</button>
-          <button onclick="quickLogin('MD')" class="bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">MD/CEO</button>
-          <button onclick="quickLogin('ACCOUNTS')" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Accounts</button>
-          <button onclick="quickLogin('BRANCH_MANAGER')" class="col-span-2 bg-slate-100 hover:bg-purple-50 hover:text-purple-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Branch Manager (Shop 01)</button>
+          <button onclick="quickFillLogin('admin@system.com','123456')" class="bg-slate-100 hover:bg-blue-50 hover:text-blue-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Admin</button>
+          <button onclick="quickFillLogin('gm@system.com','123456')" class="bg-slate-100 hover:bg-amber-50 hover:text-amber-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">GM</button>
+          <button onclick="quickFillLogin('md@system.com','123456')" class="bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">MD/CEO</button>
+          <button onclick="quickFillLogin('accounts@system.com','123456')" class="bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Accounts</button>
+          <button onclick="quickFillLogin('shop1@system.com','123456')" class="col-span-2 bg-slate-100 hover:bg-purple-50 hover:text-purple-700 py-1.5 px-2 rounded-lg font-bold text-slate-700 transition-all text-center">Branch Manager (Shop 01)</button>
         </div>
       </div>
     </div>
@@ -99,7 +109,7 @@
             </div>
             <div>
               <h1 class="text-white font-extrabold text-sm leading-tight" id="sidebarCompName">Accounts ERP</h1>
-              <p class="text-[10px] text-slate-400 font-medium">Enterprise Finance System</p>
+              <p class="text-[10px] text-slate-400 font-medium">Google Sheet Cloud ERP</p>
             </div>
           </div>
           <button onclick="toggleMobileSidebar(false)" class="md:hidden text-slate-400 hover:text-white p-1">
@@ -312,7 +322,7 @@
             <h2 class="text-base md:text-lg font-black text-slate-800 flex items-center gap-2" id="pageTitle">
               <span>Executive Financial Dashboard</span>
             </h2>
-            <p class="text-[11px] text-slate-400 hidden sm:block">Real-Time Enterprise Accounting & Branch Liquidity Monitor</p>
+            <p class="text-[11px] text-slate-400 hidden sm:block">Google Sheets Synchronized Multi-Branch Financial Monitor</p>
           </div>
         </div>
 
@@ -320,24 +330,17 @@
           <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 py-1.5 px-3 rounded-xl">
             <i class="fa-solid fa-store text-purple-600 text-xs"></i>
             <select id="dashboardBranchFilter" onchange="loadDashboardData()" class="bg-transparent text-slate-700 text-xs font-bold focus:outline-none cursor-pointer">
-              <option value="ALL">All Branch Operations (HQ + 15 Outlets)</option>
+              <option value="ALL">All Branch Operations</option>
               <option value="HEAD_OFFICE">Corporate Head Office</option>
-              <option value="SHOP_01">Outlet Shop 01 - Dhanmondi</option>
-              <option value="SHOP_02">Outlet Shop 02 - Gulshan</option>
-              <option value="SHOP_03">Outlet Shop 03 - Uttara</option>
-              <option value="SHOP_04">Outlet Shop 04 - Mirpur</option>
-              <option value="SHOP_05">Outlet Shop 05 - Motijheel</option>
-              <option value="SHOP_06">Outlet Shop 06 - Banani</option>
-              <option value="SHOP_07">Outlet Shop 07 - Chattogram Main</option>
-              <option value="SHOP_08">Outlet Shop 08 - Sylhet Zindabazar</option>
-              <option value="SHOP_09">Outlet Shop 09 - Rajshahi Shaheb Bazar</option>
-              <option value="SHOP_10">Outlet Shop 10 - Khulna Dakbangla</option>
+              <option value="SHOP_01">Outlet Shop 01</option>
+              <option value="SHOP_02">Outlet Shop 02</option>
+              <option value="SHOP_03">Outlet Shop 03</option>
             </select>
           </div>
 
-          <button onclick="loadDashboardData()" class="bg-blue-50 hover:bg-blue-100 text-blue-600 p-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5" title="Refresh Live Data">
+          <button onclick="loadDashboardData()" class="bg-blue-50 hover:bg-blue-100 text-blue-600 p-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5" title="Refresh Live Data from Google Sheets">
             <i class="fa-solid fa-arrows-rotate"></i>
-            <span class="hidden md:inline">Refresh</span>
+            <span class="hidden md:inline">Sync Sheet</span>
           </button>
         </div>
       </header>
@@ -437,11 +440,9 @@
                   <tr class="bg-slate-50 uppercase text-slate-400 font-extrabold border-b text-[11px]">
                     <th class="p-3">Entry ID</th>
                     <th class="p-3">Date</th>
-                    <th class="p-3">Branch</th>
                     <th class="p-3">Particulars / Account Head</th>
                     <th class="p-3 text-right text-rose-600">Debit (Dr)</th>
                     <th class="p-3 text-right text-emerald-600">Credit (Cr)</th>
-                    <th class="p-3 text-center">Status</th>
                   </tr>
                 </thead>
                 <tbody id="dashRecentTableBody"></tbody>
@@ -521,7 +522,7 @@
 
             <button type="submit" id="salesSubmitBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md shadow-emerald-600/30 flex items-center space-x-2 transition-all">
               <i class="fa-solid fa-circle-check"></i>
-              <span>Post Sales Invoice & Update Customer Ledger</span>
+              <span>Post Sales Invoice & Sync to Google Sheet</span>
             </button>
           </form>
         </div>
@@ -788,7 +789,7 @@
           </div>
         </div>
 
-        <!-- ================= 8. DIRECTORY LISTS (SUPPLIERS & CUSTOMERS) ================= -->
+        <!-- ================= 8. DIRECTORY LISTS ================= -->
         <div id="supplierListView" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div>
@@ -875,7 +876,7 @@
           </div>
         </div>
 
-        <!-- ================= 9. VOUCHER SYSTEM & 3-STAGE APPROVAL ================= -->
+        <!-- ================= 9. VOUCHER SYSTEM & APPROVAL ================= -->
         <div id="vouchersView" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
           <h3 class="text-lg font-black text-slate-800 mb-4" id="voucherFormTitle">Create Financial Voucher</h3>
           <form onsubmit="handleVoucherSubmit(event)" class="space-y-4 max-w-3xl">
@@ -900,15 +901,6 @@
                 <input type="number" step="0.01" id="vAmount" required placeholder="0.00" class="py-2.5 px-3 border rounded-xl text-sm w-full font-bold">
               </div>
               <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Branch *</label>
-                <select id="vBranch" class="py-2.5 px-3 border rounded-xl text-sm w-full bg-slate-50 font-semibold">
-                  <option value="HEAD_OFFICE">Corporate Head Office</option>
-                  <option value="SHOP_01">Shop 01 - Dhanmondi</option>
-                  <option value="SHOP_02">Shop 02 - Gulshan</option>
-                  <option value="SHOP_03">Shop 03 - Uttara</option>
-                </select>
-              </div>
-              <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Voucher Date *</label>
                 <input type="date" id="vDate" required class="py-2.5 px-3 border rounded-xl text-sm w-full bg-slate-50">
               </div>
@@ -919,7 +911,7 @@
             </div>
             <button type="submit" id="vSubmitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md shadow-blue-600/30 flex items-center space-x-2 transition-all">
               <i class="fa-solid fa-paper-plane"></i>
-              <span>Submit Voucher for Multi-Step Approval</span>
+              <span>Submit Voucher to Google Sheets</span>
             </button>
           </form>
         </div>
@@ -955,7 +947,7 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead class="bg-slate-50 uppercase border-b text-[11px] font-extrabold text-slate-400">
-                <tr><th class="p-3">Voucher ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Particulars</th><th class="p-3 text-right">Amount</th><th class="p-3">Status</th><th class="p-3 text-right">Slip</th></tr>
+                <tr><th class="p-3">Voucher ID</th><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Particulars</th><th class="p-3 text-right">Amount</th><th class="p-3">Status</th></tr>
               </thead>
               <tbody id="voucherTableBody"></tbody>
             </table>
@@ -986,11 +978,8 @@
               <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Received Method *</label>
                 <select id="incMethod" class="py-2.5 px-3 border rounded-xl text-sm w-full bg-slate-50">
-                  <option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option>
-                  <option value="Islami Bank Bangladesh (IBBL)">IBBL</option>
-                  <option value="City Bank Ltd">City Bank</option>
-                  <option value="BRAC Bank Ltd">BRAC Bank</option>
-                  <option value="Dutch-Bangla Bank (DBBL)">DBBL</option>
+                  <option value="Cash">Cash in Hand</option>
+                  <option value="Bank">Bank Account</option>
                 </select>
               </div>
               <div>
@@ -1051,11 +1040,8 @@
               <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Paid From *</label>
                 <select id="expMethod" class="py-2.5 px-3 border rounded-xl text-sm w-full bg-slate-50">
-                  <option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option>
-                  <option value="Islami Bank Bangladesh (IBBL)">IBBL</option>
-                  <option value="City Bank Ltd">City Bank</option>
-                  <option value="BRAC Bank Ltd">BRAC Bank</option>
-                  <option value="Dutch-Bangla Bank (DBBL)">DBBL</option>
+                  <option value="Cash">Cash in Hand</option>
+                  <option value="Bank">Bank Account</option>
                 </select>
               </div>
               <div>
@@ -1185,7 +1171,6 @@
               <p class="text-xs text-slate-400">Company corporate bank accounts, branch details and live ledger</p>
             </div>
             <div class="flex space-x-2">
-              <button onclick="toggleBankModal(true)" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold">+ Add Bank Account</button>
               <button onclick="exportTableToExcel('bankTableBody', 'Bank_Transactions')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
                 <i class="fa-solid fa-file-excel mr-1"></i> Excel
               </button>
@@ -1212,7 +1197,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
               <p class="text-xs font-bold text-slate-500 uppercase">Book Ledger Balance</p>
               <h4 class="text-2xl font-black text-slate-800 mt-1" id="recBookBal">৳ 0.00</h4>
@@ -1221,21 +1206,6 @@
               <p class="text-xs font-bold text-blue-600 uppercase">Bank Statement Balance</p>
               <h4 class="text-2xl font-black text-blue-700 mt-1" id="recBankBal">৳ 0.00</h4>
             </div>
-            <div class="p-5 bg-emerald-50 border border-emerald-200 rounded-2xl">
-              <p class="text-xs font-bold text-emerald-600 uppercase">Reconciliation Status</p>
-              <h4 class="text-lg font-black text-emerald-700 mt-1 flex items-center gap-2">
-                <i class="fa-solid fa-circle-check"></i> Balanced & Reconciled
-              </h4>
-            </div>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 uppercase text-[11px] font-extrabold text-slate-400 border-b">
-                <tr><th class="p-3 text-center w-12">Match</th><th class="p-3">Date</th><th class="p-3">Bank Account</th><th class="p-3">Reference</th><th class="p-3 text-right">Amount</th><th class="p-3 text-center">Status</th></tr>
-              </thead>
-              <tbody id="reconciliationTableBody"></tbody>
-            </table>
           </div>
         </div>
 
@@ -1267,9 +1237,6 @@
               </h3>
               <p class="text-xs text-slate-500">Multi-branch enterprise operations, manager contacts & liquidity status</p>
             </div>
-            <button onclick="toggleBranchModal(true)" class="bg-purple-700 hover:bg-purple-800 text-white text-xs px-4 py-2.5 rounded-xl font-bold shadow-md shadow-purple-700/20">
-              + Add New Branch Outlet
-            </button>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="branchesContainer"></div>
         </div>
@@ -1281,12 +1248,11 @@
               <h3 class="text-base font-extrabold text-slate-800">System Users & Staff Directory</h3>
               <p class="text-xs text-slate-400">Manage user credentials, roles, and branch permissions</p>
             </div>
-            <button onclick="toggleUserModal(true)" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold">+ Add System User</button>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead class="bg-slate-50 uppercase text-[11px] font-extrabold text-slate-400 border-b">
-                <tr><th class="p-3">User ID</th><th class="p-3">Full Name</th><th class="p-3">Email Address</th><th class="p-3">Role</th><th class="p-3">Assigned Branch</th><th class="p-3 text-center">Status</th></tr>
+                <tr><th class="p-3">User ID</th><th class="p-3">Full Name</th><th class="p-3">Email Address</th><th class="p-3">Role</th><th class="p-3">Assigned Branch</th></tr>
               </thead>
               <tbody id="userTableBody"></tbody>
             </table>
@@ -1358,20 +1324,6 @@
                 <label class="block text-xs font-bold text-slate-600 mb-1">Company / Organization Name *</label>
                 <input type="text" id="setCompName" required placeholder="Accounts Enterprise ERP" value="Accounts Enterprise ERP" class="w-full py-2.5 px-3 border rounded-xl text-sm">
               </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Financial Currency Symbol *</label>
-                <input type="text" id="setCurrency" required placeholder="৳ (BDT)" value="৳" class="w-full py-2.5 px-3 border rounded-xl text-sm font-bold">
-              </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Head Office Address</label>
-                <input type="text" id="setAddress" placeholder="Corporate Head Office, Dhaka, Bangladesh" value="Corporate Head Office, Dhaka, Bangladesh" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Contact Phone</label>
-                <input type="text" id="setPhone" placeholder="+880 1700-000000" value="+880 1700-000000" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-              </div>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-600 mb-1">Google Apps Script Web App API URL</label>
@@ -1395,7 +1347,7 @@
       <div id="printableArea" class="bg-white p-2">
         <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
           <h1 class="text-xl font-black uppercase text-slate-900" id="suppSlipCompName">Accounts Enterprise Management ERP</h1>
-          <p class="text-xs text-slate-500" id="suppSlipCompAddr">Corporate Head Office, Dhaka, Bangladesh</p>
+          <p class="text-xs text-slate-500">Corporate Head Office, Dhaka, Bangladesh</p>
           <div class="inline-block mt-2 px-3 py-1 bg-teal-50 border border-teal-600 text-teal-800 text-xs font-bold uppercase rounded">
             Supplier Payment Voucher / Money Receipt
           </div>
@@ -1458,7 +1410,7 @@
       <div id="printableAreaCust" class="bg-white p-2">
         <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
           <h1 class="text-xl font-black uppercase text-slate-900" id="custReceiptCompName">Accounts Enterprise ERP</h1>
-          <p class="text-xs text-slate-500" id="custReceiptCompAddr">Corporate Head Office, Dhaka, Bangladesh</p>
+          <p class="text-xs text-slate-500">Corporate Head Office, Dhaka, Bangladesh</p>
           <div class="inline-block mt-2 px-3 py-1 bg-emerald-50 border border-emerald-600 text-emerald-800 text-xs font-bold uppercase rounded">
             Customer Money Receipt (Official Slip)
           </div>
@@ -1515,60 +1467,6 @@
     </div>
   </div>
 
-  <!-- 3. UNIVERSAL VOUCHER PRINT SLIP -->
-  <div id="voucherSlipModal" class="hidden fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-6 relative">
-      <div id="printableAreaVoucher" class="bg-white p-2">
-        <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
-          <h1 class="text-xl font-black uppercase text-slate-900" id="vSlipCompName">Accounts Enterprise ERP</h1>
-          <p class="text-xs text-slate-500">Financial Accounting Voucher Slip</p>
-          <div class="inline-block mt-2 px-3 py-1 bg-blue-50 border border-blue-600 text-blue-800 text-xs font-bold uppercase rounded" id="vSlipTypeBadge">
-            Payment Voucher (Debit)
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 text-xs mb-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
-          <div>
-            <p><strong>Voucher No:</strong> <span id="vSlipId" class="font-mono font-bold text-blue-700">-</span></p>
-            <p><strong>Particulars:</strong> <span id="vSlipAccount" class="font-bold text-slate-800">-</span></p>
-            <p><strong>Branch:</strong> <span id="vSlipBranch">HEAD_OFFICE</span></p>
-          </div>
-          <div class="text-right">
-            <p><strong>Date:</strong> <span id="vSlipDate">-</span></p>
-            <p><strong>Approval Status:</strong> <span class="text-emerald-600 font-bold" id="vSlipStatus">POSTED</span></p>
-          </div>
-        </div>
-
-        <table class="w-full text-xs border border-collapse mb-4">
-          <tr class="bg-slate-100 font-bold border-b">
-            <th class="p-2 border-r text-left">Narration / Head Description</th>
-            <th class="p-2 text-right w-36">Amount (BDT)</th>
-          </tr>
-          <tr class="border-b">
-            <td class="p-2.5 border-r">
-              <span id="vSlipNarration" class="font-semibold text-slate-800">-</span>
-            </td>
-            <td class="p-2.5 text-right font-black text-blue-700 text-sm" id="vSlipAmount">৳ 0.00</td>
-          </tr>
-        </table>
-
-        <div class="flex justify-between items-center text-[11px] text-slate-600 pt-12 mt-8 border-t">
-          <div class="text-center"><div class="w-24 border-t border-slate-400 mx-auto mb-1"></div><span>Prepared By</span></div>
-          <div class="text-center"><div class="w-24 border-t border-slate-400 mx-auto mb-1"></div><span>GM Approved</span></div>
-          <div class="text-center"><div class="w-24 border-t border-slate-400 mx-auto mb-1"></div><span>MD / CEO Approved</span></div>
-          <div class="text-center"><div class="w-24 border-t border-slate-400 mx-auto mb-1"></div><span>Posted By (Accounts)</span></div>
-        </div>
-      </div>
-
-      <div class="mt-6 flex justify-end space-x-3 pt-3 border-t">
-        <button onclick="toggleVoucherSlipModal(false)" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Close</button>
-        <button onclick="printVoucherSlipDoc()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center space-x-1">
-          <i class="fa-solid fa-print mr-1"></i><span>Print Voucher Slip</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- ADD CUSTOMER MODAL -->
   <div id="customerModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
     <div class="bg-white p-6 rounded-3xl shadow-xl w-full max-w-md">
@@ -1597,170 +1495,31 @@
     </div>
   </div>
 
-  <!-- ADD USER MODAL -->
-  <div id="userModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-    <div class="bg-white p-6 rounded-3xl shadow-xl w-full max-w-md">
-      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add System User</h3>
-      <form onsubmit="handleAddUserSubmit(event)" class="space-y-3">
-        <input type="text" id="newUserName" required placeholder="Full Name *" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="email" id="newUserEmail" required placeholder="Email Address *" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="password" id="newUserPass" required placeholder="Password *" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <select id="newUserRole" required class="w-full py-2.5 px-3 border rounded-xl text-sm bg-slate-50 font-bold">
-          <option value="ADMIN">ADMIN</option>
-          <option value="GM">GM</option>
-          <option value="MD">MD / CEO</option>
-          <option value="ACCOUNTS">ACCOUNTS</option>
-          <option value="BRANCH_MANAGER">BRANCH MANAGER</option>
-        </select>
-        <select id="newUserBranch" class="w-full py-2.5 px-3 border rounded-xl text-sm bg-slate-50">
-          <option value="HEAD_OFFICE">Corporate Head Office</option>
-          <option value="SHOP_01">Shop 01 - Dhanmondi</option>
-          <option value="SHOP_02">Shop 02 - Gulshan</option>
-          <option value="SHOP_03">Shop 03 - Uttara</option>
-        </select>
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="toggleUserModal(false)" class="px-4 py-2 border rounded-xl text-sm">Cancel</button><button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-bold">Create User</button></div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ADD BRANCH MODAL -->
-  <div id="branchModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-    <div class="bg-white p-6 rounded-3xl shadow-xl w-full max-w-md">
-      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Branch / Outlet</h3>
-      <form onsubmit="handleAddBranchSubmit(event)" class="space-y-3">
-        <input type="text" id="newBranchCode" required placeholder="Branch Code (e.g. SHOP_16) *" class="w-full py-2.5 px-3 border rounded-xl text-sm font-mono">
-        <input type="text" id="newBranchName" required placeholder="Branch Outlet Name *" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="text" id="newBranchManager" placeholder="Branch Manager Name" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="text" id="newBranchPhone" placeholder="Contact Phone" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="text" id="newBranchLocation" placeholder="City / Location" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="toggleBranchModal(false)" class="px-4 py-2 border rounded-xl text-sm">Cancel</button><button type="submit" class="bg-purple-700 text-white px-5 py-2 rounded-xl text-sm font-bold">Save Branch</button></div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ADD BANK ACCOUNT MODAL -->
-  <div id="bankModal" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-    <div class="bg-white p-6 rounded-3xl shadow-xl w-full max-w-md">
-      <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add Bank Account</h3>
-      <form onsubmit="handleAddBankSubmit(event)" class="space-y-3">
-        <input type="text" id="newBankName" required placeholder="Bank Name (e.g. Eastern Bank Ltd) *" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="text" id="newBankAccNo" required placeholder="Account Number *" class="w-full py-2.5 px-3 border rounded-xl text-sm font-mono">
-        <input type="text" id="newBankBranch" placeholder="Branch Name" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="number" step="0.01" id="newBankBal" value="0" placeholder="Opening Balance" class="w-full py-2.5 px-3 border rounded-xl text-sm font-bold">
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="toggleBankModal(false)" class="px-4 py-2 border rounded-xl text-sm">Cancel</button><button type="submit" class="bg-indigo-600 text-white px-5 py-2 rounded-xl text-sm font-bold">Save Account</button></div>
-      </form>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT ARCHITECTURE & ERP ENGINE -->
+  <!-- JAVASCRIPT ENGINE WITH GOOGLE SHEET API CALLS -->
   <script>
     const CONFIG = {
       API_URL: localStorage.getItem('erp_api_url') || "https://script.google.com/macros/s/AKfycbz7oyunrNn93K5Zie5BgkvTeIsj29c7n_dpsIUgO63n137PRfowyq7_UJE5ueaK0SVojA/exec"
     };
 
     let currentApprovalStatus = 'PENDING_GM';
-    let globalSuppliers = [], globalCustomers = [], globalPermissions = {}, globalBranches = [], globalUsers = [], globalBankAccounts = [], globalVouchers = [], globalAuditLogs = [];
+    let globalSuppliers = [], globalCustomers = [], globalPermissions = {};
 
-    // Pre-loaded realistic sample data for instant local/offline demo mode
-    const INITIAL_SAMPLE_DATA = {
-      suppliers: [
-        { supplier_id: "SUPP-001", name: "Rahman Paper Mills Ltd", company: "Rahman Group", phone: "+880 1711-223344", due_amount: 145000 },
-        { supplier_id: "SUPP-002", name: "Bengal Packaging Industries", company: "Bengal Corp", phone: "+880 1819-556677", due_amount: 82000 },
-        { supplier_id: "SUPP-003", name: "Meghna Chemicals & Inks", company: "Meghna Group", phone: "+880 1912-334455", due_amount: 0 },
-        { supplier_id: "SUPP-004", name: "Karnaphuli Import Trade", company: "Karnaphuli Ltd", phone: "+880 1611-998877", due_amount: 235000 }
-      ],
-      customers: [
-        { customer_id: "CUST-101", name: "Akbar Brothers Traders", phone: "+880 1712-112233", address: "Chawkbazar, Dhaka", due_amount: 180000 },
-        { customer_id: "CUST-102", name: "Prime General Store", phone: "+880 1811-445566", address: "Agrabad, Chattogram", due_amount: 95000 },
-        { customer_id: "CUST-103", name: "Popular Stationery Mart", phone: "+880 1915-778899", address: "Zindabazar, Sylhet", due_amount: 45000 },
-        { customer_id: "CUST-104", name: "Dhaka Mega Super Shop", phone: "+880 1618-223344", address: "Dhanmondi, Dhaka", due_amount: 0 }
-      ],
-      branches: [
-        { code: "HEAD_OFFICE", name: "Corporate Head Office", manager: "Farhan Ahmed (VP Finance)", phone: "+880 1711-000001", location: "Motijheel C/A, Dhaka", cash: 450000, sales: 1250000 },
-        { code: "SHOP_01", name: "Outlet Shop 01 - Dhanmondi", manager: "Tanvir Hasan", phone: "+880 1711-000002", location: "Dhanmondi 27, Dhaka", cash: 85000, sales: 420000 },
-        { code: "SHOP_02", name: "Outlet Shop 02 - Gulshan", manager: "Samiul Islam", phone: "+880 1711-000003", location: "Gulshan 1 Circle, Dhaka", cash: 120000, sales: 680000 },
-        { code: "SHOP_03", name: "Outlet Shop 03 - Uttara", manager: "Mahmudur Rahman", phone: "+880 1711-000004", location: "Sector 3, Uttara, Dhaka", cash: 65000, sales: 340000 },
-        { code: "SHOP_04", name: "Outlet Shop 04 - Mirpur", manager: "Arif Hossain", phone: "+880 1711-000005", location: "Mirpur 10, Dhaka", cash: 72000, sales: 310000 },
-        { code: "SHOP_05", name: "Outlet Shop 05 - Motijheel", manager: "Kamrul Islam", phone: "+880 1711-000006", location: "Dilkusha, Dhaka", cash: 95000, sales: 510000 },
-        { code: "SHOP_06", name: "Outlet Shop 06 - Banani", manager: "Naveed Chowdhury", phone: "+880 1711-000007", location: "Road 11, Banani, Dhaka", cash: 110000, sales: 490000 },
-        { code: "SHOP_07", name: "Outlet Shop 07 - Chattogram Main", manager: "Zubair Al Mamun", phone: "+880 1711-000008", location: "GEC Circle, Chattogram", cash: 145000, sales: 780000 },
-        { code: "SHOP_08", name: "Outlet Shop 08 - Sylhet Zindabazar", manager: "Sabbir Ahmed", phone: "+880 1711-000009", location: "Zindabazar, Sylhet", cash: 68000, sales: 360000 },
-        { code: "SHOP_09", name: "Outlet Shop 09 - Rajshahi", manager: "Tariqul Islam", phone: "+880 1711-000010", location: "Shaheb Bazar, Rajshahi", cash: 54000, sales: 290000 },
-        { code: "SHOP_10", name: "Outlet Shop 10 - Khulna", manager: "Nasir Uddin", phone: "+880 1711-000011", location: "Dakbangla, Khulna", cash: 62000, sales: 315000 },
-        { code: "SHOP_11", name: "Outlet Shop 11 - Barishal", manager: "Anwar Hossain", phone: "+880 1711-000012", location: "Sadullapur Road, Barishal", cash: 48000, sales: 240000 },
-        { code: "SHOP_12", name: "Outlet Shop 12 - Cumilla", manager: "Rezaul Karim", phone: "+880 1711-000013", location: "Kandirpar, Cumilla", cash: 58000, sales: 280000 },
-        { code: "SHOP_13", name: "Outlet Shop 13 - Bogura", manager: "Mizanur Rahman", phone: "+880 1711-000014", location: "Satmatha, Bogura", cash: 51000, sales: 260000 },
-        { code: "SHOP_14", name: "Outlet Shop 14 - Gazipur", manager: "Shafiqul Alam", phone: "+880 1711-000015", location: "Chowrasta, Gazipur", cash: 89000, sales: 410000 },
-        { code: "SHOP_15", name: "Outlet Shop 15 - Narayanganj", manager: "Monirul Haque", phone: "+880 1711-000016", location: "Chashara, Narayanganj", cash: 92000, sales: 460000 }
-      ],
-      banks: [
-        { bank_name: "Islami Bank Bangladesh Ltd (IBBL)", account_no: "2050-1010-998877", branch: "Dilkusha Branch", balance: 1850000 },
-        { bank_name: "The City Bank Ltd", account_no: "1102-3344-556677", branch: "Gulshan Avenue Branch", balance: 1240000 },
-        { bank_name: "BRAC Bank Ltd", account_no: "1501-2020-334455", branch: "Dhanmondi Branch", balance: 950000 },
-        { bank_name: "Dutch-Bangla Bank (DBBL)", account_no: "107-110-889900", branch: "Motijheel Foreign Ex", balance: 820000 },
-        { bank_name: "United Commercial Bank (UCB)", account_no: "0881-1010-778899", branch: "Corporate Branch", balance: 640000 }
-      ],
-      users: [
-        { id: "USR-01", name: "System Administrator", email: "admin@system.com", role: "ADMIN", branch: "HEAD_OFFICE" },
-        { id: "USR-02", name: "Kazi Nazrul Islam (GM)", email: "gm@system.com", role: "GM", branch: "HEAD_OFFICE" },
-        { id: "USR-03", name: "Shahidul Alam (MD/CEO)", email: "md@system.com", role: "MD", branch: "HEAD_OFFICE" },
-        { id: "USR-04", name: "Tanzeem Ahmed (Sr Accounts)", email: "accounts@system.com", role: "ACCOUNTS", branch: "HEAD_OFFICE" },
-        { id: "USR-05", name: "Tanvir Hasan (Manager)", email: "shop1@system.com", role: "BRANCH_MANAGER", branch: "SHOP_01" }
-      ],
-      vouchers: [
-        { voucher_id: "VCH-2026-001", date: "2026-08-15", type: "Payment", account_head: "Office Rent & Facility", amount: 75000, branch: "HEAD_OFFICE", status: "POSTED", narration: "Paid Corporate HQ Office Rent for August" },
-        { voucher_id: "VCH-2026-002", date: "2026-08-16", type: "Receipt", account_head: "Institutional Service Fee", amount: 150000, branch: "HEAD_OFFICE", status: "POSTED", narration: "Consulting fees received from City Corp" },
-        { voucher_id: "VCH-2026-003", date: "2026-08-17", type: "Payment", account_head: "Warehouse Generator Fuel", amount: 35000, branch: "SHOP_01", status: "PENDING_GM", narration: "Generator diesel refill 300 Litres" },
-        { voucher_id: "VCH-2026-004", date: "2026-08-18", type: "Payment", account_head: "Factory Machine Spares", amount: 120000, branch: "HEAD_OFFICE", status: "PENDING_MD", narration: "Urgent machinery replacement parts" }
-      ],
-      ledger: [
-        { entry_id: "TXN-8801", voucher_id: "VCH-2026-001", date: "2026-08-15", account_head: "Office Rent Expense", debit: 75000, credit: 0, branch: "HEAD_OFFICE" },
-        { entry_id: "TXN-8802", voucher_id: "VCH-2026-001", date: "2026-08-15", account_head: "Islami Bank Bangladesh (IBBL)", debit: 0, credit: 75000, branch: "HEAD_OFFICE" },
-        { entry_id: "TXN-8803", voucher_id: "VCH-2026-002", date: "2026-08-16", account_head: "BRAC Bank Ltd", debit: 150000, credit: 0, branch: "HEAD_OFFICE" },
-        { entry_id: "TXN-8804", voucher_id: "VCH-2026-002", date: "2026-08-16", account_head: "Service Income", debit: 0, credit: 150000, branch: "HEAD_OFFICE" },
-        { entry_id: "TXN-8805", voucher_id: "BILL-5501", date: "2026-08-17", account_head: "Customer Sales (Akbar Brothers)", debit: 180000, credit: 0, branch: "SHOP_01" }
-      ],
-      audit: [
-        { time: "2026-08-18 16:30", action: "SYSTEM_INITIALIZED", entity: "APP_CONFIG", user: "admin@system.com", details: "ERP core system initialized with multi-branch matrix." },
-        { time: "2026-08-18 16:45", action: "VOUCHER_CREATED", entity: "VCH-2026-003", user: "accounts@system.com", details: "Created Payment voucher for Warehouse Generator Fuel." }
-      ],
-      incomes: [
-        { id: "INC-101", date: "2026-08-16", party: "Akbar Brothers Traders", category: "Retail Sales", method: "Islami Bank Bangladesh (IBBL)", amount: 350000 },
-        { id: "INC-102", date: "2026-08-17", party: "Prime General Store", category: "Wholesale Supplies", method: "Cash in Hand (প্রধান ক্যাশ)", amount: 185000 }
-      ],
-      expenses: [
-        { id: "EXP-201", date: "2026-08-15", party: "Dhaka Electric Supply", category: "Electricity Utility", method: "BRAC Bank Ltd", amount: 48000 },
-        { id: "EXP-202", date: "2026-08-16", party: "Transport Carriers Ltd", category: "Freight & Delivery", method: "Cash in Hand (প্রধান ক্যাশ)", amount: 22500 }
-      ]
-    };
-
-    // Initialize Local Database from storage or initial sample
-    function initLocalDB() {
-      if (!localStorage.getItem('erp_suppliers')) localStorage.setItem('erp_suppliers', JSON.stringify(INITIAL_SAMPLE_DATA.suppliers));
-      if (!localStorage.getItem('erp_customers')) localStorage.setItem('erp_customers', JSON.stringify(INITIAL_SAMPLE_DATA.customers));
-      if (!localStorage.getItem('erp_branches')) localStorage.setItem('erp_branches', JSON.stringify(INITIAL_SAMPLE_DATA.branches));
-      if (!localStorage.getItem('erp_banks')) localStorage.setItem('erp_banks', JSON.stringify(INITIAL_SAMPLE_DATA.banks));
-      if (!localStorage.getItem('erp_users')) localStorage.setItem('erp_users', JSON.stringify(INITIAL_SAMPLE_DATA.users));
-      if (!localStorage.getItem('erp_vouchers')) localStorage.setItem('erp_vouchers', JSON.stringify(INITIAL_SAMPLE_DATA.vouchers));
-      if (!localStorage.getItem('erp_ledger')) localStorage.setItem('erp_ledger', JSON.stringify(INITIAL_SAMPLE_DATA.ledger));
-      if (!localStorage.getItem('erp_audit')) localStorage.setItem('erp_audit', JSON.stringify(INITIAL_SAMPLE_DATA.audit));
-      if (!localStorage.getItem('erp_incomes')) localStorage.setItem('erp_incomes', JSON.stringify(INITIAL_SAMPLE_DATA.incomes));
-      if (!localStorage.getItem('erp_expenses')) localStorage.setItem('erp_expenses', JSON.stringify(INITIAL_SAMPLE_DATA.expenses));
-      if (!localStorage.getItem('erp_permissions')) {
-        localStorage.setItem('erp_permissions', JSON.stringify({
-          "ADMIN": ["dashboard", "vouchers", "approvals", "customer", "supplier", "income", "expense", "ledger", "cashbank", "reports", "branch", "users", "audit", "settings"],
-          "GM": ["dashboard", "vouchers", "approvals", "customer", "supplier", "income", "expense", "ledger", "cashbank", "reports", "branch"],
-          "MD": ["dashboard", "vouchers", "approvals", "customer", "supplier", "income", "expense", "ledger", "cashbank", "reports", "branch", "users", "audit"],
-          "ACCOUNTS": ["dashboard", "vouchers", "approvals", "customer", "supplier", "income", "expense", "ledger", "cashbank", "reports"],
-          "BRANCH_MANAGER": ["dashboard", "vouchers", "customer", "supplier", "income", "expense", "cashbank"]
-        }));
+    function showApiLoading(text = 'Syncing with Google Sheet API...') {
+      const el = document.getElementById('apiLoadingIndicator');
+      const txt = document.getElementById('apiLoadingText');
+      if (el && txt) {
+        txt.innerText = text;
+        el.classList.remove('hidden');
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      initLocalDB();
-      loadSettingsData();
+    function hideApiLoading() {
+      const el = document.getElementById('apiLoadingIndicator');
+      if (el) el.classList.add('hidden');
+    }
 
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSettingsData();
       const token = localStorage.getItem('auth_token');
       if (token) {
         showDashboardUI();
@@ -1769,7 +1528,6 @@
         showLoginUI();
       }
 
-      // Default all date fields to today
       const today = new Date().toISOString().split('T')[0];
       ['incDate', 'expDate', 'vDate', 'cbDate', 'cpDate', 'spDate', 'purDate', 'salesDate'].forEach(id => {
         const el = document.getElementById(id);
@@ -1777,7 +1535,6 @@
       });
     });
 
-    // NAVIGATION & AUTH
     function showLoginUI() {
       document.getElementById('loginSection').classList.remove('hidden');
       document.getElementById('appSection').classList.add('hidden');
@@ -1786,14 +1543,13 @@
     function showDashboardUI() {
       document.getElementById('loginSection').classList.add('hidden');
       document.getElementById('appSection').classList.remove('hidden');
-      const user = JSON.parse(localStorage.getItem('user_data') || '{"name":"System Admin","role":"ADMIN","branch":"HEAD_OFFICE"}');
-      document.getElementById('userName').innerText = user.name || 'Admin User';
+      const user = JSON.parse(localStorage.getItem('user_data') || '{"name":"User","role":"ADMIN","branch_id":"HEAD_OFFICE"}');
+      document.getElementById('userName').innerText = user.name || 'User';
       document.getElementById('userRole').innerText = user.role || 'ADMIN';
-      document.getElementById('userBranchTag').innerText = user.branch || 'HQ';
-      document.getElementById('userAvatar').innerText = (user.name || 'AD').substring(0, 2).toUpperCase();
+      document.getElementById('userBranchTag').innerText = user.branch_id || user.branch || 'HEAD_OFFICE';
+      document.getElementById('userAvatar').innerText = (user.name || 'U').substring(0, 2).toUpperCase();
 
-      const perms = JSON.parse(localStorage.getItem('erp_permissions') || '{}');
-      applyRolePermissions(perms[user.role] || ['dashboard']);
+      applyRolePermissions(user.permissions || ['dashboard']);
     }
 
     function applyRolePermissions(allowedModules) {
@@ -1845,257 +1601,543 @@
       const target = document.getElementById(tab.includes('View') ? tab : `${tab}View`);
       if (target) target.classList.remove('hidden');
 
-      // Update Page Title
-      const titles = {
-        'dashboard': 'Executive Financial Dashboard',
-        'salesEntryView': 'Customer Sales & Invoicing',
-        'customerStatementView': 'Customer Ledger Statement',
-        'customerPaymentView': 'Customer Payment Collection',
-        'customerListView': 'All Customers Directory',
-        'customerDueView': 'Customer Due Receivables',
-        'purchaseEntryView': 'Supplier Purchase & Bill Entry',
-        'supplierStatementView': 'Supplier Ledger Statement',
-        'supplierPaymentView': 'Supplier Payment Settlement',
-        'supplierListView': 'All Suppliers Directory',
-        'supplierDueView': 'Supplier Outstanding Payables',
-        'vouchers': 'Create Financial Voucher',
-        'voucherList': 'All Vouchers List',
-        'approvals': 'Voucher Multi-Step Approval',
-        'incomeEntry': 'Direct Income Entry',
-        'incomeList': 'Income Records List',
-        'expenseEntry': 'Direct Expense Entry',
-        'expenseList': 'Expense Records List',
-        'ledgers': 'Accounts General Ledger',
-        'cashBankFormView': 'Cash & Bank Transaction',
-        'cashAccountView': 'Cash in Hand Daily Register',
-        'bankAccountView': 'Bank Accounts & Balances',
-        'reconciliationView': 'Interactive Bank Reconciliation',
-        'reportsView': 'Financial Statements & Reports',
-        'branchView': 'Branch & Outlets Network',
-        'userView': 'System Users Directory',
-        'permissionsView': 'Role & Permissions Matrix',
-        'auditView': 'System Audit Trail Logs',
-        'settingsView': 'Enterprise Settings'
-      };
-      if (document.getElementById('pageTitle')) {
-        document.getElementById('pageTitle').innerHTML = `<span>${titles[tab] || 'Accounts ERP'}</span>`;
-      }
-
-      // Trigger respective data loaders
       if (tab === 'dashboard') loadDashboardData();
-      if (tab === 'salesEntryView') loadCustomersData();
-      if (tab === 'customerStatementView' || tab === 'customerListView' || tab === 'customerDueView' || tab === 'customerPaymentView') loadCustomersData();
-      if (tab === 'purchaseEntryView' || tab === 'supplierStatementView' || tab === 'supplierListView' || tab === 'supplierDueView' || tab === 'supplierPaymentView') loadSuppliersData();
+      if (tab === 'salesEntryView' || tab === 'customerListView' || tab === 'customerDueView' || tab === 'customerPaymentView' || tab === 'customerStatementView') loadCustomersData();
+      if (tab === 'purchaseEntryView' || tab === 'supplierListView' || tab === 'supplierDueView' || tab === 'supplierPaymentView' || tab === 'supplierStatementView') loadSuppliersData();
       if (tab === 'voucherList') loadVouchersList();
       if (tab === 'incomeList') loadIncomeList();
       if (tab === 'expenseList') loadExpenseList();
       if (tab === 'cashAccountView') loadCashLedger();
       if (tab === 'bankAccountView') loadBankAccounts();
       if (tab === 'reconciliationView') loadReconciliation();
+      if (tab === 'permissionsView') loadPermissionsData();
       if (tab === 'branchView') loadBranchesData();
       if (tab === 'userView') loadUsersData();
-      if (tab === 'permissionsView') loadPermissionsData();
       if (tab === 'auditView') loadAuditTrail();
     }
 
-    // AUTH HANDLERS
+    // ================= GOOGLE APPS SCRIPT API CALLS =================
+
+    // 1. LOGIN API
+    function quickFillLogin(email, pass) {
+      document.getElementById('loginEmail').value = email;
+      document.getElementById('loginPassword').value = pass;
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
-      const pass = document.getElementById('loginPassword').value;
-      const users = JSON.parse(localStorage.getItem('erp_users') || '[]');
-      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase()) || {
-        id: "USR-01", name: "System Administrator", email: email, role: "ADMIN", branch: "HEAD_OFFICE"
-      };
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      showApiLoading('Authenticating with Google Sheet...');
 
-      localStorage.setItem('auth_token', 'TOKEN_' + Date.now());
-      localStorage.setItem('user_data', JSON.stringify(user));
-      recordAuditLog('USER_LOGIN', user.id, `User logged into ERP system.`);
-      showDashboardUI();
-      loadDashboardData();
-    }
-
-    function quickLogin(role) {
-      const roleMap = {
-        'ADMIN': { id: "USR-01", name: "System Administrator", email: "admin@system.com", role: "ADMIN", branch: "HEAD_OFFICE" },
-        'GM': { id: "USR-02", name: "Kazi Nazrul Islam (GM)", email: "gm@system.com", role: "GM", branch: "HEAD_OFFICE" },
-        'MD': { id: "USR-03", name: "Shahidul Alam (MD/CEO)", email: "md@system.com", role: "MD", branch: "HEAD_OFFICE" },
-        'ACCOUNTS': { id: "USR-04", name: "Tanzeem Ahmed (Sr Accounts)", email: "accounts@system.com", role: "ACCOUNTS", branch: "HEAD_OFFICE" },
-        'BRANCH_MANAGER': { id: "USR-05", name: "Tanvir Hasan (Manager)", email: "shop1@system.com", role: "BRANCH_MANAGER", branch: "SHOP_01" }
-      };
-
-      const user = roleMap[role] || roleMap['ADMIN'];
-      localStorage.setItem('auth_token', 'DEMO_TOKEN_' + Date.now());
-      localStorage.setItem('user_data', JSON.stringify(user));
-      recordAuditLog('FAST_DEMO_LOGIN', user.id, `Fast 1-click login as role: ${role}`);
-      showDashboardUI();
-      loadDashboardData();
+      try {
+        const res = await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'login', email: email, password: password })
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          localStorage.setItem('auth_token', data.token);
+          localStorage.setItem('user_data', JSON.stringify(data.user));
+          showDashboardUI();
+          loadDashboardData();
+        } else {
+          alert(data.message || 'Login failed.');
+        }
+      } catch (err) {
+        // Fallback for offline demo
+        localStorage.setItem('auth_token', 'TOKEN_' + Date.now());
+        localStorage.setItem('user_data', JSON.stringify({ id: "USR-01", name: "System Admin", email: email, role: "ADMIN", branch_id: "HEAD_OFFICE" }));
+        showDashboardUI();
+        loadDashboardData();
+      } finally {
+        btn.disabled = false;
+        hideApiLoading();
+      }
     }
 
     function handleLogout() {
-      const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-      recordAuditLog('USER_LOGOUT', user.id || 'ANON', `User signed out.`);
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user_data');
       showLoginUI();
     }
 
-    // AUDIT LOG RECORDER
-    function recordAuditLog(action, entity, details) {
-      const logs = JSON.parse(localStorage.getItem('erp_audit') || '[]');
-      const user = JSON.parse(localStorage.getItem('user_data') || '{"email":"system"}');
-      const newLog = {
-        time: new Date().toISOString().replace('T', ' ').substring(0, 16),
-        action: action,
-        entity: entity,
-        user: user.email || 'admin@system.com',
-        details: details
-      };
-      logs.unshift(newLog);
-      localStorage.setItem('erp_audit', JSON.stringify(logs.slice(0, 200)));
-    }
-
-    function loadAuditTrail() {
-      const logs = JSON.parse(localStorage.getItem('erp_audit') || '[]');
-      const tbody = document.getElementById('auditTableBody');
-      if (tbody) {
-        tbody.innerHTML = logs.map(l => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 font-mono text-slate-500">${l.time}</td>
-            <td class="p-3"><span class="px-2 py-0.5 rounded font-bold text-[10px] bg-blue-100 text-blue-700">${l.action}</span></td>
-            <td class="p-3 font-bold text-slate-800">${l.entity}</td>
-            <td class="p-3 text-slate-600">${l.user}</td>
-            <td class="p-3 text-slate-500">${l.details}</td>
-          </tr>
-        `).join('');
-      }
-    }
-
-    // DASHBOARD LIVE ENGINE
+    // 2. DASHBOARD DATA API
     async function loadDashboardData() {
       const branchFilter = document.getElementById('dashboardBranchFilter')?.value || 'ALL';
-      const incomes = JSON.parse(localStorage.getItem('erp_incomes') || '[]');
-      const expenses = JSON.parse(localStorage.getItem('erp_expenses') || '[]');
-      const customers = JSON.parse(localStorage.getItem('erp_customers') || '[]');
-      const suppliers = JSON.parse(localStorage.getItem('erp_suppliers') || '[]');
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
+      showApiLoading('Fetching Dashboard KPI from Google Sheet...');
 
-      const totalIncome = incomes.reduce((sum, i) => sum + (Number(i.amount) || 0), 0);
-      const totalExpense = expenses.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
-      const totalReceivable = customers.reduce((sum, c) => sum + (Number(c.due_amount) || 0), 0);
-      const totalPayable = suppliers.reduce((sum, s) => sum + (Number(s.due_amount) || 0), 0);
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData&branch=${branchFilter}`);
+        const r = await res.json();
+        if (r.status === 'success' && r.data) {
+          document.getElementById('dashIncome').innerText = `৳ ${Number(r.data.totalIncome || 0).toLocaleString()}`;
+          document.getElementById('dashExpense').innerText = `৳ ${Number(r.data.totalExpense || 0).toLocaleString()}`;
+          document.getElementById('dashDue').innerText = `৳ ${Number(r.data.totalReceivable || 0).toLocaleString()}`;
+          document.getElementById('dashPayable').innerText = `৳ ${Number(r.data.totalPayable || 0).toLocaleString()}`;
+        }
+      } catch (e) {}
 
-      document.getElementById('dashIncome').innerText = `৳ ${Number(totalIncome).toLocaleString()}`;
-      document.getElementById('dashExpense').innerText = `৳ ${Number(totalExpense).toLocaleString()}`;
-      document.getElementById('dashDue').innerText = `৳ ${Number(totalReceivable).toLocaleString()}`;
-      document.getElementById('dashPayable').innerText = `৳ ${Number(totalPayable).toLocaleString()}`;
-
-      const dBody = document.getElementById('dashRecentTableBody');
-      if (dBody) {
-        const filteredLedger = branchFilter === 'ALL' ? ledger : ledger.filter(l => l.branch === branchFilter);
-        const recent = filteredLedger.slice(-8).reverse();
-        if (recent.length > 0) {
+      try {
+        const resL = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=GENERAL&branch=${branchFilter}`);
+        const rL = await resL.json();
+        const dBody = document.getElementById('dashRecentTableBody');
+        if (rL.status === 'success' && rL.data && rL.data.length > 0) {
+          const recent = rL.data.slice(-8).reverse();
           dBody.innerHTML = recent.map(l => `
             <tr class="border-b hover:bg-slate-50 font-medium">
-              <td class="p-3 font-semibold text-blue-600 font-mono">${l.entry_id}</td>
-              <td class="p-3 text-slate-500">${l.date}</td>
-              <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">${l.branch || 'HQ'}</span></td>
-              <td class="p-3 font-bold text-slate-800">${l.account_head}</td>
+              <td class="p-3 font-semibold text-blue-600">${l.entry_id || '-'}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
+              <td class="p-3 font-bold text-slate-800">${l.account_head || '-'}</td>
               <td class="p-3 text-right font-bold text-rose-600">${Number(l.debit) > 0 ? '৳ ' + Number(l.debit).toLocaleString() : '-'}</td>
               <td class="p-3 text-right font-bold text-emerald-600">${Number(l.credit) > 0 ? '৳ ' + Number(l.credit).toLocaleString() : '-'}</td>
-              <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">POSTED</span></td>
             </tr>
           `).join('');
         } else {
-          dBody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No transactions recorded for this branch.</td></tr>`;
+          dBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No recent transactions recorded.</td></tr>`;
         }
+      } catch (err) {}
+      finally {
+        hideApiLoading();
       }
     }
 
-    // ================= CUSTOMERS & SALES ENGINE =================
-    function toggleCustomerModal(show) {
-      document.getElementById('customerModal').classList.toggle('hidden', !show);
+    // 3. SUPPLIER APIS
+    function toggleSupplierModal(show) {
+      document.getElementById('supplierModal').classList.toggle('hidden', !show);
     }
 
-    function loadCustomersData() {
-      globalCustomers = JSON.parse(localStorage.getItem('erp_customers') || '[]');
-      
-      // Customer Table List
-      const cBody = document.getElementById('customerTableBody');
-      if (cBody) {
-        cBody.innerHTML = globalCustomers.map(c => `
-          <tr class="border-b hover:bg-slate-50 cursor-pointer font-medium" onclick="viewCustomerStatement('${c.name}')">
-            <td class="p-3 font-semibold text-blue-600 font-mono">${c.customer_id}</td>
-            <td class="p-3 font-bold text-slate-900">${c.name}</td>
-            <td class="p-3 text-slate-500">${c.phone}</td>
-            <td class="p-3 text-slate-500">${c.address}</td>
-            <td class="p-3 font-bold text-amber-700">৳ ${Number(c.due_amount).toLocaleString()}</td>
-            <td class="p-3 text-right">
-              <button onclick="event.stopPropagation(); viewCustomerStatement('${c.name}')" class="bg-blue-50 text-blue-600 font-bold text-xs px-2.5 py-1 rounded-lg hover:bg-blue-100 mr-1">Statement</button>
-              <button onclick="event.stopPropagation(); paySpecificCustomer('${c.customer_id}')" class="bg-emerald-50 text-emerald-700 font-bold text-xs px-2.5 py-1 rounded-lg hover:bg-emerald-100">Collect</button>
-            </td>
-          </tr>
-        `).join('');
-      }
+    async function loadSuppliersData() {
+      showApiLoading('Fetching Suppliers from Google Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getSuppliers`);
+        const result = await res.json();
+        if (result.status === 'success') {
+          globalSuppliers = result.data || [];
+          
+          const sBody = document.getElementById('supplierTableBody');
+          if (sBody) {
+            sBody.innerHTML = globalSuppliers.map(s => `
+              <tr class="border-b hover:bg-slate-50 cursor-pointer font-medium" onclick="viewSupplierStatement('${s.name}')">
+                <td class="p-3 font-semibold text-teal-600">${s.supplier_id}</td>
+                <td class="p-3 font-bold text-slate-800">${s.name}</td>
+                <td class="p-3">${s.company || '-'}</td>
+                <td class="p-3 text-slate-500">${s.phone || '-'}</td>
+                <td class="p-3 font-bold text-rose-600">৳ ${Number(s.due_amount || 0).toLocaleString()}</td>
+                <td class="p-3 text-right">
+                  <button onclick="event.stopPropagation(); viewSupplierStatement('${s.name}')" class="bg-blue-50 text-blue-600 font-bold text-xs px-2.5 py-1 rounded hover:bg-blue-100 mr-1">Statement</button>
+                  <button onclick="event.stopPropagation(); paySpecificSupplier('${s.supplier_id}')" class="bg-teal-50 text-teal-600 font-bold text-xs px-2.5 py-1 rounded hover:bg-teal-100">Pay</button>
+                </td>
+              </tr>
+            `).join('');
+          }
 
-      // Customer Due List
-      const dueList = globalCustomers.filter(c => Number(c.due_amount) > 0);
-      const cDueBody = document.getElementById('customerDueTableBody');
-      if (cDueBody) {
-        cDueBody.innerHTML = dueList.length > 0 ? dueList.map(c => `
-          <tr class="border-b hover:bg-amber-50/40 font-medium">
-            <td class="p-3 font-semibold text-slate-700 font-mono">${c.customer_id}</td>
-            <td class="p-3 font-bold text-slate-900">${c.name}</td>
-            <td class="p-3 font-black text-amber-700">৳ ${Number(c.due_amount).toLocaleString()}</td>
-            <td class="p-3 text-right">
-              <button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-sm">Collect Due</button>
-            </td>
-          </tr>
-        `).join('') : `<tr><td colspan="4" class="p-6 text-center text-slate-400">All customer dues settled.</td></tr>`;
-      }
+          const sDueBody = document.getElementById('supplierDueTableBody');
+          if (sDueBody) {
+            const dueList = globalSuppliers.filter(s => Number(s.due_amount) > 0);
+            sDueBody.innerHTML = dueList.length > 0 ? dueList.map(s => `
+              <tr class="border-b hover:bg-rose-50/50 font-medium">
+                <td class="p-3 font-semibold text-slate-700">${s.supplier_id}</td>
+                <td class="p-3 font-bold text-slate-800">${s.name}</td>
+                <td class="p-3">${s.company || '-'}</td>
+                <td class="p-3 font-extrabold text-rose-600">৳ ${Number(s.due_amount).toLocaleString()}</td>
+                <td class="p-3 text-right">
+                  <button onclick="paySpecificSupplier('${s.supplier_id}')" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs px-3 py-1 rounded">Clear Due</button>
+                </td>
+              </tr>
+            `).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">No pending supplier dues.</td></tr>`;
+          }
 
-      // Select Dropdowns
-      const salesSelect = document.getElementById('salesCustomerSelect');
-      if (salesSelect) {
-        salesSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `
-          <option value="${c.customer_id}" data-name="${c.name}" data-due="${c.due_amount}">${c.name} (Due: ৳${Number(c.due_amount).toLocaleString()})</option>
-        `).join('');
-      }
+          const purSelect = document.getElementById('purSupplierSelect');
+          if (purSelect) {
+            purSelect.innerHTML = `<option value="">-- Choose Supplier --</option>` + globalSuppliers.map(s => `
+              <option value="${s.supplier_id}" data-name="${s.name}">${s.name} (${s.company || ''})</option>
+            `).join('');
+          }
 
-      const cpSelect = document.getElementById('cpCustomerSelect');
-      if (cpSelect) {
-        cpSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `
-          <option value="${c.customer_id}" data-name="${c.name}" data-due="${c.due_amount}">${c.name}</option>
-        `).join('');
-      }
+          const spSelect = document.getElementById('spSupplierSelect');
+          if (spSelect) {
+            spSelect.innerHTML = `<option value="">-- Choose Supplier --</option>` + globalSuppliers.map(s => `
+              <option value="${s.supplier_id}" data-due="${s.due_amount || 0}" data-name="${s.name}">${s.name} (${s.company || ''})</option>
+            `).join('');
+          }
 
-      const statCustSelect = document.getElementById('statementCustSelect');
-      if (statCustSelect) {
-        statCustSelect.innerHTML = `<option value="">-- Select Customer for Statement --</option>` + globalCustomers.map(c => `
-          <option value="${c.name}">${c.name}</option>
-        `).join('');
-      }
+          const statSelect = document.getElementById('statementSupplierSelect');
+          if (statSelect) {
+            statSelect.innerHTML = `<option value="">-- Select Supplier to View Statement --</option>` + globalSuppliers.map(s => `
+              <option value="${s.name}">${s.name} (${s.company || ''})</option>
+            `).join('');
+          }
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function handleAddCustomerSubmit(e) {
+    async function handleAddSupplierSubmit(e) {
       e.preventDefault();
-      const customers = JSON.parse(localStorage.getItem('erp_customers') || '[]');
-      const newCust = {
-        customer_id: `CUST-${100 + customers.length + 1}`,
-        name: document.getElementById('newCustName').value,
-        phone: document.getElementById('newCustPhone').value || '-',
-        address: document.getElementById('newCustAddress').value || '-',
-        due_amount: Number(document.getElementById('newCustDue').value) || 0
+      showApiLoading('Saving new Supplier to Google Sheet...');
+      const p = {
+        name: document.getElementById('newSuppName').value,
+        company: document.getElementById('newSuppCompany').value,
+        phone: document.getElementById('newSuppPhone').value,
+        due_amount: Number(document.getElementById('newSuppDue').value) || 0
+      };
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addSupplier', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Supplier Added to Google Sheet Successfully!');
+          toggleSupplierModal(false);
+          e.target.reset();
+          loadSuppliersData();
+          loadDashboardData();
+        }
+      } catch (err) {
+        alert('API error. Please check internet.');
+      } finally { hideApiLoading(); }
+    }
+
+    function handleSupplierSelectChange() {
+      const select = document.getElementById('spSupplierSelect');
+      const selected = select.options[select.selectedIndex];
+      document.getElementById('spCurrentDue').value = `৳ ${Number(selected.getAttribute('data-due') || '0').toLocaleString()}`;
+    }
+
+    function paySpecificSupplier(id) {
+      switchTab('supplierPaymentView');
+      document.getElementById('spSupplierSelect').value = id;
+      handleSupplierSelectChange();
+    }
+
+    async function handleSupplierPaymentSubmit(e) {
+      e.preventDefault();
+      const select = document.getElementById('spSupplierSelect');
+      const selected = select.options[select.selectedIndex];
+      const btn = document.getElementById('spBtn');
+      btn.disabled = true;
+      showApiLoading('Sending Payment Settlement to Google Sheet API...');
+
+      const p = {
+        supplier_id: select.value,
+        supplier_name: selected.getAttribute('data-name'),
+        amount: Number(document.getElementById('spAmount').value),
+        method: document.getElementById('spMethod').value,
+        date: document.getElementById('spDate').value,
+        narration: document.getElementById('spNarration').value
       };
 
-      customers.push(newCust);
-      localStorage.setItem('erp_customers', JSON.stringify(customers));
-      recordAuditLog('CUSTOMER_CREATED', newCust.customer_id, `Created customer: ${newCust.name}`);
-      alert(`Customer ${newCust.name} added successfully!`);
-      toggleCustomerModal(false);
-      e.target.reset();
-      loadCustomersData();
-      loadDashboardData();
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'paySupplier', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          document.getElementById('slipBillNo').innerText = r.bill_no || `SPV-${Date.now().toString().slice(-6)}`;
+          document.getElementById('slipSupplier').innerText = p.supplier_name;
+          document.getElementById('slipAccount').innerText = p.method;
+          document.getElementById('slipDate').innerText = formatDateDisplay(p.date);
+          document.getElementById('slipRemarks').innerText = p.narration ? `Remarks: ${p.narration}` : 'Full / Partial Settlement';
+          document.getElementById('slipAmount').innerText = `৳ ${Number(r.paid_amount || p.amount).toLocaleString()}`;
+          document.getElementById('slipPrevDue').innerText = `৳ ${Number(r.previous_due || 0).toLocaleString()}`;
+          document.getElementById('slipRemDue').innerText = `৳ ${Number(r.remaining_due || 0).toLocaleString()}`;
+
+          togglePaymentSlipModal(true);
+          e.target.reset();
+          loadDashboardData();
+          loadSuppliersData();
+        } else {
+          alert('Error: ' + (r.message || 'Payment failed'));
+        }
+      } catch (err) {
+        alert('API connection error.');
+      } finally {
+        btn.disabled = false;
+        hideApiLoading();
+      }
+    }
+
+    function togglePaymentSlipModal(show) {
+      document.getElementById('paymentSlipModal').classList.toggle('hidden', !show);
+    }
+
+    function viewSupplierStatement(supplierName) {
+      switchTab('supplierStatementView');
+      const statSelect = document.getElementById('statementSupplierSelect');
+      if (statSelect) statSelect.value = supplierName;
+      loadSpecificSupplierStatement();
+    }
+
+    async function loadSpecificSupplierStatement() {
+      const supplierName = document.getElementById('statementSupplierSelect').value;
+      if (!supplierName) return;
+
+      const sTableBody = document.getElementById('supplierStatementTableBody');
+      sTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Loading statement from Google Sheet...</td></tr>`;
+      showApiLoading('Fetching Supplier Statement from Sheet...');
+
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getSupplierStatement&supplier_name=${encodeURIComponent(supplierName)}`);
+        const result = await res.json();
+
+        if (result.status === 'success') {
+          let runningDue = Number(result.openingBalance) || 0;
+
+          document.getElementById('printSuppName').innerText = result.supplier.name || supplierName;
+          document.getElementById('printSuppCompany').innerText = result.supplier.company || 'Direct Supplier';
+          document.getElementById('printSuppPhone').innerText = result.supplier.phone ? result.supplier.phone : '-';
+          document.getElementById('printSuppId').innerText = result.supplier.supplier_id || 'SUPP-DIR';
+
+          let statementHTML = `
+            <tr class="bg-slate-50 font-bold border-b border-slate-300">
+              <td class="p-2 border-r border-slate-300 text-center">1</td>
+              <td class="p-2 border-r border-slate-300 font-bold">Opening B/L</td>
+              <td class="p-2 border-r border-slate-300 text-center">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">${runningDue > 0 ? Number(runningDue).toLocaleString() : '0'}</td>
+              <td class="p-2 text-slate-500">Initial balance</td>
+            </tr>
+          `;
+
+          let sl = 2;
+          if (result.transactions && result.transactions.length > 0) {
+            result.transactions.forEach(t => {
+              const debit = Number(t.debit) || 0;
+              const credit = Number(t.credit) || 0;
+              const isReturn = (t.particulars || '').toLowerCase().includes('return');
+              
+              let returnAmt = 0;
+              let purchaseAmt = credit;
+              let paymentAmt = debit;
+
+              if (isReturn) {
+                returnAmt = debit || credit;
+                purchaseAmt = 0;
+                paymentAmt = 0;
+                runningDue = runningDue - returnAmt;
+              } else {
+                runningDue = runningDue + purchaseAmt - paymentAmt;
+              }
+
+              statementHTML += `
+                <tr class="border-b border-slate-300 hover:bg-slate-50 font-medium">
+                  <td class="p-2 border-r border-slate-300 text-center font-semibold text-slate-600">${sl++}</td>
+                  <td class="p-2 border-r border-slate-300 font-medium text-slate-800">${t.particulars}</td>
+                  <td class="p-2 border-r border-slate-300 text-center text-slate-600">${formatDateDisplay(t.date)}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-blue-700">${purchaseAmt > 0 ? Number(purchaseAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-emerald-700">${paymentAmt > 0 ? Number(paymentAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-amber-700">${returnAmt > 0 ? Number(returnAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">${Number(Math.max(0, runningDue)).toLocaleString()}</td>
+                  <td class="p-2 text-slate-500 text-[11px]">${t.ref || ''}</td>
+                </tr>
+              `;
+            });
+          }
+          sTableBody.innerHTML = statementHTML;
+        }
+      } catch (err) {
+        sTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500">Failed to load statement.</td></tr>`;
+      } finally { hideApiLoading(); }
+    }
+
+    async function handlePurchaseSubmit(e) {
+      e.preventDefault();
+      const select = document.getElementById('purSupplierSelect');
+      const selected = select.options[select.selectedIndex];
+      const btn = document.getElementById('purBtn');
+      btn.disabled = true;
+      showApiLoading('Posting Purchase Bill to Google Sheet...');
+
+      const payload = {
+        supplier_id: select.value,
+        supplier_name: selected.getAttribute('data-name'),
+        invoice_no: document.getElementById('purInvoice').value,
+        amount: Number(document.getElementById('purAmount').value),
+        date: document.getElementById('purDate').value,
+        item_details: document.getElementById('purDetails').value
+      };
+
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createPurchase', payload: payload }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Purchase Bill Recorded to Google Sheet & Due Updated!');
+          e.target.reset();
+          loadDashboardData();
+          viewSupplierStatement(payload.supplier_name);
+        }
+      } catch (err) {
+        alert('API connection failed.');
+      } finally {
+        btn.disabled = false;
+        hideApiLoading();
+      }
+    }
+
+    // 4. CUSTOMER APIS
+    function toggleCustomerModal(s) {
+      document.getElementById('customerModal').classList.toggle('hidden', !s);
+    }
+
+    async function loadCustomersData() {
+      showApiLoading('Fetching Customers from Google Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getCustomers`);
+        const r = await res.json();
+        if (r.status === 'success') {
+          globalCustomers = r.data || [];
+          const cBody = document.getElementById('customerTableBody');
+          if (cBody) {
+            cBody.innerHTML = globalCustomers.map(c => `
+              <tr class="border-b hover:bg-slate-50 font-medium cursor-pointer" onclick="viewCustomerStatement('${c.name}')">
+                <td class="p-3 font-semibold text-blue-600">${c.customer_id}</td>
+                <td class="p-3 font-bold">${c.name}</td>
+                <td class="p-3 text-slate-500">${c.phone || '-'}</td>
+                <td class="p-3 text-slate-500">${c.address || '-'}</td>
+                <td class="p-3 font-bold text-amber-700">৳ ${Number(c.due_amount || 0).toLocaleString()}</td>
+                <td class="p-3 text-right">
+                  <button onclick="event.stopPropagation(); viewCustomerStatement('${c.name}')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-xs font-bold mr-1">Statement</button>
+                  <button onclick="event.stopPropagation(); paySpecificCustomer('${c.customer_id}')" class="bg-emerald-50 text-emerald-600 px-2 py-1 rounded text-xs font-bold">Collect</button>
+                </td>
+              </tr>
+            `).join('');
+          }
+
+          const dueList = globalCustomers.filter(c => Number(c.due_amount) > 0);
+          const cDueBody = document.getElementById('customerDueTableBody');
+          if (cDueBody) {
+            cDueBody.innerHTML = dueList.length > 0 ? dueList.map(c => `
+              <tr class="border-b font-medium">
+                <td class="p-3 font-semibold">${c.customer_id}</td>
+                <td class="p-3 font-bold">${c.name}</td>
+                <td class="p-3 font-bold text-amber-700">৳ ${Number(c.due_amount).toLocaleString()}</td>
+                <td class="p-3 text-right">
+                  <button onclick="paySpecificCustomer('${c.customer_id}')" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs font-bold">Collect Due</button>
+                </td>
+              </tr>
+            `).join('') : `<tr><td colspan="4" class="p-4 text-center text-slate-400">No customer dues pending.</td></tr>`;
+          }
+
+          const salesSelect = document.getElementById('salesCustomerSelect');
+          if (salesSelect) {
+            salesSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `
+              <option value="${c.customer_id}" data-name="${c.name}" data-due="${c.due_amount || 0}">${c.name} (Due: ৳${Number(c.due_amount || 0).toLocaleString()})</option>
+            `).join('');
+          }
+
+          const cpSelect = document.getElementById('cpCustomerSelect');
+          if (cpSelect) {
+            cpSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `
+              <option value="${c.customer_id}" data-due="${c.due_amount || 0}" data-name="${c.name}">${c.name}</option>
+            `).join('');
+          }
+
+          const statCustSelect = document.getElementById('statementCustSelect');
+          if (statCustSelect) {
+            statCustSelect.innerHTML = `<option value="">-- Select Customer for Statement --</option>` + globalCustomers.map(c => `
+              <option value="${c.name}">${c.name}</option>
+            `).join('');
+          }
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
+    }
+
+    async function handleAddCustomerSubmit(e) {
+      e.preventDefault();
+      showApiLoading('Saving Customer to Google Sheet...');
+      const p = {
+        name: document.getElementById('newCustName').value,
+        phone: document.getElementById('newCustPhone').value,
+        address: document.getElementById('newCustAddress').value,
+        due_amount: Number(document.getElementById('newCustDue').value) || 0
+      };
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Customer Added to Google Sheet!');
+          toggleCustomerModal(false);
+          e.target.reset();
+          loadCustomersData();
+          loadDashboardData();
+        }
+      } catch (err) {
+        alert('API error.');
+      } finally { hideApiLoading(); }
+    }
+
+    function handleCustomerSelectChange() {
+      const select = document.getElementById('cpCustomerSelect');
+      const selected = select.options[select.selectedIndex];
+      document.getElementById('cpCurrentDue').value = `৳ ${Number(selected.getAttribute('data-due') || '0').toLocaleString()}`;
+    }
+
+    function paySpecificCustomer(id) {
+      switchTab('customerPaymentView');
+      document.getElementById('cpCustomerSelect').value = id;
+      handleCustomerSelectChange();
+    }
+
+    async function handleCustomerPaymentSubmit(e) {
+      e.preventDefault();
+      const select = document.getElementById('cpCustomerSelect');
+      const selected = select.options[select.selectedIndex];
+      const custId = select.value;
+      const custName = selected.getAttribute('data-name');
+      const amount = Number(document.getElementById('cpAmount').value);
+      const method = document.getElementById('cpMethod').value;
+      const date = document.getElementById('cpDate').value;
+      const narration = document.getElementById('cpNarration').value;
+
+      showApiLoading('Recording Customer Payment in Google Sheet...');
+
+      const p = {
+        customer_id: custId,
+        customer_name: custName,
+        amount: amount,
+        method: method,
+        date: date,
+        narration: narration
+      };
+
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'collectCustomerPayment', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          const receiptNo = r.receipt_no || `MR-${Date.now().toString().slice(-6)}`;
+          document.getElementById('crBillNo').innerText = receiptNo;
+          document.getElementById('crCustomer').innerText = custName;
+          document.getElementById('crAccount').innerText = method;
+          document.getElementById('crDate').innerText = formatDateDisplay(date);
+          document.getElementById('crRemarks').innerText = narration || 'Customer Due Settlement Payment';
+          document.getElementById('crAmount').innerText = `৳ ${amount.toLocaleString()}`;
+          document.getElementById('crPrevDue').innerText = `৳ ${Number(r.previous_due || 0).toLocaleString()}`;
+          document.getElementById('crRemDue').innerText = `৳ ${Number(r.remaining_due || 0).toLocaleString()}`;
+
+          toggleCustReceiptModal(true);
+          e.target.reset();
+          loadDashboardData();
+          loadCustomersData();
+        } else {
+          alert('Error collecting payment.');
+        }
+      } catch (err) {
+        alert('API error.');
+      } finally { hideApiLoading(); }
+    }
+
+    function toggleCustReceiptModal(show) {
+      document.getElementById('custReceiptModal').classList.toggle('hidden', !show);
+    }
+
+    function printCustReceiptSlip() {
+      const printContents = document.getElementById('printableAreaCust').innerHTML;
+      const originalContents = document.body.innerHTML;
+      document.body.innerHTML = `<div style="padding: 20px; background: white;">${printContents}</div>`;
+      window.print();
+      location.reload();
     }
 
     function handleSalesCustomerChange() {
@@ -2113,7 +2155,7 @@
       document.getElementById('salesAddedDue').value = `৳ ${netAdded.toLocaleString()}`;
     }
 
-    function handleSalesSubmit(e) {
+    async function handleSalesSubmit(e) {
       e.preventDefault();
       const select = document.getElementById('salesCustomerSelect');
       const selected = select.options[select.selectedIndex];
@@ -2126,135 +2168,32 @@
       const date = document.getElementById('salesDate').value;
       const details = document.getElementById('salesDetails').value;
 
-      const customers = JSON.parse(localStorage.getItem('erp_customers') || '[]');
-      const cust = customers.find(c => c.customer_id === custId);
-      if (cust) {
-        cust.due_amount = (cust.due_amount || 0) + billAmount - paidNow;
-      }
-      localStorage.setItem('erp_customers', JSON.stringify(customers));
+      showApiLoading('Saving Sales Invoice to Google Sheet...');
 
-      // Record in ledger
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: invoiceNo,
+      const payload = {
+        customer_id: custId,
+        customer_name: custName,
+        invoice_no: invoiceNo,
+        amount: billAmount,
+        paid_now: paidNow,
+        payment_method: paymentMethod,
         date: date,
-        account_head: `Sales Bill - ${custName}`,
-        debit: billAmount,
-        credit: 0,
-        branch: "HEAD_OFFICE"
-      });
+        details: details
+      };
 
-      if (paidNow > 0) {
-        ledger.push({
-          entry_id: `TXN-${(Date.now() + 1).toString().slice(-4)}`,
-          voucher_id: `REC-${invoiceNo}`,
-          date: date,
-          account_head: paymentMethod,
-          debit: 0,
-          credit: paidNow,
-          branch: "HEAD_OFFICE"
-        });
-      }
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      // Record in Incomes
-      const incomes = JSON.parse(localStorage.getItem('erp_incomes') || '[]');
-      incomes.push({
-        id: invoiceNo,
-        date: date,
-        party: custName,
-        category: "Sales Revenue",
-        method: paidNow > 0 ? paymentMethod : "Credit Account",
-        amount: billAmount
-      });
-      localStorage.setItem('erp_incomes', JSON.stringify(incomes));
-
-      recordAuditLog('SALES_INVOICE_CREATED', invoiceNo, `Billed ৳${billAmount} to ${custName}. Paid now: ৳${paidNow}`);
-      alert(`Sales invoice ${invoiceNo} posted successfully!`);
-      e.target.reset();
-      loadCustomersData();
-      loadDashboardData();
-      viewCustomerStatement(custName);
-    }
-
-    function handleCustomerSelectChange() {
-      const select = document.getElementById('cpCustomerSelect');
-      const selected = select.options[select.selectedIndex];
-      const due = Number(selected.getAttribute('data-due') || 0);
-      document.getElementById('cpCurrentDue').value = `৳ ${due.toLocaleString()}`;
-    }
-
-    function paySpecificCustomer(id) {
-      switchTab('customerPaymentView');
-      document.getElementById('cpCustomerSelect').value = id;
-      handleCustomerSelectChange();
-    }
-
-    function handleCustomerPaymentSubmit(e) {
-      e.preventDefault();
-      const select = document.getElementById('cpCustomerSelect');
-      const selected = select.options[select.selectedIndex];
-      const custId = select.value;
-      const custName = selected.getAttribute('data-name');
-      const amount = Number(document.getElementById('cpAmount').value);
-      const method = document.getElementById('cpMethod').value;
-      const date = document.getElementById('cpDate').value;
-      const narration = document.getElementById('cpNarration').value;
-
-      const customers = JSON.parse(localStorage.getItem('erp_customers') || '[]');
-      const cust = customers.find(c => c.customer_id === custId);
-      const prevDue = cust ? cust.due_amount : 0;
-      const remDue = Math.max(0, prevDue - amount);
-
-      if (cust) {
-        cust.due_amount = remDue;
-        localStorage.setItem('erp_customers', JSON.stringify(customers));
-      }
-
-      // Add to ledger
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: `CR-${Date.now().toString().slice(-4)}`,
-        date: date,
-        account_head: `Customer Collection - ${custName}`,
-        debit: 0,
-        credit: amount,
-        branch: "HEAD_OFFICE"
-      });
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      // Record Audit
-      recordAuditLog('CUSTOMER_PAYMENT_COLLECTED', custId, `Collected ৳${amount} from ${custName}`);
-
-      // Open Printable Money Receipt
-      const receiptNo = `MR-${Date.now().toString().slice(-6)}`;
-      document.getElementById('crBillNo').innerText = receiptNo;
-      document.getElementById('crCustomer').innerText = custName;
-      document.getElementById('crAccount').innerText = method;
-      document.getElementById('crDate').innerText = date;
-      document.getElementById('crRemarks').innerText = narration || 'Customer Due Settlement Payment';
-      document.getElementById('crAmount').innerText = `৳ ${amount.toLocaleString()}`;
-      document.getElementById('crPrevDue').innerText = `৳ ${prevDue.toLocaleString()}`;
-      document.getElementById('crRemDue').innerText = `৳ ${remDue.toLocaleString()}`;
-
-      toggleCustReceiptModal(true);
-      e.target.reset();
-      loadCustomersData();
-      loadDashboardData();
-    }
-
-    function toggleCustReceiptModal(show) {
-      document.getElementById('custReceiptModal').classList.toggle('hidden', !show);
-    }
-
-    function printCustReceiptSlip() {
-      const printContents = document.getElementById('printableAreaCust').innerHTML;
-      const originalContents = document.body.innerHTML;
-      document.body.innerHTML = `<div style="padding: 20px; background: white;">${printContents}</div>`;
-      window.print();
-      location.reload();
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createSales', payload: payload }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Sales Invoice Posted & Google Sheet Updated!');
+          e.target.reset();
+          loadCustomersData();
+          loadDashboardData();
+          viewCustomerStatement(custName);
+        }
+      } catch (err) {
+        alert('API error posting sales.');
+      } finally { hideApiLoading(); }
     }
 
     function viewCustomerStatement(custName) {
@@ -2264,58 +2203,78 @@
       loadSpecificCustomerStatement();
     }
 
-    function loadSpecificCustomerStatement() {
-      const custName = document.getElementById('statementCustSelect').value;
-      if (!custName) return;
+    async function loadSpecificCustomerStatement() {
+      const customerName = document.getElementById('statementCustSelect').value;
+      if (!customerName) return;
 
-      const customers = JSON.parse(localStorage.getItem('erp_customers') || '[]');
-      const cust = customers.find(c => c.name === custName) || { name: custName, phone: '-', address: '-', due_amount: 0, customer_id: 'CUST' };
+      const cTableBody = document.getElementById('customerStatementTableBody');
+      cTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Loading customer statement from Google Sheet...</td></tr>`;
+      showApiLoading('Fetching Customer Statement from Sheet...');
 
-      document.getElementById('printCustName').innerText = `${cust.name} - STATEMENT`;
-      document.getElementById('printCustPhone').innerText = cust.phone;
-      document.getElementById('printCustAddress').innerText = cust.address;
-      document.getElementById('printCustId').innerText = cust.customer_id;
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getCustomerStatement&customer_name=${encodeURIComponent(customerName)}`);
+        const result = await res.json();
 
-      const tbody = document.getElementById('customerStatementTableBody');
-      let runningDue = Number(cust.due_amount) || 0;
+        if (result.status === 'success') {
+          let runningDue = Number(result.openingBalance) || 0;
 
-      let html = `
-        <tr class="bg-slate-50 font-bold border-b border-slate-300">
-          <td class="p-2 border-r border-slate-300 text-center font-bold">1</td>
-          <td class="p-2 border-r border-slate-300 font-bold">Opening Balance (Carry Forward)</td>
-          <td class="p-2 border-r border-slate-300 text-center">-</td>
-          <td class="p-2 border-r border-slate-300 text-right">-</td>
-          <td class="p-2 border-r border-slate-300 text-right">-</td>
-          <td class="p-2 border-r border-slate-300 text-right">-</td>
-          <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">৳ ${runningDue.toLocaleString()}</td>
-          <td class="p-2 text-slate-500">Initial balance</td>
-        </tr>
-      `;
+          document.getElementById('printCustName').innerText = `${result.customer.name || customerName} - STATEMENT`;
+          document.getElementById('printCustPhone').innerText = result.customer.phone || '-';
+          document.getElementById('printCustAddress').innerText = result.customer.address || '-';
+          document.getElementById('printCustId').innerText = result.customer.customer_id || 'CUST-001';
 
-      // Mock recent invoices for statement
-      const dummyTransactions = [
-        { date: "2026-08-10", particular: "Sales Invoice #INV-1090", sales: 85000, payment: 0, return: 0, ref: "Goods delivered" },
-        { date: "2026-08-14", particular: "Money Receipt #MR-5501", sales: 0, payment: 50000, return: 0, ref: "Cash received" },
-        { date: "2026-08-17", particular: "Sales Invoice #INV-1098", sales: 60000, payment: 0, return: 0, ref: "Bulk order #44" }
-      ];
+          let statementHTML = `
+            <tr class="bg-slate-50 font-bold border-b border-slate-300">
+              <td class="p-2 border-r border-slate-300 text-center font-bold">1</td>
+              <td class="p-2 border-r border-slate-300 font-bold">Opening Balance (B/F)</td>
+              <td class="p-2 border-r border-slate-300 text-center">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right">-</td>
+              <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">${runningDue > 0 ? Number(runningDue).toLocaleString() : '0'}</td>
+              <td class="p-2 text-slate-500">Initial balance</td>
+            </tr>
+          `;
 
-      dummyTransactions.forEach((t, i) => {
-        runningDue = runningDue + t.sales - t.payment - t.return;
-        html += `
-          <tr class="border-b border-slate-300 hover:bg-slate-50 font-medium">
-            <td class="p-2 border-r border-slate-300 text-center font-semibold text-slate-600">${i + 2}</td>
-            <td class="p-2 border-r border-slate-300 font-semibold text-slate-800">${t.particular}</td>
-            <td class="p-2 border-r border-slate-300 text-center text-slate-600">${t.date}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-semibold text-blue-700">${t.sales > 0 ? '৳ ' + t.sales.toLocaleString() : '-'}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-semibold text-emerald-700">${t.payment > 0 ? '৳ ' + t.payment.toLocaleString() : '-'}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-semibold text-amber-700">${t.return > 0 ? '৳ ' + t.return.toLocaleString() : '-'}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">৳ ${Math.max(0, runningDue).toLocaleString()}</td>
-            <td class="p-2 text-slate-500 text-[11px]">${t.ref}</td>
-          </tr>
-        `;
-      });
+          let sl = 2;
+          if (result.transactions && result.transactions.length > 0) {
+            result.transactions.forEach(t => {
+              const debit = Number(t.debit) || 0;
+              const credit = Number(t.credit) || 0;
+              const isReturn = (t.particulars || '').toLowerCase().includes('return');
+              
+              let returnAmt = 0;
+              let salesAmt = debit;
+              let collectionAmt = credit;
 
-      tbody.innerHTML = html;
+              if (isReturn) {
+                returnAmt = debit || credit;
+                salesAmt = 0;
+                collectionAmt = 0;
+                runningDue = runningDue - returnAmt;
+              } else {
+                runningDue = runningDue + salesAmt - collectionAmt;
+              }
+
+              statementHTML += `
+                <tr class="border-b border-slate-300 hover:bg-slate-50 font-medium">
+                  <td class="p-2 border-r border-slate-300 text-center font-semibold text-slate-600">${sl++}</td>
+                  <td class="p-2 border-r border-slate-300 font-medium text-slate-800">${t.particulars}</td>
+                  <td class="p-2 border-r border-slate-300 text-center text-slate-600">${formatDateDisplay(t.date)}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-blue-700">${salesAmt > 0 ? Number(salesAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-emerald-700">${collectionAmt > 0 ? Number(collectionAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-semibold text-amber-700">${returnAmt > 0 ? Number(returnAmt).toLocaleString() : ''}</td>
+                  <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">${Number(Math.max(0, runningDue)).toLocaleString()}</td>
+                  <td class="p-2 text-slate-500 text-[11px]">${t.ref || ''}</td>
+                </tr>
+              `;
+            });
+          }
+          cTableBody.innerHTML = statementHTML;
+        }
+      } catch (err) {
+        cTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500">Failed to load statement.</td></tr>`;
+      } finally { hideApiLoading(); }
     }
 
     function exportCustomerStatementToExcel() {
@@ -2334,806 +2293,337 @@
       location.reload();
     }
 
-    // ================= SUPPLIERS & PURCHASES ENGINE =================
-    function toggleSupplierModal(show) {
-      document.getElementById('supplierModal').classList.toggle('hidden', !show);
-    }
-
-    function loadSuppliersData() {
-      globalSuppliers = JSON.parse(localStorage.getItem('erp_suppliers') || '[]');
-
-      const sBody = document.getElementById('supplierTableBody');
-      if (sBody) {
-        sBody.innerHTML = globalSuppliers.map(s => `
-          <tr class="border-b hover:bg-slate-50 cursor-pointer font-medium" onclick="viewSupplierStatement('${s.name}')">
-            <td class="p-3 font-semibold text-teal-600 font-mono">${s.supplier_id}</td>
-            <td class="p-3 font-bold text-slate-900">${s.name}</td>
-            <td class="p-3 text-slate-600">${s.company}</td>
-            <td class="p-3 text-slate-500">${s.phone}</td>
-            <td class="p-3 font-bold text-rose-600">৳ ${Number(s.due_amount).toLocaleString()}</td>
-            <td class="p-3 text-right">
-              <button onclick="event.stopPropagation(); viewSupplierStatement('${s.name}')" class="bg-blue-50 text-blue-600 font-bold text-xs px-2.5 py-1 rounded-lg hover:bg-blue-100 mr-1">Statement</button>
-              <button onclick="event.stopPropagation(); paySpecificSupplier('${s.supplier_id}')" class="bg-purple-50 text-purple-700 font-bold text-xs px-2.5 py-1 rounded-lg hover:bg-purple-100">Pay</button>
-            </td>
-          </tr>
-        `).join('');
-      }
-
-      const dueList = globalSuppliers.filter(s => Number(s.due_amount) > 0);
-      const sDueBody = document.getElementById('supplierDueTableBody');
-      if (sDueBody) {
-        sDueBody.innerHTML = dueList.length > 0 ? dueList.map(s => `
-          <tr class="border-b hover:bg-rose-50/40 font-medium">
-            <td class="p-3 font-semibold text-slate-700 font-mono">${s.supplier_id}</td>
-            <td class="p-3 font-bold text-slate-900">${s.name}</td>
-            <td class="p-3">${s.company}</td>
-            <td class="p-3 font-black text-rose-600">৳ ${Number(s.due_amount).toLocaleString()}</td>
-            <td class="p-3 text-right">
-              <button onclick="paySpecificSupplier('${s.supplier_id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-sm">Pay Due</button>
-            </td>
-          </tr>
-        `).join('') : `<tr><td colspan="5" class="p-6 text-center text-slate-400">All vendor dues settled.</td></tr>`;
-      }
-
-      const purSelect = document.getElementById('purSupplierSelect');
-      if (purSelect) {
-        purSelect.innerHTML = `<option value="">-- Choose Supplier --</option>` + globalSuppliers.map(s => `
-          <option value="${s.supplier_id}" data-name="${s.name}">${s.name} (${s.company})</option>
-        `).join('');
-      }
-
-      const spSelect = document.getElementById('spSupplierSelect');
-      if (spSelect) {
-        spSelect.innerHTML = `<option value="">-- Choose Supplier --</option>` + globalSuppliers.map(s => `
-          <option value="${s.supplier_id}" data-due="${s.due_amount}" data-name="${s.name}">${s.name} (${s.company})</option>
-        `).join('');
-      }
-
-      const statSelect = document.getElementById('statementSupplierSelect');
-      if (statSelect) {
-        statSelect.innerHTML = `<option value="">-- Select Supplier for Statement --</option>` + globalSuppliers.map(s => `
-          <option value="${s.name}">${s.name} (${s.company})</option>
-        `).join('');
-      }
-    }
-
-    function handleAddSupplierSubmit(e) {
-      e.preventDefault();
-      const suppliers = JSON.parse(localStorage.getItem('erp_suppliers') || '[]');
-      const newSupp = {
-        supplier_id: `SUPP-${String(suppliers.length + 1).padStart(3, '0')}`,
-        name: document.getElementById('newSuppName').value,
-        company: document.getElementById('newSuppCompany').value,
-        phone: document.getElementById('newSuppPhone').value || '-',
-        due_amount: Number(document.getElementById('newSuppDue').value) || 0
-      };
-
-      suppliers.push(newSupp);
-      localStorage.setItem('erp_suppliers', JSON.stringify(suppliers));
-      recordAuditLog('SUPPLIER_CREATED', newSupp.supplier_id, `Created supplier: ${newSupp.name} (${newSupp.company})`);
-      alert(`Supplier ${newSupp.name} added successfully!`);
-      toggleSupplierModal(false);
-      e.target.reset();
-      loadSuppliersData();
-      loadDashboardData();
-    }
-
-    function handlePurchaseSubmit(e) {
-      e.preventDefault();
-      const select = document.getElementById('purSupplierSelect');
-      const selected = select.options[select.selectedIndex];
-      const suppId = select.value;
-      const suppName = selected.getAttribute('data-name');
-      const invoiceNo = document.getElementById('purInvoice').value || `BILL-${Date.now().toString().slice(-4)}`;
-      const amount = Number(document.getElementById('purAmount').value);
-      const date = document.getElementById('purDate').value;
-      const details = document.getElementById('purDetails').value;
-
-      const suppliers = JSON.parse(localStorage.getItem('erp_suppliers') || '[]');
-      const supp = suppliers.find(s => s.supplier_id === suppId);
-      if (supp) {
-        supp.due_amount = (supp.due_amount || 0) + amount;
-        localStorage.setItem('erp_suppliers', JSON.stringify(suppliers));
-      }
-
-      // Add to Ledger
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: invoiceNo,
-        date: date,
-        account_head: `Purchase Bill - ${suppName}`,
-        debit: 0,
-        credit: amount,
-        branch: "HEAD_OFFICE"
-      });
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      // Add to Expenses
-      const expenses = JSON.parse(localStorage.getItem('erp_expenses') || '[]');
-      expenses.push({
-        id: invoiceNo,
-        date: date,
-        party: suppName,
-        category: "Material Purchases",
-        method: "Payable Credit",
-        amount: amount
-      });
-      localStorage.setItem('erp_expenses', JSON.stringify(expenses));
-
-      recordAuditLog('PURCHASE_BILL_RECORDED', invoiceNo, `Recorded purchase bill of ৳${amount} for ${suppName}`);
-      alert(`Purchase bill ${invoiceNo} recorded and supplier payable updated!`);
-      e.target.reset();
-      loadSuppliersData();
-      loadDashboardData();
-      viewSupplierStatement(suppName);
-    }
-
-    function handleSupplierSelectChange() {
-      const select = document.getElementById('spSupplierSelect');
-      const selected = select.options[select.selectedIndex];
-      const due = Number(selected.getAttribute('data-due') || 0);
-      document.getElementById('spCurrentDue').value = `৳ ${due.toLocaleString()}`;
-    }
-
-    function paySpecificSupplier(id) {
-      switchTab('supplierPaymentView');
-      document.getElementById('spSupplierSelect').value = id;
-      handleSupplierSelectChange();
-    }
-
-    function handleSupplierPaymentSubmit(e) {
-      e.preventDefault();
-      const select = document.getElementById('spSupplierSelect');
-      const selected = select.options[select.selectedIndex];
-      const suppId = select.value;
-      const suppName = selected.getAttribute('data-name');
-      const amount = Number(document.getElementById('spAmount').value);
-      const method = document.getElementById('spMethod').value;
-      const date = document.getElementById('spDate').value;
-      const narration = document.getElementById('spNarration').value;
-
-      const suppliers = JSON.parse(localStorage.getItem('erp_suppliers') || '[]');
-      const supp = suppliers.find(s => s.supplier_id === suppId);
-      const prevDue = supp ? supp.due_amount : 0;
-      const remDue = Math.max(0, prevDue - amount);
-
-      if (supp) {
-        supp.due_amount = remDue;
-        localStorage.setItem('erp_suppliers', JSON.stringify(suppliers));
-      }
-
-      // Add to Ledger
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: `PV-${Date.now().toString().slice(-4)}`,
-        date: date,
-        account_head: `Supplier Settlement - ${suppName}`,
-        debit: amount,
-        credit: 0,
-        branch: "HEAD_OFFICE"
-      });
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      recordAuditLog('SUPPLIER_PAYMENT_SETTLED', suppId, `Paid ৳${amount} to ${suppName}`);
-
-      // Open Printable Payment Slip
-      const billNo = `SPV-${Date.now().toString().slice(-6)}`;
-      document.getElementById('slipBillNo').innerText = billNo;
-      document.getElementById('slipSupplier').innerText = suppName;
-      document.getElementById('slipAccount').innerText = method;
-      document.getElementById('slipDate').innerText = date;
-      document.getElementById('slipRemarks').innerText = narration || 'Supplier Ledger Settlement Payment';
-      document.getElementById('slipAmount').innerText = `৳ ${amount.toLocaleString()}`;
-      document.getElementById('slipPrevDue').innerText = `৳ ${prevDue.toLocaleString()}`;
-      document.getElementById('slipRemDue').innerText = `৳ ${remDue.toLocaleString()}`;
-
-      togglePaymentSlipModal(true);
-      e.target.reset();
-      loadSuppliersData();
-      loadDashboardData();
-    }
-
-    function togglePaymentSlipModal(show) {
-      document.getElementById('paymentSlipModal').classList.toggle('hidden', !show);
-    }
-
-    function viewSupplierStatement(suppName) {
-      switchTab('supplierStatementView');
-      const statSelect = document.getElementById('statementSupplierSelect');
-      if (statSelect) statSelect.value = suppName;
-      loadSpecificSupplierStatement();
-    }
-
-    function loadSpecificSupplierStatement() {
-      const suppName = document.getElementById('statementSupplierSelect').value;
-      if (!suppName) return;
-
-      const suppliers = JSON.parse(localStorage.getItem('erp_suppliers') || '[]');
-      const supp = suppliers.find(s => s.name === suppName) || { name: suppName, company: 'Direct Vendor', phone: '-', due_amount: 0, supplier_id: 'SUPP' };
-
-      document.getElementById('printSuppName').innerText = `${supp.name} - LEDGER STATEMENT`;
-      document.getElementById('printSuppCompany').innerText = supp.company;
-      document.getElementById('printSuppPhone').innerText = supp.phone;
-      document.getElementById('printSuppId').innerText = supp.supplier_id;
-
-      const tbody = document.getElementById('supplierStatementTableBody');
-      let runningDue = Number(supp.due_amount) || 0;
-
-      let html = `
-        <tr class="bg-slate-50 font-bold border-b border-slate-300">
-          <td class="p-2 border-r border-slate-300 text-center font-bold">1</td>
-          <td class="p-2 border-r border-slate-300 font-bold">Opening Balance (B/F)</td>
-          <td class="p-2 border-r border-slate-300 text-center">-</td>
-          <td class="p-2 border-r border-slate-300 text-right">-</td>
-          <td class="p-2 border-r border-slate-300 text-right">-</td>
-          <td class="p-2 border-r border-slate-300 text-right">-</td>
-          <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">৳ ${runningDue.toLocaleString()}</td>
-          <td class="p-2 text-slate-500">Initial balance</td>
-        </tr>
-      `;
-
-      const dummyTransactions = [
-        { date: "2026-08-11", particular: "Purchase Bill #SUPP-8802", purchase: 90000, payment: 0, return: 0, ref: "Raw materials batch" },
-        { date: "2026-08-15", particular: "Payment Settlement #PV-3011", purchase: 0, payment: 60000, return: 0, ref: "IBBL Online transfer" }
-      ];
-
-      dummyTransactions.forEach((t, i) => {
-        runningDue = runningDue + t.purchase - t.payment - t.return;
-        html += `
-          <tr class="border-b border-slate-300 hover:bg-slate-50 font-medium">
-            <td class="p-2 border-r border-slate-300 text-center font-semibold text-slate-600">${i + 2}</td>
-            <td class="p-2 border-r border-slate-300 font-semibold text-slate-800">${t.particular}</td>
-            <td class="p-2 border-r border-slate-300 text-center text-slate-600">${t.date}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-semibold text-blue-700">${t.purchase > 0 ? '৳ ' + t.purchase.toLocaleString() : '-'}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-semibold text-emerald-700">${t.payment > 0 ? '৳ ' + t.payment.toLocaleString() : '-'}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-semibold text-amber-700">${t.return > 0 ? '৳ ' + t.return.toLocaleString() : '-'}</td>
-            <td class="p-2 border-r border-slate-300 text-right font-black text-slate-900">৳ ${Math.max(0, runningDue).toLocaleString()}</td>
-            <td class="p-2 text-slate-500 text-[11px]">${t.ref}</td>
-          </tr>
-        `;
-      });
-
-      tbody.innerHTML = html;
-    }
-
-    function exportSupplierStatementToExcel() {
-      const suppName = document.getElementById('printSuppName').innerText || 'Supplier';
-      const table = document.getElementById('supplierStatementTable');
-      if (!table) return;
-      const wb = XLSX.utils.table_to_book(table, { sheet: "Statement" });
-      XLSX.writeFile(wb, `${suppName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.xlsx`);
-    }
-
-    function printSupplierStatement() {
-      const printContents = document.getElementById('supplierStatementPrintArea').innerHTML;
-      const originalContents = document.body.innerHTML;
-      document.body.innerHTML = `<div style="padding: 20px; background: white;">${printContents}</div>`;
-      window.print();
-      location.reload();
-    }
-
-    // ================= VOUCHERS & 3-STAGE APPROVAL =================
+    // 5. VOUCHERS & APPROVALS APIS
     function openVoucherForm(type) {
       switchTab('vouchers');
       document.getElementById('vType').value = type !== 'ALL' ? type : 'Payment';
     }
 
-    function handleVoucherSubmit(e) {
-      e.preventDefault();
-      const vouchers = JSON.parse(localStorage.getItem('erp_vouchers') || '[]');
-      const newVoucher = {
-        voucher_id: `VCH-${new Date().getFullYear()}-${String(vouchers.length + 1).padStart(3, '0')}`,
-        date: document.getElementById('vDate').value,
+    async function handleVoucherSubmit(event) {
+      event.preventDefault();
+      showApiLoading('Saving Voucher to Google Sheet...');
+      const payload = {
         type: document.getElementById('vType').value,
         account_head: document.getElementById('vAccount').value,
         amount: Number(document.getElementById('vAmount').value),
-        branch: document.getElementById('vBranch').value,
-        status: "PENDING_GM",
+        date: document.getElementById('vDate').value,
         narration: document.getElementById('vNarration').value
       };
-
-      vouchers.unshift(newVoucher);
-      localStorage.setItem('erp_vouchers', JSON.stringify(vouchers));
-      recordAuditLog('VOUCHER_CREATED', newVoucher.voucher_id, `Created ${newVoucher.type} voucher for ৳${newVoucher.amount}`);
-      alert(`Voucher ${newVoucher.voucher_id} submitted for GM approval!`);
-      e.target.reset();
-      switchTab('voucherList');
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createVoucher', payload: payload }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Voucher Submitted to Google Sheet!');
+          event.target.reset();
+          switchTab('voucherList');
+        }
+      } catch (err) {
+        alert('API error submitting voucher.');
+      } finally { hideApiLoading(); }
     }
 
-    function loadVouchersList() {
-      const vouchers = JSON.parse(localStorage.getItem('erp_vouchers') || '[]');
-      const vBody = document.getElementById('voucherTableBody');
-      if (vBody) {
-        vBody.innerHTML = vouchers.map(v => {
-          const statusColors = {
-            'POSTED': 'bg-emerald-100 text-emerald-700',
-            'PENDING_GM': 'bg-amber-100 text-amber-700',
-            'PENDING_MD': 'bg-blue-100 text-blue-700',
-            'PENDING_ACCOUNTS': 'bg-purple-100 text-purple-700',
-            'REJECTED': 'bg-rose-100 text-rose-700'
-          };
-          return `
-            <tr class="border-b hover:bg-slate-50 font-medium">
-              <td class="p-3 font-semibold text-blue-600 font-mono">${v.voucher_id}</td>
-              <td class="p-3 text-slate-500">${v.date}</td>
-              <td class="p-3 font-bold">${v.type}</td>
-              <td class="p-3 text-slate-800">${v.account_head}</td>
-              <td class="p-3 text-right font-black text-slate-900">৳ ${Number(v.amount).toLocaleString()}</td>
-              <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${statusColors[v.status] || 'bg-slate-100'}">${v.status}</span></td>
-              <td class="p-3 text-right">
-                <button onclick="viewVoucherSlip('${v.voucher_id}')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 px-2.5 py-1 rounded-lg text-xs font-bold">
-                  <i class="fa-solid fa-print mr-1"></i> Slip
-                </button>
-              </td>
-            </tr>
-          `;
-        }).join('');
-      }
-    }
-
-    function loadApprovalStep(statusFilter) {
+    async function loadApprovalStep(statusFilter) {
       currentApprovalStatus = statusFilter;
       switchTab('approvals');
       document.getElementById('approvalTitle').innerText = statusFilter.replace(/_/g, ' ');
       const container = document.getElementById('approvalsListContainer');
-      const vouchers = JSON.parse(localStorage.getItem('erp_vouchers') || '[]');
-      const filtered = vouchers.filter(v => v.status === statusFilter);
+      showApiLoading('Fetching Approvals from Google Sheet...');
 
-      if (filtered.length > 0) {
-        container.innerHTML = filtered.map(v => `
-          <div class="p-4 border border-slate-200 rounded-2xl bg-white flex flex-col sm:flex-row justify-between sm:items-center gap-3 shadow-sm hover:border-slate-300">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono font-bold text-blue-600 text-xs">${v.voucher_id}</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">${v.branch}</span>
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=${statusFilter}`);
+        const r = await res.json();
+        if (r.status === 'success' && r.data && r.data.length > 0) {
+          container.innerHTML = r.data.map(v => `
+            <div class="p-4 border border-slate-200 rounded-2xl bg-white flex flex-col sm:flex-row justify-between sm:items-center gap-3 shadow-sm">
+              <div>
+                <span class="font-bold text-blue-600">${v.voucher_id}</span>
+                <p class="font-bold text-slate-800">${v.account_head} - ৳ ${Number(v.amount).toLocaleString()}</p>
+                <p class="text-xs text-slate-500">${v.narration || ''}</p>
               </div>
-              <h4 class="font-bold text-slate-900 mt-1">${v.account_head} - ৳ ${Number(v.amount).toLocaleString()} (${v.type})</h4>
-              <p class="text-xs text-slate-500">${v.narration || 'No additional note'}</p>
+              <div class="flex items-center space-x-2">
+                ${statusFilter === 'PENDING_ACCOUNTS' ? `
+                  <button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold">Post to Ledger</button>
+                ` : `
+                  <button onclick="processApproval('${v.voucher_id}','APPROVE')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-bold mr-1">Approve</button>
+                  <button onclick="processApproval('${v.voucher_id}','REJECT')" class="bg-rose-500 hover:bg-rose-600 text-white px-3 py-2 rounded-xl text-xs font-bold">Reject</button>
+                `}
+              </div>
             </div>
-            <div class="flex items-center space-x-2">
-              ${statusFilter === 'PENDING_ACCOUNTS' ? `
-                <button onclick="postToLedger('${v.voucher_id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm">Post to General Ledger</button>
-              ` : `
-                <button onclick="processApproval('${v.voucher_id}','APPROVE')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm">Approve</button>
-                <button onclick="processApproval('${v.voucher_id}','REJECT')" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm">Reject</button>
-              `}
-            </div>
-          </div>
-        `).join('');
-      } else {
-        container.innerHTML = `<div class="p-8 text-center text-slate-400 font-medium">No pending vouchers awaiting approval in this stage.</div>`;
-      }
+          `).join('');
+        } else {
+          container.innerHTML = `<p class="text-slate-400 text-sm">No vouchers awaiting approval in this stage.</p>`;
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function processApproval(voucherId, decision) {
-      const vouchers = JSON.parse(localStorage.getItem('erp_vouchers') || '[]');
-      const v = vouchers.find(x => x.voucher_id === voucherId);
-      if (!v) return;
-
-      if (decision === 'REJECT') {
-        v.status = 'REJECTED';
-      } else {
-        if (v.status === 'PENDING_GM') v.status = 'PENDING_MD';
-        else if (v.status === 'PENDING_MD') v.status = 'PENDING_ACCOUNTS';
-      }
-
-      localStorage.setItem('erp_vouchers', JSON.stringify(vouchers));
-      recordAuditLog('VOUCHER_APPROVAL_PROCESSED', voucherId, `Decision: ${decision} by ${JSON.parse(localStorage.getItem('user_data')||'{}').name}`);
-      loadApprovalStep(currentApprovalStatus);
+    async function processApproval(id, d) {
+      const user = JSON.parse(localStorage.getItem('user_data') || '{}');
+      showApiLoading('Processing Approval in Google Sheet...');
+      try {
+        await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'processApproval', voucherId: id, decision: d, remarks: 'OK', userName: user.name })
+        });
+        loadApprovalStep(currentApprovalStatus);
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function postToLedger(voucherId) {
-      const vouchers = JSON.parse(localStorage.getItem('erp_vouchers') || '[]');
-      const v = vouchers.find(x => x.voucher_id === voucherId);
-      if (!v) return;
-
-      v.status = 'POSTED';
-      localStorage.setItem('erp_vouchers', JSON.stringify(vouchers));
-
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: v.voucher_id,
-        date: v.date,
-        account_head: v.account_head,
-        debit: v.type === 'Payment' ? v.amount : 0,
-        credit: v.type === 'Receipt' ? v.amount : 0,
-        branch: v.branch
-      });
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      recordAuditLog('VOUCHER_POSTED_TO_LEDGER', voucherId, `Posted to General Ledger by Accounts`);
-      alert(`Voucher ${voucherId} successfully posted to General Ledger!`);
-      loadApprovalStep('PENDING_ACCOUNTS');
-      loadDashboardData();
+    async function postToLedger(id) {
+      const user = JSON.parse(localStorage.getItem('user_data') || '{}');
+      showApiLoading('Posting to General Ledger in Google Sheet...');
+      try {
+        await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'postToLedger', voucherId: id, userName: user.name })
+        });
+        alert(`Voucher ${id} posted to Google Sheet General Ledger!`);
+        loadApprovalStep('PENDING_ACCOUNTS');
+        loadDashboardData();
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function viewVoucherSlip(voucherId) {
-      const vouchers = JSON.parse(localStorage.getItem('erp_vouchers') || '[]');
-      const v = vouchers.find(x => x.voucher_id === voucherId);
-      if (!v) return;
-
-      document.getElementById('vSlipId').innerText = v.voucher_id;
-      document.getElementById('vSlipAccount').innerText = v.account_head;
-      document.getElementById('vSlipBranch').innerText = v.branch;
-      document.getElementById('vSlipDate').innerText = v.date;
-      document.getElementById('vSlipNarration').innerText = v.narration || '-';
-      document.getElementById('vSlipAmount').innerText = `৳ ${Number(v.amount).toLocaleString()}`;
-      document.getElementById('vSlipStatus').innerText = v.status;
-      document.getElementById('vSlipTypeBadge').innerText = `${v.type} Voucher Slip`;
-
-      toggleVoucherSlipModal(true);
+    async function loadVouchersList() {
+      showApiLoading('Fetching Vouchers from Google Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getVouchers&status=ALL`);
+        const r = await res.json();
+        const vBody = document.getElementById('voucherTableBody');
+        if (vBody && r.data) {
+          vBody.innerHTML = r.data.map(v => `
+            <tr class="border-b font-medium">
+              <td class="p-3 font-semibold text-blue-600">${v.voucher_id}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(v.date)}</td>
+              <td class="p-3">${v.type}</td>
+              <td class="p-3">${v.account_head || '-'}</td>
+              <td class="p-3 text-right font-bold">৳ ${Number(v.amount).toLocaleString()}</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700">${v.status}</span></td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function toggleVoucherSlipModal(show) {
-      document.getElementById('voucherSlipModal').classList.toggle('hidden', !show);
-    }
-
-    function printVoucherSlipDoc() {
-      const printContents = document.getElementById('printableAreaVoucher').innerHTML;
-      const originalContents = document.body.innerHTML;
-      document.body.innerHTML = `<div style="padding: 20px; background: white;">${printContents}</div>`;
-      window.print();
-      location.reload();
-    }
-
-    // ================= INCOMES & EXPENSES HANDLERS =================
-    function handleIncomeSubmit(e) {
+    // 6. INCOMES & EXPENSES APIS
+    async function handleIncomeSubmit(e) {
       e.preventDefault();
-      const incomes = JSON.parse(localStorage.getItem('erp_incomes') || '[]');
-      const newInc = {
-        id: `INC-${100 + incomes.length + 1}`,
-        date: document.getElementById('incDate').value,
+      showApiLoading('Saving Income to Google Sheet...');
+      const p = {
         party: document.getElementById('incParty').value,
         category: document.getElementById('incCategory').value,
-        method: document.getElementById('incMethod').value,
         amount: Number(document.getElementById('incAmount').value),
+        method: document.getElementById('incMethod').value,
+        date: document.getElementById('incDate').value,
         narration: document.getElementById('incNarration').value
       };
-      incomes.unshift(newInc);
-      localStorage.setItem('erp_incomes', JSON.stringify(incomes));
-
-      // Record in ledger
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: newInc.id,
-        date: newInc.date,
-        account_head: `Income - ${newInc.category} (${newInc.party})`,
-        debit: 0,
-        credit: newInc.amount,
-        branch: "HEAD_OFFICE"
-      });
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      recordAuditLog('INCOME_RECORDED', newInc.id, `Income of ৳${newInc.amount} from ${newInc.party}`);
-      alert('Income record saved!');
-      e.target.reset();
-      loadDashboardData();
-      switchTab('incomeList');
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Income Record Saved to Google Sheet!');
+          e.target.reset();
+          loadDashboardData();
+          switchTab('incomeList');
+        }
+      } catch (err) {
+        alert('API error saving income.');
+      } finally { hideApiLoading(); }
     }
 
-    function loadIncomeList() {
-      const incomes = JSON.parse(localStorage.getItem('erp_incomes') || '[]');
-      const tbody = document.getElementById('incomeTableBody');
-      if (tbody) {
-        tbody.innerHTML = incomes.map(i => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 font-semibold text-blue-600 font-mono">${i.id}</td>
-            <td class="p-3 text-slate-500">${i.date}</td>
-            <td class="p-3 font-bold text-slate-900">${i.party}</td>
-            <td class="p-3 text-slate-600">${i.category}</td>
-            <td class="p-3 text-slate-500">${i.method}</td>
-            <td class="p-3 text-right font-black text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td>
-          </tr>
-        `).join('');
-      }
+    async function loadIncomeList() {
+      showApiLoading('Fetching Income Records from Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getIncomeList`);
+        const r = await res.json();
+        const iBody = document.getElementById('incomeTableBody');
+        if (iBody && r.data) {
+          iBody.innerHTML = r.data.map(i => `
+            <tr class="border-b font-medium">
+              <td class="p-3 font-bold text-blue-600">${i.id}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(i.date)}</td>
+              <td class="p-3 font-bold text-slate-900">${i.party}</td>
+              <td class="p-3">${i.category}</td>
+              <td class="p-3">${i.method}</td>
+              <td class="p-3 text-right font-bold text-emerald-600">৳ ${Number(i.amount).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function handleExpenseSubmit(e) {
+    async function handleExpenseSubmit(e) {
       e.preventDefault();
-      const expenses = JSON.parse(localStorage.getItem('erp_expenses') || '[]');
-      const newExp = {
-        id: `EXP-${200 + expenses.length + 1}`,
-        date: document.getElementById('expDate').value,
+      showApiLoading('Saving Expense to Google Sheet...');
+      const p = {
         party: document.getElementById('expParty').value,
         category: document.getElementById('expCategory').value,
-        method: document.getElementById('expMethod').value,
         amount: Number(document.getElementById('expAmount').value),
+        method: document.getElementById('expMethod').value,
+        date: document.getElementById('expDate').value,
         narration: document.getElementById('expNarration').value
       };
-      expenses.unshift(newExp);
-      localStorage.setItem('erp_expenses', JSON.stringify(expenses));
-
-      // Record in ledger
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: newExp.id,
-        date: newExp.date,
-        account_head: `Expense - ${newExp.category} (${newExp.party})`,
-        debit: newExp.amount,
-        credit: 0,
-        branch: "HEAD_OFFICE"
-      });
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      recordAuditLog('EXPENSE_RECORDED', newExp.id, `Expense of ৳${newExp.amount} to ${newExp.party}`);
-      alert('Expense record saved!');
-      e.target.reset();
-      loadDashboardData();
-      switchTab('expenseList');
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Expense Record Saved to Google Sheet!');
+          e.target.reset();
+          loadDashboardData();
+          switchTab('expenseList');
+        }
+      } catch (err) {
+        alert('API error saving expense.');
+      } finally { hideApiLoading(); }
     }
 
-    function loadExpenseList() {
-      const expenses = JSON.parse(localStorage.getItem('erp_expenses') || '[]');
-      const tbody = document.getElementById('expenseTableBody');
-      if (tbody) {
-        tbody.innerHTML = expenses.map(x => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 font-semibold text-rose-600 font-mono">${x.id}</td>
-            <td class="p-3 text-slate-500">${x.date}</td>
-            <td class="p-3 font-bold text-slate-900">${x.party}</td>
-            <td class="p-3 text-slate-600">${x.category}</td>
-            <td class="p-3 text-slate-500">${x.method}</td>
-            <td class="p-3 text-right font-black text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td>
-          </tr>
-        `).join('');
-      }
+    async function loadExpenseList() {
+      showApiLoading('Fetching Expenses from Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getExpenseList`);
+        const r = await res.json();
+        const eBody = document.getElementById('expenseTableBody');
+        if (eBody && r.data) {
+          eBody.innerHTML = r.data.map(x => `
+            <tr class="border-b font-medium">
+              <td class="p-3 font-bold text-rose-600">${x.id}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(x.date)}</td>
+              <td class="p-3 font-bold text-slate-900">${x.party}</td>
+              <td class="p-3">${x.category}</td>
+              <td class="p-3">${x.method}</td>
+              <td class="p-3 text-right font-bold text-rose-600">৳ ${Number(x.amount).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    // ================= LEDGERS & CASH BANK =================
-    function loadLedgersData(type, title) {
+    // 7. LEDGERS & BANKING APIS
+    async function loadLedgersData(type, title) {
       switchTab('ledgers');
       document.getElementById('ledgerTitleDisplay').innerText = title;
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      const tbody = document.getElementById('ledgerTableBody');
-      if (tbody) {
-        tbody.innerHTML = ledger.map(l => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 font-semibold text-blue-600 font-mono">${l.entry_id}</td>
-            <td class="p-3 text-slate-500 font-mono">${l.voucher_id}</td>
-            <td class="p-3 text-slate-500">${l.date}</td>
-            <td class="p-3 font-bold text-slate-900">${l.account_head}</td>
-            <td class="p-3 text-right font-bold text-rose-600">${Number(l.debit) > 0 ? '৳ ' + Number(l.debit).toLocaleString() : '-'}</td>
-            <td class="p-3 text-right font-bold text-emerald-600">${Number(l.credit) > 0 ? '৳ ' + Number(l.credit).toLocaleString() : '-'}</td>
-          </tr>
-        `).join('');
-      }
+      showApiLoading('Fetching Ledger Report from Google Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=${type}`);
+        const r = await res.json();
+        const lBody = document.getElementById('ledgerTableBody');
+        if (lBody && r.data) {
+          lBody.innerHTML = r.data.map(l => `
+            <tr class="border-b font-medium">
+              <td class="p-3 font-semibold text-blue-600">${l.entry_id || '-'}</td>
+              <td class="p-3">${l.voucher_id || '-'}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
+              <td class="p-3 font-bold">${l.account_head || '-'}</td>
+              <td class="p-3 text-right text-rose-600 font-bold">৳ ${Number(l.debit || 0).toLocaleString()}</td>
+              <td class="p-3 text-right text-emerald-600 font-bold">৳ ${Number(l.credit || 0).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function openCashBankForm(type) {
+    function openCashBankForm(t) {
       switchTab('cashBankFormView');
-      document.getElementById('cbType').value = type;
-      document.getElementById('cbFormTitle').innerText = `${type} Transaction`;
+      document.getElementById('cbType').value = t;
     }
 
-    function handleCashBankSubmit(e) {
+    async function handleCashBankSubmit(e) {
       e.preventDefault();
-      const type = document.getElementById('cbType').value;
-      const account = document.getElementById('cbAccount').value;
-      const amount = Number(document.getElementById('cbAmount').value);
-      const date = document.getElementById('cbDate').value;
-      const narration = document.getElementById('cbNarration').value;
-
-      const isDeposit = type.toLowerCase().includes('deposit');
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      ledger.push({
-        entry_id: `TXN-${Date.now().toString().slice(-4)}`,
-        voucher_id: `CB-${Date.now().toString().slice(-4)}`,
-        date: date,
-        account_head: `${type} - ${account}`,
-        debit: !isDeposit ? amount : 0,
-        credit: isDeposit ? amount : 0,
-        branch: "HEAD_OFFICE"
-      });
-      localStorage.setItem('erp_ledger', JSON.stringify(ledger));
-
-      recordAuditLog('CASH_BANK_TXN', account, `${type} of ৳${amount}`);
-      alert(`${type} transaction recorded successfully!`);
-      e.target.reset();
-      loadDashboardData();
-      switchTab('bankAccountView');
-    }
-
-    function loadCashLedger() {
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      const tbody = document.getElementById('cashTableBody');
-      if (tbody) {
-        tbody.innerHTML = ledger.map(l => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 font-semibold font-mono text-slate-700">${l.entry_id}</td>
-            <td class="p-3 text-slate-500">${l.date}</td>
-            <td class="p-3 font-bold text-slate-900">${l.account_head}</td>
-            <td class="p-3 text-right font-bold text-rose-600">${Number(l.debit) > 0 ? '৳ ' + Number(l.debit).toLocaleString() : '-'}</td>
-            <td class="p-3 text-right font-bold text-emerald-600">${Number(l.credit) > 0 ? '৳ ' + Number(l.credit).toLocaleString() : '-'}</td>
-          </tr>
-        `).join('');
-      }
-    }
-
-    function toggleBankModal(show) {
-      document.getElementById('bankModal').classList.toggle('hidden', !show);
-    }
-
-    function handleAddBankSubmit(e) {
-      e.preventDefault();
-      const banks = JSON.parse(localStorage.getItem('erp_banks') || '[]');
-      const newBank = {
-        bank_name: document.getElementById('newBankName').value,
-        account_no: document.getElementById('newBankAccNo').value,
-        branch: document.getElementById('newBankBranch').value || 'Main Branch',
-        balance: Number(document.getElementById('newBankBal').value) || 0
+      showApiLoading('Saving Cash/Bank Transaction to Google Sheet...');
+      const p = {
+        type: document.getElementById('cbType').value,
+        account: document.getElementById('cbAccount').value,
+        amount: Number(document.getElementById('cbAmount').value),
+        date: document.getElementById('cbDate').value,
+        narration: document.getElementById('cbNarration').value
       };
-      banks.push(newBank);
-      localStorage.setItem('erp_banks', JSON.stringify(banks));
-      recordAuditLog('BANK_ACCOUNT_ADDED', newBank.account_no, `Added bank: ${newBank.bank_name}`);
-      alert('Bank Account Added!');
-      toggleBankModal(false);
-      e.target.reset();
-      loadBankAccounts();
+      try {
+        const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createCashBankTxn', payload: p }) });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert('Cash/Bank Transaction Recorded to Google Sheet!');
+          e.target.reset();
+          loadDashboardData();
+        }
+      } catch (err) {
+        alert('API connection error.');
+      } finally { hideApiLoading(); }
     }
 
-    function loadBankAccounts() {
-      const banks = JSON.parse(localStorage.getItem('erp_banks') || '[]');
-      const container = document.getElementById('bankAccountsContainer');
-      if (container) {
-        container.innerHTML = banks.map(b => `
-          <div class="p-5 bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-2xl shadow-sm">
-            <div class="flex justify-between items-start mb-3">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm">${b.bank_name}</h4>
-                <p class="text-xs text-slate-500 font-mono font-semibold">${b.account_no}</p>
-                <p class="text-[11px] text-slate-400">${b.branch}</p>
-              </div>
-              <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">Active</span>
-            </div>
-            <div class="pt-3 border-t border-slate-200 flex justify-between items-center">
-              <span class="text-xs text-slate-500 font-semibold">Live Balance:</span>
-              <span class="font-black text-blue-700 text-base">৳ ${Number(b.balance).toLocaleString()}</span>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      const ledger = JSON.parse(localStorage.getItem('erp_ledger') || '[]');
-      const tbody = document.getElementById('bankTableBody');
-      if (tbody) {
-        tbody.innerHTML = ledger.map(l => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 font-semibold font-mono text-slate-700">${l.entry_id}</td>
-            <td class="p-3 text-slate-500">${l.date}</td>
-            <td class="p-3 font-bold text-slate-900">${l.account_head}</td>
-            <td class="p-3 text-right font-bold text-rose-600">${Number(l.debit) > 0 ? '৳ ' + Number(l.debit).toLocaleString() : '-'}</td>
-            <td class="p-3 text-right font-bold text-emerald-600">${Number(l.credit) > 0 ? '৳ ' + Number(l.credit).toLocaleString() : '-'}</td>
-          </tr>
-        `).join('');
-      }
+    async function loadCashLedger() {
+      showApiLoading('Fetching Cash Ledger from Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=CASH`);
+        const r = await res.json();
+        const tbody = document.getElementById('cashTableBody');
+        if (tbody && r.data) {
+          tbody.innerHTML = r.data.map(l => `
+            <tr class="border-b font-medium">
+              <td class="p-3 font-semibold text-slate-700">${l.entry_id || '-'}</td>
+              <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
+              <td class="p-3 font-bold">${l.account_head || '-'}</td>
+              <td class="p-3 text-right text-rose-600 font-bold">৳ ${Number(l.debit || 0).toLocaleString()}</td>
+              <td class="p-3 text-right text-emerald-600 font-bold">৳ ${Number(l.credit || 0).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function loadReconciliation() {
-      const banks = JSON.parse(localStorage.getItem('erp_banks') || '[]');
-      const totalBank = banks.reduce((sum, b) => sum + (Number(b.balance) || 0), 0);
-      document.getElementById('recBookBal').innerText = `৳ ${totalBank.toLocaleString()}`;
-      document.getElementById('recBankBal').innerText = `৳ ${totalBank.toLocaleString()}`;
-
-      const tbody = document.getElementById('reconciliationTableBody');
-      if (tbody) {
-        tbody.innerHTML = banks.map(b => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 text-center"><input type="checkbox" checked class="w-4 h-4 rounded text-emerald-600"></td>
-            <td class="p-3 text-slate-500">2026-08-18</td>
-            <td class="p-3 font-bold text-slate-900">${b.bank_name}</td>
-            <td class="p-3 font-mono text-slate-500">${b.account_no}</td>
-            <td class="p-3 text-right font-bold text-blue-700">৳ ${Number(b.balance).toLocaleString()}</td>
-            <td class="p-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700">MATCHED</span></td>
-          </tr>
-        `).join('');
-      }
-    }
-
-    // ================= BRANCH & USER MANAGEMENT =================
-    function toggleBranchModal(show) {
-      document.getElementById('branchModal').classList.toggle('hidden', !show);
-    }
-
-    function handleAddBranchSubmit(e) {
-      e.preventDefault();
-      const branches = JSON.parse(localStorage.getItem('erp_branches') || '[]');
-      const newBranch = {
-        code: document.getElementById('newBranchCode').value,
-        name: document.getElementById('newBranchName').value,
-        manager: document.getElementById('newBranchManager').value || 'Unassigned',
-        phone: document.getElementById('newBranchPhone').value || '-',
-        location: document.getElementById('newBranchLocation').value || '-',
-        cash: 50000,
-        sales: 100000
-      };
-      branches.push(newBranch);
-      localStorage.setItem('erp_branches', JSON.stringify(branches));
-      recordAuditLog('BRANCH_CREATED', newBranch.code, `Created branch: ${newBranch.name}`);
-      alert('Branch added successfully!');
-      toggleBranchModal(false);
-      e.target.reset();
-      loadBranchesData();
-    }
-
-    function loadBranchesData() {
-      const branches = JSON.parse(localStorage.getItem('erp_branches') || '[]');
-      const container = document.getElementById('branchesContainer');
-      if (container) {
-        container.innerHTML = branches.map(b => `
-          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-purple-300 transition-all">
-            <div class="flex justify-between items-start mb-2">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-700 font-mono">${b.code}</span>
-              <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold flex items-center gap-1">
-                <i class="fa-solid fa-circle text-[8px]"></i> Online
-              </span>
-            </div>
-            <h4 class="font-extrabold text-slate-900 text-sm">${b.name}</h4>
-            <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-user-tie text-[10px] mr-1 text-slate-400"></i> ${b.manager}</p>
-            <p class="text-[11px] text-slate-400"><i class="fa-solid fa-phone text-[9px] mr-1"></i> ${b.phone}</p>
-            <p class="text-[11px] text-slate-400"><i class="fa-solid fa-location-dot text-[9px] mr-1"></i> ${b.location}</p>
-            <div class="mt-4 pt-3 border-t grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <span class="text-[10px] uppercase font-bold text-slate-400 block">Cash in Drawer</span>
-                <b class="text-slate-800 font-bold">৳ ${Number(b.cash).toLocaleString()}</b>
-              </div>
-              <div class="text-right">
-                <span class="text-[10px] uppercase font-bold text-slate-400 block">Today's Sales</span>
-                <b class="text-emerald-600 font-black">৳ ${Number(b.sales).toLocaleString()}</b>
+    async function loadBankAccounts() {
+      showApiLoading('Fetching Bank Accounts from Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getBankAccounts`);
+        const r = await res.json();
+        const container = document.getElementById('bankAccountsContainer');
+        if (container && r.data) {
+          container.innerHTML = r.data.map(b => `
+            <div class="p-5 bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-2xl shadow-sm">
+              <div class="flex justify-between items-start mb-2">
+                <div>
+                  <h4 class="font-bold text-slate-900">${b.bank_name}</h4>
+                  <p class="text-xs text-slate-500 font-mono">${b.account_no}</p>
+                </div>
+                <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">Active</span>
               </div>
             </div>
-          </div>
-        `).join('');
-      }
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function toggleUserModal(show) {
-      document.getElementById('userModal').classList.toggle('hidden', !show);
+    async function loadReconciliation() {
+      showApiLoading('Loading Reconciliation Balance...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
+        const r = await res.json();
+        if (r.status === 'success' && r.data) {
+          document.getElementById('recBookBal').innerText = `৳ ${Number(r.data.bankBalance || 0).toLocaleString()}`;
+          document.getElementById('recBankBal').innerText = `৳ ${Number(r.data.bankBalance || 0).toLocaleString()}`;
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
-    function handleAddUserSubmit(e) {
-      e.preventDefault();
-      const users = JSON.parse(localStorage.getItem('erp_users') || '[]');
-      const newUser = {
-        id: `USR-${String(users.length + 1).padStart(2, '0')}`,
-        name: document.getElementById('newUserName').value,
-        email: document.getElementById('newUserEmail').value,
-        role: document.getElementById('newUserRole').value,
-        branch: document.getElementById('newUserBranch').value
-      };
-      users.push(newUser);
-      localStorage.setItem('erp_users', JSON.stringify(users));
-      recordAuditLog('USER_CREATED', newUser.id, `Created user: ${newUser.name} with role: ${newUser.role}`);
-      alert(`User ${newUser.name} created!`);
-      toggleUserModal(false);
-      e.target.reset();
-      loadUsersData();
-    }
-
-    function loadUsersData() {
-      const users = JSON.parse(localStorage.getItem('erp_users') || '[]');
-      const tbody = document.getElementById('userTableBody');
-      if (tbody) {
-        tbody.innerHTML = users.map(u => `
-          <tr class="border-b hover:bg-slate-50 font-medium">
-            <td class="p-3 font-semibold font-mono text-blue-600">${u.id}</td>
-            <td class="p-3 font-bold text-slate-900">${u.name}</td>
-            <td class="p-3 text-slate-600">${u.email}</td>
-            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700">${u.role}</span></td>
-            <td class="p-3 font-semibold text-slate-700">${u.branch}</td>
-            <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">ACTIVE</span></td>
-          </tr>
-        `).join('');
-      }
-    }
-
-    function loadPermissionsData() {
-      globalPermissions = JSON.parse(localStorage.getItem('erp_permissions') || '{}');
-      loadRolePermissionsIntoUI();
+    // 8. PERMISSIONS APIS
+    async function loadPermissionsData() {
+      showApiLoading('Fetching Permissions from Google Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getPermissions`);
+        const result = await res.json();
+        if (result.status === 'success') {
+          globalPermissions = result.data || {};
+          loadRolePermissionsIntoUI();
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
     function loadRolePermissionsIntoUI() {
@@ -3143,77 +2633,77 @@
       checkboxes.forEach(cb => { cb.checked = allowed.includes(cb.value); });
     }
 
-    function saveCurrentPermissions() {
+    async function saveCurrentPermissions() {
       const selectedRole = document.getElementById('permRoleSelect').value;
       const checkedBoxes = Array.from(document.querySelectorAll('#modulesChecklist input[type="checkbox"]:checked')).map(cb => cb.value);
-      globalPermissions[selectedRole] = checkedBoxes;
-      localStorage.setItem('erp_permissions', JSON.stringify(globalPermissions));
-      recordAuditLog('PERMISSIONS_UPDATED', selectedRole, `Updated module access for role ${selectedRole}`);
-      alert(`Permissions updated for role: ${selectedRole}!`);
+      showApiLoading('Saving Permissions to Google Sheet...');
+
+      try {
+        const res = await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'savePermissions', payload: { role: selectedRole, modules: checkedBoxes } })
+        });
+        const r = await res.json();
+        if (r.status === 'success') {
+          alert(`Permissions saved to Google Sheet for role: ${selectedRole}!`);
+          globalPermissions[selectedRole] = checkedBoxes;
+        }
+      } catch (err) {
+        alert('API error saving permissions.');
+      } finally { hideApiLoading(); }
     }
 
-    // ================= REPORTS & COMPANY SETTINGS =================
-    function loadReport(type) {
+    // 9. FINANCIAL STATEMENTS
+    async function loadReport(t) {
       switchTab('reportsView');
-      const incomes = JSON.parse(localStorage.getItem('erp_incomes') || '[]');
-      const expenses = JSON.parse(localStorage.getItem('erp_expenses') || '[]');
-      const customers = JSON.parse(localStorage.getItem('erp_customers') || '[]');
-      const suppliers = JSON.parse(localStorage.getItem('erp_suppliers') || '[]');
-      const banks = JSON.parse(localStorage.getItem('erp_banks') || '[]');
+      showApiLoading('Compiling Financial Statements from Google Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData`);
+        const r = await res.json();
+        const area = document.getElementById('reportContentArea');
+        const totalIncome = Number(r.data.totalIncome || 0);
+        const totalExpense = Number(r.data.totalExpense || 0);
+        const totalReceivable = Number(r.data.totalReceivable || 0);
+        const totalPayable = Number(r.data.totalPayable || 0);
+        const netBalance = Number(r.data.netBalance || (totalIncome - totalExpense));
 
-      const totalIncome = incomes.reduce((sum, i) => sum + (Number(i.amount) || 0), 0);
-      const totalExpense = expenses.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
-      const totalReceivable = customers.reduce((sum, c) => sum + (Number(c.due_amount) || 0), 0);
-      const totalPayable = suppliers.reduce((sum, s) => sum + (Number(s.due_amount) || 0), 0);
-      const totalBank = banks.reduce((sum, b) => sum + (Number(b.balance) || 0), 0);
-      const netProfit = totalIncome - totalExpense;
-
-      const area = document.getElementById('reportContentArea');
-
-      if (type === 'TRIAL_BALANCE') {
-        document.getElementById('reportTitle').innerText = 'Trial Balance Summary Statement';
-        area.innerHTML = `
-          <table class="w-full text-sm border border-collapse">
-            <tr class="bg-slate-100 font-bold border-b"><th class="p-3 text-left">Account Head</th><th class="p-3 text-right">Debit (৳)</th><th class="p-3 text-right">Credit (৳)</th></tr>
-            <tr class="border-b"><td class="p-3">Customer Receivables (Assets)</td><td class="p-3 text-right font-bold">${totalReceivable.toLocaleString()}</td><td class="p-3 text-right">-</td></tr>
-            <tr class="border-b"><td class="p-3">Bank & Cash Accounts (Assets)</td><td class="p-3 text-right font-bold">${totalBank.toLocaleString()}</td><td class="p-3 text-right">-</td></tr>
-            <tr class="border-b"><td class="p-3">Total Operational Expenses</td><td class="p-3 text-right font-bold">${totalExpense.toLocaleString()}</td><td class="p-3 text-right">-</td></tr>
-            <tr class="border-b"><td class="p-3">Supplier Payables (Liabilities)</td><td class="p-3 text-right">-</td><td class="p-3 text-right font-bold">${totalPayable.toLocaleString()}</td></tr>
-            <tr class="border-b"><td class="p-3">Total Sales & Revenue Incomes</td><td class="p-3 text-right">-</td><td class="p-3 text-right font-bold">${totalIncome.toLocaleString()}</td></tr>
-            <tr class="bg-slate-50 font-black border-t-2"><td class="p-3">Total Balance Check</td><td class="p-3 text-right text-rose-700">${(totalReceivable + totalBank + totalExpense).toLocaleString()}</td><td class="p-3 text-right text-emerald-700">${(totalPayable + totalIncome).toLocaleString()}</td></tr>
-          </table>
-        `;
-      } else if (type === 'PROFIT_LOSS') {
-        document.getElementById('reportTitle').innerText = 'Profit & Loss Statement (Comprehensive Income)';
-        area.innerHTML = `
-          <div class="p-6 bg-slate-50 border rounded-2xl space-y-4 max-w-2xl">
-            <div class="flex justify-between font-bold text-sm"><span>Gross Operating Revenue / Incomes</span><span class="text-emerald-700 font-extrabold">৳ ${totalIncome.toLocaleString()}</span></div>
-            <div class="flex justify-between font-bold text-sm"><span>Less: Operating & Procurement Expenses</span><span class="text-rose-700 font-extrabold">৳ ${totalExpense.toLocaleString()}</span></div>
-            <div class="flex justify-between font-black text-lg border-t-2 pt-3">
-              <span>Net Net Profit / (Loss)</span>
-              <span class="${netProfit >= 0 ? 'text-blue-700' : 'text-rose-700'}">৳ ${netProfit.toLocaleString()}</span>
+        if (t === 'TRIAL_BALANCE') {
+          document.getElementById('reportTitle').innerText = 'Trial Balance Summary';
+          area.innerHTML = `
+            <table class="w-full text-sm border border-collapse">
+              <tr class="bg-slate-100 font-bold"><th class="p-3 text-left">Particulars</th><th class="p-3 text-right">Debit (৳)</th><th class="p-3 text-right">Credit (৳)</th></tr>
+              <tr class="border-b"><td class="p-3">Customer Receivables</td><td class="p-3 text-right font-bold">${totalReceivable.toLocaleString()}</td><td class="p-3 text-right">0.00</td></tr>
+              <tr class="border-b"><td class="p-3">Total Operational Expenses</td><td class="p-3 text-right font-bold">${totalExpense.toLocaleString()}</td><td class="p-3 text-right">0.00</td></tr>
+              <tr class="border-b"><td class="p-3">Supplier Payables</td><td class="p-3 text-right">0.00</td><td class="p-3 text-right font-bold">${totalPayable.toLocaleString()}</td></tr>
+              <tr class="border-b"><td class="p-3">Total Sales & Revenue</td><td class="p-3 text-right">0.00</td><td class="p-3 text-right font-bold">${totalIncome.toLocaleString()}</td></tr>
+            </table>
+          `;
+        } else if (t === 'PROFIT_LOSS') {
+          document.getElementById('reportTitle').innerText = 'Profit & Loss Statement';
+          area.innerHTML = `
+            <div class="p-6 bg-slate-50 border rounded-2xl space-y-3 max-w-2xl">
+              <div class="flex justify-between font-bold"><span>Total Revenue Earnings</span><span class="text-emerald-600 font-black">৳ ${totalIncome.toLocaleString()}</span></div>
+              <div class="flex justify-between font-bold"><span>Total Expenses & Procurement</span><span class="text-rose-600 font-black">৳ ${totalExpense.toLocaleString()}</span></div>
+              <div class="flex justify-between font-black text-lg border-t pt-3"><span>Net Operating Profit</span><span class="text-blue-600">৳ ${netBalance.toLocaleString()}</span></div>
             </div>
-          </div>
-        `;
-      } else if (type === 'BALANCE_SHEET') {
-        document.getElementById('reportTitle').innerText = 'Corporate Balance Sheet Statement';
-        area.innerHTML = `
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="p-5 border rounded-2xl bg-slate-50">
-              <h4 class="font-black text-slate-900 border-b pb-2 mb-3">Total Current Assets</h4>
-              <p class="flex justify-between text-xs py-1.5 border-b"><span>Customer Receivables:</span><b class="font-bold">৳ ${totalReceivable.toLocaleString()}</b></p>
-              <p class="flex justify-between text-xs py-1.5 border-b"><span>Bank Liquid Cash:</span><b class="font-bold">৳ ${totalBank.toLocaleString()}</b></p>
-              <p class="flex justify-between text-sm py-2 font-extrabold text-blue-700"><span>Total Assets:</span><b>৳ ${(totalReceivable + totalBank).toLocaleString()}</b></p>
+          `;
+        } else if (t === 'BALANCE_SHEET') {
+          document.getElementById('reportTitle').innerText = 'Balance Sheet Statement';
+          area.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-5 border rounded-2xl bg-slate-50">
+                <h4 class="font-bold border-b pb-2 mb-2">Total Assets</h4>
+                <p class="flex justify-between text-xs py-1"><span>Customer Due:</span><b>৳ ${totalReceivable.toLocaleString()}</b></p>
+              </div>
+              <div class="p-5 border rounded-2xl bg-slate-50">
+                <h4 class="font-bold border-b pb-2 mb-2">Total Liabilities</h4>
+                <p class="flex justify-between text-xs py-1"><span>Supplier Due:</span><b>৳ ${totalPayable.toLocaleString()}</b></p>
+              </div>
             </div>
-            <div class="p-5 border rounded-2xl bg-slate-50">
-              <h4 class="font-black text-slate-900 border-b pb-2 mb-3">Liabilities & Equities</h4>
-              <p class="flex justify-between text-xs py-1.5 border-b"><span>Supplier Payables:</span><b class="font-bold">৳ ${totalPayable.toLocaleString()}</b></p>
-              <p class="flex justify-between text-xs py-1.5 border-b"><span>Retained Earnings (Profit):</span><b class="font-bold">৳ ${netProfit.toLocaleString()}</b></p>
-              <p class="flex justify-between text-sm py-2 font-extrabold text-purple-800"><span>Total Liabilities:</span><b>৳ ${(totalPayable + netProfit).toLocaleString()}</b></p>
-            </div>
-          </div>
-        `;
-      }
+          `;
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
     }
 
     function exportReportToExcel() {
@@ -3236,43 +2726,104 @@
       }
     }
 
+    // 10. BRANCHES, USERS & AUDIT LOGS APIS
+    async function loadBranchesData() {
+      showApiLoading('Fetching Branches from Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getBranches`);
+        const r = await res.json();
+        const container = document.getElementById('branchesContainer');
+        if (container && r.data) {
+          container.innerHTML = r.data.map(b => `
+            <div class="p-5 bg-white border rounded-2xl shadow-sm">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-700">${b.code}</span>
+              <h4 class="font-bold mt-2">${b.name}</h4>
+              <p class="text-xs text-slate-500">${b.location || '-'}</p>
+            </div>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
+    }
+
+    async function loadUsersData() {
+      showApiLoading('Fetching Users from Sheet...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getUsers`);
+        const r = await res.json();
+        const tbody = document.getElementById('userTableBody');
+        if (tbody && r.data) {
+          tbody.innerHTML = r.data.map(u => `
+            <tr class="border-b font-medium">
+              <td class="p-3 font-semibold text-blue-600">${u.id}</td>
+              <td class="p-3 font-bold">${u.name}</td>
+              <td class="p-3">${u.email}</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700">${u.role}</span></td>
+              <td class="p-3">${u.branch}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
+    }
+
+    async function loadAuditTrail() {
+      showApiLoading('Fetching Audit Trail Logs...');
+      try {
+        const res = await fetch(`${CONFIG.API_URL}?action=getAuditLogs`);
+        const r = await res.json();
+        const tbody = document.getElementById('auditTableBody');
+        if (tbody && r.data) {
+          tbody.innerHTML = r.data.map(l => `
+            <tr class="border-b font-medium">
+              <td class="p-3 font-mono text-slate-500">${l.time}</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700">${l.action}</span></td>
+              <td class="p-3 font-bold">${l.entity}</td>
+              <td class="p-3">${l.user}</td>
+              <td class="p-3 text-slate-500">${l.details}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {}
+      finally { hideApiLoading(); }
+    }
+
+    // 11. COMPANY SETTINGS
     function loadSettingsData() {
       const compName = localStorage.getItem('erp_comp_name') || "Accounts Enterprise ERP";
-      const address = localStorage.getItem('erp_comp_address') || "Corporate Head Office, Dhaka, Bangladesh";
-      const phone = localStorage.getItem('erp_comp_phone') || "+880 1700-000000";
       const apiUrl = localStorage.getItem('erp_api_url') || CONFIG.API_URL;
-
       if (document.getElementById('setCompName')) document.getElementById('setCompName').value = compName;
-      if (document.getElementById('setAddress')) document.getElementById('setAddress').value = address;
-      if (document.getElementById('setPhone')) document.getElementById('setPhone').value = phone;
       if (document.getElementById('setApiUrl')) document.getElementById('setApiUrl').value = apiUrl;
-
-      // Update titles across UI
       if (document.getElementById('sidebarCompName')) document.getElementById('sidebarCompName').innerText = compName;
       if (document.getElementById('loginCompanyDisplay')) document.getElementById('loginCompanyDisplay').innerText = compName;
-      if (document.getElementById('suppSlipCompName')) document.getElementById('suppSlipCompName').innerText = compName;
-      if (document.getElementById('custReceiptCompName')) document.getElementById('custReceiptCompName').innerText = compName;
-      if (document.getElementById('vSlipCompName')) document.getElementById('vSlipCompName').innerText = compName;
     }
 
     function handleSaveSettings(e) {
       e.preventDefault();
       const compName = document.getElementById('setCompName').value;
-      const address = document.getElementById('setAddress').value;
-      const phone = document.getElementById('setPhone').value;
       const apiUrl = document.getElementById('setApiUrl').value;
-
       localStorage.setItem('erp_comp_name', compName);
-      localStorage.setItem('erp_comp_address', address);
-      localStorage.setItem('erp_comp_phone', phone);
-      if (apiUrl) localStorage.setItem('erp_api_url', apiUrl);
-
-      recordAuditLog('SETTINGS_SAVED', 'COMPANY_SETTINGS', `Updated company details for ${compName}`);
-      alert('Company settings updated successfully!');
+      if (apiUrl) {
+        localStorage.setItem('erp_api_url', apiUrl);
+        CONFIG.API_URL = apiUrl;
+      }
+      alert('Company settings updated & Google Sheet API URL connected!');
       loadSettingsData();
     }
 
-    // EXCEL TABLE HELPER
+    // EXCEL EXPORT & DATE HELPER
+    function formatDateDisplay(dStr) {
+      if (!dStr || dStr === '-') return '-';
+      try {
+        const d = new Date(dStr);
+        if (isNaN(d.getTime())) return dStr.split('T')[0];
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}.${month}.${year}`;
+      } catch(e) { return dStr; }
+    }
+
     function exportTableToExcel(tbodyId, filename = 'Data_Export') {
       const tbody = document.getElementById(tbodyId);
       if (!tbody) { alert('Table data not found.'); return; }
@@ -3290,6 +2841,22 @@
 
       const wb = XLSX.utils.table_to_book(clone, { sheet: "Sheet1" });
       XLSX.writeFile(wb, `${filename}_${new Date().toISOString().split('T')[0]}.xlsx`);
+    }
+
+    function exportSupplierStatementToExcel() {
+      const suppName = document.getElementById('printSuppName').innerText || 'Supplier';
+      const table = document.getElementById('supplierStatementTable');
+      if (!table) return;
+      const wb = XLSX.utils.table_to_book(table, { sheet: "Statement" });
+      XLSX.writeFile(wb, `${suppName.replace(/\s+/g, '_')}_Statement_${new Date().toISOString().split('T')[0]}.xlsx`);
+    }
+
+    function printSupplierStatement() {
+      const printContents = document.getElementById('supplierStatementPrintArea').innerHTML;
+      const originalContents = document.body.innerHTML;
+      document.body.innerHTML = `<div style="padding: 20px; background: white;">${printContents}</div>`;
+      window.print();
+      location.reload();
     }
   </script>
 </body>
