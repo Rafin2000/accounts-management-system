@@ -24,12 +24,31 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    /* Modern Light Green & Soft Blue Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    ::-webkit-scrollbar-track { background: #f0fdf4; }
+    ::-webkit-scrollbar-thumb { background: #6ee7b7; border-radius: 6px; }
+    ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+    /* Smooth Dynamic Page Transition Animation */
+    @keyframes pageEnter {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-enter-active {
+      animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Soft Glass Effect Cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(224, 242, 254, 0.85);
+    }
     
     @media print {
       body * { visibility: hidden !important; }
@@ -46,7 +65,7 @@
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-800 antialiased font-sans">
+<body class="bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 text-slate-800 antialiased font-sans">
 
   <!-- API LOADING SPINNER / TOAST -->
   <div id="apiLoadingIndicator" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900/95 text-white px-4 py-2.5 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700 backdrop-blur-md transition-all">
@@ -92,215 +111,219 @@
   </div>
 
   <!-- 2. MAIN APP DASHBOARD -->
-  <div id="appSection" class="hidden min-h-screen flex bg-slate-100">
+  <div id="appSection" class="hidden min-h-screen flex bg-gradient-to-br from-slate-50 via-sky-50/70 to-blue-50/60 text-slate-800">
 
-    <!-- FULL ERP SIDEBAR (DESKTOP & MOBILE DRAWER) -->
-    <div id="sidebarOverlay" onclick="toggleMobileSidebar(false)" class="hidden fixed inset-0 bg-slate-950/60 z-40 md:hidden backdrop-blur-sm"></div>
-    <aside id="mainSidebar" class="fixed md:sticky top-0 left-0 z-50 md:z-auto w-72 bg-slate-900 text-slate-300 flex flex-col justify-between h-screen -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none">
+    <!-- FULL ERP SIDEBAR (LIGHT GREEN / MINT THEME) -->
+    <div id="sidebarOverlay" onclick="toggleMobileSidebar(false)" class="hidden fixed inset-0 bg-emerald-950/40 z-40 md:hidden backdrop-blur-sm"></div>
+    <aside id="mainSidebar" class="fixed md:sticky top-0 left-0 z-50 md:z-auto w-72 bg-gradient-to-b from-emerald-50/95 via-teal-50/90 to-emerald-100/80 border-r border-emerald-200/90 text-slate-700 flex flex-col justify-between h-screen -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-xl md:shadow-md backdrop-blur-md">
       <div class="overflow-y-auto h-full flex flex-col">
         
         <!-- Sidebar Brand Header -->
-        <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div class="p-5 border-b border-emerald-200/80 flex items-center justify-between bg-white/60 backdrop-blur-sm">
           <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
-              <i class="fa-solid fa-calculator"></i>
+            <div class="w-10 h-10 bg-gradient-to-tr from-emerald-600 to-teal-500 rounded-2xl flex items-center justify-center text-white font-bold shadow-md shadow-emerald-600/30">
+              <i class="fa-solid fa-calculator text-lg"></i>
             </div>
             <div>
-              <h1 class="text-white font-extrabold text-sm leading-tight" id="sidebarCompName">Accounts ERP</h1>
-              <p class="text-[10px] text-slate-400 font-medium">Google Sheet Cloud ERP</p>
+              <h1 class="text-emerald-950 font-black text-sm leading-tight" id="sidebarCompName">Accounts ERP</h1>
+              <p class="text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Google Sheet Cloud
+              </p>
             </div>
           </div>
-          <button onclick="toggleMobileSidebar(false)" class="md:hidden text-slate-400 hover:text-white p-1">
+          <button onclick="toggleMobileSidebar(false)" class="md:hidden text-slate-500 hover:text-emerald-800 p-1">
             <i class="fa-solid fa-xmark text-lg"></i>
           </button>
         </div>
 
         <!-- Sidebar Navigation Items -->
-        <nav class="p-3 space-y-1 text-xs font-medium flex-1 overflow-y-auto" id="sidebarNav">
+        <nav class="p-3 space-y-1 text-xs font-semibold flex-1 overflow-y-auto" id="sidebarNav">
           
           <!-- 1. Dashboard -->
           <div data-module="dashboard">
-            <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-white bg-blue-600 font-bold transition-all shadow-sm">
-              <i class="fa-solid fa-chart-pie w-5 text-blue-200"></i><span>Executive Dashboard</span>
+            <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 font-bold transition-all shadow-md shadow-emerald-600/25">
+              <i class="fa-solid fa-chart-pie w-5 text-emerald-200"></i><span>Executive Dashboard</span>
             </a>
           </div>
 
           <!-- 2. Voucher Management -->
           <div data-module="vouchers">
-            <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-blue-400"></i><span>Voucher Management</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuVouchers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-receipt w-5 text-teal-600"></i><span>Voucher Management</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuVouchers" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="openVoucherForm('ALL')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-400">Create Voucher</a>
-              <a href="#" onclick="openVoucherForm('Payment')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-400 font-medium">Payment (Debit) Voucher</a>
-              <a href="#" onclick="openVoucherForm('Receipt')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-400 font-medium">Receipt (Credit) Voucher</a>
-              <a href="#" onclick="openVoucherForm('Journal')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-blue-400 font-medium">Journal Voucher</a>
-              <a href="#" onclick="openVoucherForm('Contra')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-amber-400 font-medium">Contra Voucher</a>
-              <a href="#" onclick="switchTab('voucherList')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 font-bold text-slate-200">All Vouchers List</a>
+            <div id="menuVouchers" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="openVoucherForm('ALL')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-600">Create Voucher</a>
+              <a href="#" onclick="openVoucherForm('Payment')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-rose-600 font-medium">Payment (Debit) Voucher</a>
+              <a href="#" onclick="openVoucherForm('Receipt')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-medium">Receipt (Credit) Voucher</a>
+              <a href="#" onclick="openVoucherForm('Journal')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-medium">Journal Voucher</a>
+              <a href="#" onclick="openVoucherForm('Contra')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-amber-700 font-medium">Contra Voucher</a>
+              <a href="#" onclick="switchTab('voucherList')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 font-bold text-slate-800">All Vouchers List</a>
             </div>
           </div>
 
           <!-- 3. Voucher 3-Stage Approval -->
           <div data-module="approvals">
-            <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-amber-400"></i><span>Voucher Approvals</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuApprovals')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-rotate w-5 text-amber-600"></i><span>Voucher Approvals</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuApprovals" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="loadApprovalStep('PENDING_GM')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-amber-400 font-semibold">Step 1 → GM Approval</a>
-              <a href="#" onclick="loadApprovalStep('PENDING_MD')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-blue-400 font-semibold">Step 2 → MD/CEO Approval</a>
-              <a href="#" onclick="loadApprovalStep('PENDING_ACCOUNTS')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-400 font-semibold">Step 3 → Accounts Posting</a>
+            <div id="menuApprovals" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="loadApprovalStep('PENDING_GM')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-amber-700 font-semibold">Step 1 → GM Approval</a>
+              <a href="#" onclick="loadApprovalStep('PENDING_MD')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-blue-700 font-semibold">Step 2 → MD/CEO Approval</a>
+              <a href="#" onclick="loadApprovalStep('PENDING_ACCOUNTS')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-semibold">Step 3 → Accounts Posting</a>
             </div>
           </div>
 
           <!-- 4. Sales & Invoicing -->
           <div data-module="customer">
-            <button onclick="toggleSubMenu('menuSales')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-cart-shopping w-5 text-emerald-400"></i><span>Sales & Invoicing</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuSales')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-cart-shopping w-5 text-emerald-600"></i><span>Sales & Invoicing</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuSales" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="switchTab('salesEntryView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-bold">+ Multi-Item Sales Invoice</a>
-              <a href="#" onclick="switchTab('customerPaymentView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-400">Collect Customer Payment</a>
-              <a href="#" onclick="switchTab('customerStatementView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-cyan-300 font-bold">Customer Ledger Statement</a>
-              <a href="#" onclick="switchTab('customerDueView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300 font-medium">Customer Receivables (Due)</a>
-              <a href="#" onclick="switchTab('customerListView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-300">All Customers Directory</a>
+            <div id="menuSales" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="switchTab('salesEntryView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-bold">+ Multi-Item Sales Invoice</a>
+              <a href="#" onclick="switchTab('customerPaymentView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700">Collect Customer Payment</a>
+              <a href="#" onclick="switchTab('customerStatementView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-cyan-700 font-bold">Customer Ledger Statement</a>
+              <a href="#" onclick="switchTab('customerDueView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-rose-700 font-medium">Customer Receivables (Due)</a>
+              <a href="#" onclick="switchTab('customerListView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">All Customers Directory</a>
             </div>
           </div>
 
           <!-- 5. Purchase & Bills -->
           <div data-module="supplier">
-            <button onclick="toggleSubMenu('menuPurchase')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-teal-400"></i><span>Purchase & Bills</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuPurchase')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-truck-field w-5 text-teal-600"></i><span>Purchase & Bills</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuPurchase" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="switchTab('purchaseEntryView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-teal-300 font-bold">+ Purchase / Bill Entry</a>
-              <a href="#" onclick="switchTab('supplierPaymentView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-purple-300 font-medium">Pay Supplier Due</a>
-              <a href="#" onclick="switchTab('supplierStatementView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-teal-300 font-bold">Supplier Ledger Statement</a>
-              <a href="#" onclick="switchTab('supplierDueView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300 font-medium">Supplier Payables (Due)</a>
-              <a href="#" onclick="switchTab('supplierListView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-300">All Suppliers Directory</a>
+            <div id="menuPurchase" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="switchTab('purchaseEntryView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-bold">+ Purchase / Bill Entry</a>
+              <a href="#" onclick="switchTab('bulkSupplierView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-bold"><i class="fa-solid fa-file-import mr-1"></i> Bulk Upload Supplier Ledger</a>
+              <a href="#" onclick="switchTab('supplierPaymentView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-purple-700 font-medium">Pay Supplier Due</a>
+              <a href="#" onclick="switchTab('supplierStatementView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-bold">Supplier Ledger Statement</a>
+              <a href="#" onclick="switchTab('supplierDueView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-rose-700 font-medium">Supplier Payables (Due)</a>
+              <a href="#" onclick="switchTab('supplierListView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">All Suppliers Directory</a>
             </div>
           </div>
 
           <!-- 6. Income Records -->
           <div data-module="income">
-            <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-400"></i><span>Income Management</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuIncome')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-sack-dollar w-5 text-emerald-600"></i><span>Income Management</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuIncome" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="switchTab('incomeEntry')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-bold">+ New Income Entry</a>
-              <a href="#" onclick="switchTab('incomeList')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-300">Income Records List</a>
+            <div id="menuIncome" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="switchTab('incomeEntry')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-bold">+ New Income Entry</a>
+              <a href="#" onclick="switchTab('incomeList')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">Income Records List</a>
             </div>
           </div>
 
           <!-- 7. Expense Records -->
           <div data-module="expense">
-            <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-400"></i><span>Expense Management</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuExpense')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-money-bill-transfer w-5 text-rose-500"></i><span>Expense Management</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuExpense" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="switchTab('expenseEntry')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300 font-bold">+ New Expense Entry</a>
-              <a href="#" onclick="switchTab('expenseList')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-300">Expense Records List</a>
+            <div id="menuExpense" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="switchTab('expenseEntry')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-rose-600 font-bold">+ New Expense Entry</a>
+              <a href="#" onclick="switchTab('expenseList')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">Expense Records List</a>
             </div>
           </div>
 
           <!-- 8. Accounts & General Ledgers -->
           <div data-module="ledger">
-            <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-indigo-400"></i><span>Accounts / Ledgers</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuLedger')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-book-journal-whills w-5 text-teal-700"></i><span>Accounts / Ledgers</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuLedger" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-blue-300 font-bold">General Ledger</a>
-              <a href="#" onclick="loadLedgersData('CASH', 'Cash Ledger Statement')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-300">Cash Ledger</a>
-              <a href="#" onclick="loadLedgersData('BANK', 'Bank Ledger Statement')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-300">Bank Ledger</a>
-              <a href="#" onclick="loadLedgersData('EXPENSE', 'Expense Ledger Statement')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300">Expense Ledger</a>
-              <a href="#" onclick="loadLedgersData('INCOME', 'Income Ledger Statement')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300">Income Ledger</a>
+            <div id="menuLedger" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-800 font-bold">General Ledger</a>
+              <a href="#" onclick="switchTab('bulkLedgerView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-bold"><i class="fa-solid fa-file-import mr-1"></i> Bulk Upload (Excel)</a>
+              <a href="#" onclick="loadLedgersData('CASH', 'Cash Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">Cash Ledger</a>
+              <a href="#" onclick="loadLedgersData('BANK', 'Bank Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">Bank Ledger</a>
+              <a href="#" onclick="loadLedgersData('EXPENSE', 'Expense Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-rose-600">Expense Ledger</a>
+              <a href="#" onclick="loadLedgersData('INCOME', 'Income Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700">Income Ledger</a>
             </div>
           </div>
 
           <!-- 9. Cash & Bank Management -->
           <div data-module="cashbank">
-            <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-sky-400"></i><span>Cash & Banking</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuCashBank')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-building-columns w-5 text-sky-600"></i><span>Cash & Banking</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuCashBank" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="switchTab('cashAccountView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-200 font-medium">Cash in Hand Register</a>
-              <a href="#" onclick="toggleCashClosingModal(true)" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-amber-300 font-bold"><i class="fa-solid fa-vault mr-1"></i> Daily Drawer Cash Closing</a>
-              <a href="#" onclick="switchTab('bankAccountView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-indigo-300 font-medium">Bank Accounts & Balances</a>
-              <a href="#" onclick="openCashBankForm('Cash Deposit')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-medium">Cash Deposit</a>
-              <a href="#" onclick="openCashBankForm('Cash Withdrawal')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300 font-medium">Cash Withdrawal</a>
-              <a href="#" onclick="openCashBankForm('Bank Deposit')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-medium">Bank Deposit</a>
-              <a href="#" onclick="openCashBankForm('Bank Withdrawal')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300 font-medium">Bank Withdrawal</a>
-              <a href="#" onclick="switchTab('reconciliationView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-amber-300 font-bold">Bank Reconciliation</a>
+            <div id="menuCashBank" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="switchTab('cashAccountView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700 font-medium">Cash in Hand Register</a>
+              <a href="#" onclick="toggleCashClosingModal(true)" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-amber-700 font-bold"><i class="fa-solid fa-vault mr-1"></i> Daily Drawer Cash Closing</a>
+              <a href="#" onclick="switchTab('bankAccountView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-medium">Bank Accounts & Balances</a>
+              <a href="#" onclick="openCashBankForm('Cash Deposit')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-medium">Cash Deposit</a>
+              <a href="#" onclick="openCashBankForm('Cash Withdrawal')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-rose-600 font-medium">Cash Withdrawal</a>
+              <a href="#" onclick="openCashBankForm('Bank Deposit')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-medium">Bank Deposit</a>
+              <a href="#" onclick="openCashBankForm('Bank Withdrawal')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-rose-600 font-medium">Bank Withdrawal</a>
+              <a href="#" onclick="switchTab('reconciliationView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-amber-700 font-bold">Bank Reconciliation</a>
             </div>
           </div>
 
           <!-- 10. Financial Statements & Reports -->
           <div data-module="reports">
-            <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-cyan-400"></i><span>Financial Statements</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuReports')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-chart-column w-5 text-teal-600"></i><span>Financial Statements</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuReports" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="loadReport('TRIAL_BALANCE')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-200">Trial Balance Statement</a>
-              <a href="#" onclick="loadReport('PROFIT_LOSS')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-bold">Profit & Loss Statement</a>
-              <a href="#" onclick="loadReport('BALANCE_SHEET')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-indigo-300 font-bold">Balance Sheet Statement</a>
+            <div id="menuReports" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="loadReport('TRIAL_BALANCE')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">Trial Balance Statement</a>
+              <a href="#" onclick="loadReport('PROFIT_LOSS')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-bold">Profit & Loss Statement</a>
+              <a href="#" onclick="loadReport('BALANCE_SHEET')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-bold">Balance Sheet Statement</a>
             </div>
           </div>
 
           <!-- 11. Branch & Shops -->
           <div data-module="branch">
-            <a href="#" onclick="switchTab('branchView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-purple-300 font-semibold">
-              <i class="fa-solid fa-store w-5 text-purple-400"></i><span>Branches (Head + 15 Shops)</span>
+            <a href="#" onclick="switchTab('branchView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-purple-800 font-semibold">
+              <i class="fa-solid fa-store w-5 text-purple-600"></i><span>Branches (Head + 15 Shops)</span>
             </a>
           </div>
 
           <!-- 12. User Management -->
           <div data-module="users">
-            <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-sky-400"></i><span>User Management</span></div>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            <button onclick="toggleSubMenu('menuUsers')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <div class="flex items-center space-x-3"><i class="fa-solid fa-user-gear w-5 text-sky-600"></i><span>User Management</span></div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-emerald-600"></i>
             </button>
-            <div id="menuUsers" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="switchTab('userView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-200 font-medium">System Users List</a>
-              <a href="#" onclick="switchTab('permissionsView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-amber-300 font-bold">Role & Permissions Matrix</a>
+            <div id="menuUsers" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
+              <a href="#" onclick="switchTab('userView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700 font-medium">System Users List</a>
+              <a href="#" onclick="switchTab('permissionsView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-amber-700 font-bold">Role & Permissions Matrix</a>
             </div>
           </div>
 
           <!-- 13. Audit Trail Logs -->
           <div data-module="audit">
-            <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <i class="fa-solid fa-file-shield w-5 text-emerald-400"></i><span>Audit Trail Logs</span>
+            <a href="#" onclick="switchTab('auditView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <i class="fa-solid fa-file-shield w-5 text-emerald-600"></i><span>Audit Trail Logs</span>
             </a>
           </div>
 
           <!-- 14. Settings -->
           <div data-module="settings">
-            <a href="#" onclick="switchTab('settingsView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-all text-slate-300">
-              <i class="fa-solid fa-sliders w-5 text-rose-400"></i><span>Company Settings</span>
+            <a href="#" onclick="switchTab('settingsView')" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-emerald-200/60 hover:text-emerald-950 transition-all text-slate-700">
+              <i class="fa-solid fa-sliders w-5 text-rose-500"></i><span>Company Settings</span>
             </a>
           </div>
         </nav>
 
         <!-- Current User Profile Footer -->
-        <div class="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-950">
+        <div class="p-4 border-t border-emerald-200/90 flex items-center justify-between bg-emerald-100/75 backdrop-blur-sm">
           <div class="flex items-center space-x-3 overflow-hidden">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xs font-black shadow" id="userAvatar">AD</div>
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white text-xs font-black shadow-sm" id="userAvatar">AD</div>
             <div class="overflow-hidden">
-              <p class="text-xs font-bold text-white truncate" id="userName">Admin User</p>
+              <p class="text-xs font-bold text-emerald-950 truncate" id="userName">Admin User</p>
               <div class="flex items-center space-x-1.5">
-                <span class="text-[9px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded font-bold uppercase" id="userRole">ADMIN</span>
-                <span class="text-[9px] text-slate-400 truncate" id="userBranchTag">HQ</span>
+                <span class="text-[9px] bg-emerald-600/15 text-emerald-800 border border-emerald-300/60 px-1.5 py-0.5 rounded font-bold uppercase" id="userRole">ADMIN</span>
+                <span class="text-[9px] text-emerald-700 truncate font-medium" id="userBranchTag">HQ</span>
               </div>
             </div>
           </div>
-          <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 p-2 rounded-lg hover:bg-slate-800 transition-all text-sm" title="Sign Out">
+          <button onclick="handleLogout()" class="text-emerald-700 hover:text-rose-600 p-2 rounded-xl hover:bg-emerald-200/60 transition-all text-sm" title="Sign Out">
             <i class="fa-solid fa-right-from-bracket"></i>
           </button>
         </div>
@@ -308,32 +331,33 @@
       </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-slate-100 min-h-screen">
+    <!-- Main Content Area (Light Soft Blue & Glacier Tint) -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-transparent min-h-screen">
       
       <!-- Top Sticky Header -->
-      <header class="bg-white border-b border-slate-200 px-4 md:px-6 py-3 flex items-center justify-between shadow-sm sticky top-0 z-30">
+      <header class="bg-white/85 backdrop-blur-md border-b border-sky-200/70 px-4 md:px-6 py-3.5 flex items-center justify-between shadow-sm sticky top-0 z-30">
         <div class="flex items-center space-x-3">
-          <button onclick="toggleMobileSidebar(true)" class="md:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">
+          <button onclick="toggleMobileSidebar(true)" class="md:hidden p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200">
             <i class="fa-solid fa-bars text-base"></i>
           </button>
           <div>
-            <h2 class="text-base md:text-lg font-black text-slate-800 flex items-center gap-2" id="pageTitle">
+            <h2 class="text-base md:text-lg font-black text-slate-900 flex items-center" id="pageTitle">
+              <i class="fa-solid fa-chart-pie text-emerald-600 mr-2 text-base"></i>
               <span>Executive Financial Dashboard</span>
             </h2>
-            <p class="text-[11px] text-slate-400 hidden sm:block">Google Sheets Synchronized Multi-Branch Financial Monitor</p>
+            <p class="text-[11px] text-slate-500 hidden sm:block font-medium" id="pageSubtitle">Google Sheets Synchronized Multi-Branch Financial Monitor</p>
           </div>
         </div>
 
         <div class="flex items-center space-x-2 sm:space-x-3">
-          <button onclick="toggleCashClosingModal(true)" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
-            <i class="fa-solid fa-vault text-amber-600"></i>
+          <button onclick="toggleCashClosingModal(true)" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300/80 px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
+            <i class="fa-solid fa-vault text-emerald-600"></i>
             <span class="hidden sm:inline">Cash Closing</span>
           </button>
 
-          <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 py-1.5 px-3 rounded-xl">
-            <i class="fa-solid fa-store text-purple-600 text-xs"></i>
-            <select id="dashboardBranchFilter" onchange="loadDashboardData()" class="bg-transparent text-slate-700 text-xs font-bold focus:outline-none cursor-pointer">
+          <div class="flex items-center space-x-1.5 bg-sky-50/80 border border-sky-200 py-1.5 px-3 rounded-xl shadow-inner">
+            <i class="fa-solid fa-store text-teal-600 text-xs"></i>
+            <select id="dashboardBranchFilter" onchange="loadDashboardData()" class="bg-transparent text-slate-800 text-xs font-bold focus:outline-none cursor-pointer">
               <option value="ALL">All Branch Operations</option>
               <option value="HEAD_OFFICE">Corporate Head Office</option>
               <option value="SHOP_01">Outlet Shop 01</option>
@@ -342,7 +366,7 @@
             </select>
           </div>
 
-          <button onclick="loadDashboardData()" class="bg-blue-50 hover:bg-blue-100 text-blue-600 p-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5" title="Refresh Live Data from Google Sheets">
+          <button onclick="loadDashboardData()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-md shadow-sky-500/25 flex items-center gap-1.5" title="Refresh Live Data from Google Sheets">
             <i class="fa-solid fa-arrows-rotate"></i>
             <span class="hidden md:inline">Sync Sheet</span>
           </button>
@@ -840,6 +864,9 @@
             </div>
             <div class="flex flex-wrap items-center gap-2">
               <select id="statementSupplierSelect" onchange="loadSpecificSupplierStatement()" class="py-2 px-3 bg-slate-50 border rounded-xl text-xs font-bold focus:ring-2 focus:ring-teal-500"></select>
+              <button onclick="switchTab('bulkSupplierView')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1 shadow-sm">
+                <i class="fa-solid fa-file-import mr-1"></i><span>Bulk Upload</span>
+              </button>
               <button onclick="exportSupplierStatementToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1 shadow-sm">
                 <i class="fa-solid fa-file-excel mr-1"></i><span>Export Excel</span>
               </button>
@@ -934,6 +961,127 @@
               </thead>
               <tbody id="supplierDueTableBody"></tbody>
             </table>
+          </div>
+        </div>
+
+        <!-- ================= 8.1 BULK UPLOAD SUPPLIERS & SUPPLIER LEDGER (EXCEL/CSV) ================= -->
+        <div id="bulkSupplierView" class="hidden bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-sm">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center font-black shadow-inner">
+                <i class="fa-solid fa-truck-ramp-box text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-black text-slate-800">Bulk Supplier Ledger & Directory Upload</h3>
+                <p class="text-xs text-slate-500">Excel / CSV ফাইল থেকে একসাথে একাধিক সাপ্লায়ারের প্রোফাইল, বকেয়া (Due Balance), অথবা পারচেজ বিল লেজার আপলোড করুন</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="downloadSupplierTemplate()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 text-xs px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 transition shadow-sm">
+                <i class="fa-solid fa-file-excel text-emerald-600 text-sm"></i>
+                <span id="suppTemplateBtnText">Download Supplier Template (Excel)</span>
+              </button>
+              <button onclick="switchTab('supplierStatementView')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-4 py-2.5 rounded-xl font-bold transition">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back to Supplier Ledger
+              </button>
+            </div>
+          </div>
+
+          <!-- Upload Mode Selector Tabs -->
+          <div class="flex flex-wrap gap-2 border-b mb-6 pb-3">
+            <button id="suppModeBtnProfile" onclick="setSupplierUploadMode('PROFILES')" class="py-2.5 px-4 rounded-xl font-bold text-xs bg-teal-600 text-white shadow-sm transition">
+              <i class="fa-solid fa-address-book mr-1.5"></i> 1. Supplier Profiles & Opening Dues (বকেয়াসহ সাপ্লায়ার লিস্ট)
+            </button>
+            <button id="suppModeBtnTxns" onclick="setSupplierUploadMode('TXNS')" class="py-2.5 px-4 rounded-xl font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+              <i class="fa-solid fa-file-invoice-dollar mr-1.5"></i> 2. Supplier Purchase & Payment Ledger Entries (বিল ও লেনদেন)
+            </button>
+          </div>
+
+          <!-- Upload Options Container -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Method A: Drag & Drop / File Input -->
+            <div class="border-2 border-dashed border-teal-200 bg-teal-50/30 hover:bg-teal-50/60 rounded-3xl p-6 text-center transition flex flex-col items-center justify-center cursor-pointer relative group">
+              <input type="file" id="supplierFileInput" accept=".xlsx, .xls, .csv" onchange="handleSupplierFileUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+              <div class="w-14 h-14 bg-teal-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-teal-600/30 mb-3 group-hover:scale-105 transition-transform">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+              </div>
+              <h4 class="font-extrabold text-slate-800 text-sm mb-1">Click to Upload Supplier Excel / CSV File</h4>
+              <p class="text-xs text-slate-500 mb-3" id="suppUploadHelpText">Supports .xlsx, .xls, .csv files for Suppliers & Opening Dues</p>
+              <span class="inline-flex items-center gap-1.5 px-3.5 py-1 bg-white border border-teal-200 text-teal-700 text-[11px] font-bold rounded-full shadow-sm">
+                <i class="fa-solid fa-bolt text-amber-500"></i> Instant SheetJS Parser
+              </span>
+            </div>
+
+            <!-- Method B: Direct Copy-Paste from Excel Table -->
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-paste text-slate-500"></i> Or Paste Directly from Excel (Ctrl+V)
+                  </h4>
+                  <span class="text-[10px] text-slate-400 font-mono">Tab/Comma Delimited</span>
+                </div>
+                <textarea id="supplierPasteArea" rows="4" placeholder="Supplier Name	Company	Phone	Address	Opening Due BDT&#10;Rahim Steel	Rahim Enterprise	01711000000	Dhaka	150000&#10;Karim Paper Mill	Karim Brothers Ltd	01811000000	Chittagong	85000" class="w-full py-2 px-3 bg-white border border-slate-200 rounded-2xl text-xs font-mono focus:ring-2 focus:ring-teal-500 outline-none"></textarea>
+              </div>
+              <div class="flex justify-end gap-2 mt-2">
+                <button type="button" onclick="parsePastedSupplierData()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow-sm">
+                  <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Parse Pasted Table Data
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Parsed Data Summary & Interactive Table Preview -->
+          <div id="bulkSupplierPreviewContainer" class="hidden space-y-4">
+            <!-- Stats Dashboard -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-900 text-white p-4 rounded-2xl">
+              <div>
+                <span class="text-[11px] text-slate-400 uppercase font-bold block">Total Records</span>
+                <span class="text-xl font-black text-white" id="bulkSuppTotalRows">0</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-rose-400 uppercase font-bold block" id="bulkSuppCol1Title">Total Payable Due (BDT)</span>
+                <span class="text-xl font-black text-rose-400" id="bulkSuppTotalDue">৳ 0.00</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-teal-400 uppercase font-bold block">Upload Target</span>
+                <span class="text-xs font-bold px-2.5 py-1 rounded bg-teal-500/20 text-teal-300 inline-block mt-1" id="bulkSuppModeBadge">Suppliers Directory & Ledger</span>
+              </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-2">
+              <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-teal-600"></i> Parsed Supplier Records Ready for Upload (<span id="bulkSuppRowCountBadge">0</span>)
+              </h4>
+              <div class="flex items-center gap-2">
+                <button onclick="clearBulkSupplierData()" class="text-xs font-bold text-slate-500 hover:text-rose-600 px-3 py-2 border rounded-xl hover:bg-rose-50 transition">
+                  <i class="fa-solid fa-trash-can mr-1"></i> Clear List
+                </button>
+                <button id="bulkSuppUploadSubmitBtn" onclick="submitBulkSupplierUpload()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-5 py-2.5 rounded-xl shadow-md shadow-emerald-600/30 flex items-center gap-2 transition">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Confirm & Upload Suppliers to Google Sheet</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Preview Table -->
+            <div class="overflow-x-auto border border-slate-200 rounded-2xl shadow-sm">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-100 uppercase border-b text-[11px] font-extrabold text-slate-600" id="bulkSuppTableHead">
+                  <tr>
+                    <th class="p-3 w-12 text-center">SL</th>
+                    <th class="p-3">Supplier Name</th>
+                    <th class="p-3">Company / Org</th>
+                    <th class="p-3">Phone</th>
+                    <th class="p-3">Address</th>
+                    <th class="p-3 text-right text-rose-600 font-bold w-32">Opening Due (৳)</th>
+                    <th class="p-3 text-center w-12">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="bulkSupplierTableBody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -1217,6 +1365,9 @@
               <p class="text-xs text-slate-400">Complete double-entry transactional posting ledger</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
+              <button onclick="switchTab('bulkLedgerView')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1.5 shadow-sm shadow-indigo-600/30">
+                <i class="fa-solid fa-file-import"></i> <span>Bulk Upload (Excel)</span>
+              </button>
               <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                 <input type="text" oninput="filterTableRows('ledgerTableBody', this.value)" placeholder="Search ledger..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
@@ -1236,6 +1387,125 @@
               </thead>
               <tbody id="ledgerTableBody"></tbody>
             </table>
+          </div>
+        </div>
+
+        <!-- ================= 11.1 BULK UPLOAD LEDGER (EXCEL/CSV) ================= -->
+        <div id="bulkLedgerView" class="hidden bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-sm">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black shadow-inner">
+                <i class="fa-solid fa-file-import text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-black text-slate-800">Bulk Ledger & Journal Upload</h3>
+                <p class="text-xs text-slate-500">Excel / CSV ফাইল আপলোড বা সরাসরি এক্সেল থেকে কপি-পেস্ট করে মাল্টিপল জার্নাল এন্ট্রি পোস্ট করুন</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="downloadLedgerTemplate()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 text-xs px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 transition shadow-sm">
+                <i class="fa-solid fa-file-excel text-emerald-600 text-sm"></i>
+                <span>Download Sample Excel Template</span>
+              </button>
+              <button onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-4 py-2.5 rounded-xl font-bold transition">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back to Ledger
+              </button>
+            </div>
+          </div>
+
+          <!-- Upload Options Container -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Method A: Drag & Drop / File Input -->
+            <div class="border-2 border-dashed border-indigo-200 bg-indigo-50/30 hover:bg-indigo-50/60 rounded-3xl p-6 text-center transition flex flex-col items-center justify-center cursor-pointer relative group">
+              <input type="file" id="ledgerFileInput" accept=".xlsx, .xls, .csv" onchange="handleLedgerFileUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+              <div class="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-600/30 mb-3 group-hover:scale-105 transition-transform">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+              </div>
+              <h4 class="font-extrabold text-slate-800 text-sm mb-1">Click to Upload or Drag & Drop Excel / CSV</h4>
+              <p class="text-xs text-slate-500 mb-3">Supports .xlsx, .xls, .csv files</p>
+              <span class="inline-flex items-center gap-1.5 px-3.5 py-1 bg-white border border-indigo-200 text-indigo-700 text-[11px] font-bold rounded-full shadow-sm">
+                <i class="fa-solid fa-bolt text-amber-500"></i> Instant SheetJS Parser
+              </span>
+            </div>
+
+            <!-- Method B: Direct Copy-Paste from Excel Table -->
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-paste text-slate-500"></i> Or Paste Directly from Excel Table (Ctrl+V)
+                  </h4>
+                  <span class="text-[10px] text-slate-400 font-mono">Tab/Comma Delimited</span>
+                </div>
+                <textarea id="ledgerPasteArea" rows="4" placeholder="Date	Ref	Particulars	Debit	Credit	Branch	Narration&#10;2026-08-01	JV-101	Office Rent Expense	25000	0	HEAD_OFFICE	Rent for August&#10;2026-08-01	JV-101	Cash in Hand	0	25000	HEAD_OFFICE	Paid in cash" class="w-full py-2 px-3 bg-white border border-slate-200 rounded-2xl text-xs font-mono focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+              </div>
+              <div class="flex justify-end gap-2 mt-2">
+                <button type="button" onclick="parsePastedLedgerData()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow-sm">
+                  <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Parse Pasted Table Data
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Parsed Data Summary & Interactive Table Preview -->
+          <div id="bulkLedgerPreviewContainer" class="hidden space-y-4">
+            <!-- Stats Dashboard -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-900 text-white p-4 rounded-2xl">
+              <div>
+                <span class="text-[11px] text-slate-400 uppercase font-bold block">Total Rows</span>
+                <span class="text-xl font-black text-white" id="bulkTotalRows">0</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-rose-400 uppercase font-bold block">Total Debit (Dr)</span>
+                <span class="text-xl font-black text-rose-400" id="bulkTotalDebit">৳ 0.00</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-emerald-400 uppercase font-bold block">Total Credit (Cr)</span>
+                <span class="text-xl font-black text-emerald-400" id="bulkTotalCredit">৳ 0.00</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-amber-400 uppercase font-bold block">Balance Validation</span>
+                <div class="mt-1" id="bulkBalanceBadge">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Balanced (Dr = Cr)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-2">
+              <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-indigo-600"></i> Parsed Entries Ready for Upload (<span id="bulkRowCountBadge">0</span>)
+              </h4>
+              <div class="flex items-center gap-2">
+                <button onclick="clearBulkLedgerData()" class="text-xs font-bold text-slate-500 hover:text-rose-600 px-3 py-2 border rounded-xl hover:bg-rose-50 transition">
+                  <i class="fa-solid fa-trash-can mr-1"></i> Clear List
+                </button>
+                <button id="bulkUploadSubmitBtn" onclick="submitBulkLedgerUpload()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-5 py-2.5 rounded-xl shadow-md shadow-emerald-600/30 flex items-center gap-2 transition">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Confirm & Upload to Google Sheet</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Preview Table -->
+            <div class="overflow-x-auto border border-slate-200 rounded-2xl shadow-sm">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-100 uppercase border-b text-[11px] font-extrabold text-slate-600">
+                  <tr>
+                    <th class="p-3 w-12 text-center">SL</th>
+                    <th class="p-3 w-28">Date</th>
+                    <th class="p-3 w-28">Ref / Voucher</th>
+                    <th class="p-3">Particulars / Account Head</th>
+                    <th class="p-3 text-right text-rose-600 font-bold w-28">Debit (Dr)</th>
+                    <th class="p-3 text-right text-emerald-600 font-bold w-28">Credit (Cr)</th>
+                    <th class="p-3 w-28">Branch</th>
+                    <th class="p-3">Narration / Note</th>
+                    <th class="p-3 text-center w-12">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="bulkLedgerTableBody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -1829,19 +2099,81 @@
       toggleMobileSidebar(false);
       const allTabs = [
         'dashboard', 'salesEntryView', 'customerStatementView', 'customerPaymentView', 'customerListView', 'customerDueView',
-        'purchaseEntryView', 'supplierStatementView', 'supplierPaymentView', 'supplierListView', 'supplierDueView',
+        'purchaseEntryView', 'supplierStatementView', 'supplierPaymentView', 'supplierListView', 'supplierDueView', 'bulkSupplierView',
         'vouchers', 'voucherList', 'approvals', 'incomeEntry', 'incomeList', 'expenseEntry', 'expenseList',
-        'ledgers', 'cashBankFormView', 'cashAccountView', 'bankAccountView', 'reconciliationView',
+        'ledgers', 'bulkLedgerView', 'cashBankFormView', 'cashAccountView', 'bankAccountView', 'reconciliationView',
         'reportsView', 'branchView', 'userView', 'permissionsView', 'auditView', 'settingsView'
       ];
 
+      const tabMeta = {
+        'dashboard': { title: 'Executive Financial Dashboard', subtitle: 'Live Google Sheets Synchronized Multi-Branch Financial Monitor', icon: 'fa-chart-pie' },
+        'salesEntryView': { title: 'Multi-Item Sales & Invoicing', subtitle: 'Generate Customer Invoices, Apply VAT/Discounts & Print Official Slips', icon: 'fa-cart-shopping' },
+        'customerStatementView': { title: 'Customer Ledger Statement', subtitle: 'Customer Transaction Ledger, Sales, Collections & Running Due Balance', icon: 'fa-file-lines' },
+        'customerPaymentView': { title: 'Collect Customer Due Payment', subtitle: 'Receive Dues, Update Ledger & Issue QR-Enabled Money Receipts', icon: 'fa-hand-holding-dollar' },
+        'customerListView': { title: 'Customer Directory', subtitle: 'All Client Accounts, Phone Numbers & Receivable Balances', icon: 'fa-users' },
+        'customerDueView': { title: 'Customer Outstanding Receivables', subtitle: 'List of Customers with Pending Due Balances', icon: 'fa-user-clock' },
+        'purchaseEntryView': { title: 'Supplier Purchase & Bill Entry', subtitle: 'Record Vendor Bills, Raw Materials, Inventory & Purchase Invoices', icon: 'fa-truck-field' },
+        'bulkSupplierView': { title: 'Bulk Supplier Ledger & Directory Upload', subtitle: 'Import Vendor Records, Opening Dues & Purchase Transactions from Excel', icon: 'fa-truck-ramp-box' },
+        'supplierPaymentView': { title: 'Disburse Supplier Payment', subtitle: 'Pay Vendor Dues, Deduct Cash/Bank & Print Payment Vouchers', icon: 'fa-money-bill-wave' },
+        'supplierStatementView': { title: 'Supplier Ledger Statement', subtitle: 'Real-time Vendor Account Ledger with Running Payables', icon: 'fa-file-invoice-dollar' },
+        'supplierDueView': { title: 'Supplier Outstanding Payables', subtitle: 'Suppliers with Active Outstanding Balances to be Paid', icon: 'fa-clock-rotate-left' },
+        'supplierListView': { title: 'All Registered Suppliers', subtitle: 'Vendor Profiles, Contact Details & Payable Balances', icon: 'fa-building' },
+        'vouchers': { title: 'Create Financial Voucher', subtitle: 'Generate Payment, Receipt, Journal & Contra Vouchers', icon: 'fa-receipt' },
+        'voucherList': { title: 'All Vouchers Directory', subtitle: 'Transactional Voucher Archives & Audit Trail', icon: 'fa-list-check' },
+        'approvals': { title: '3-Stage Voucher Approvals', subtitle: 'Multi-Level Approval Workflow (GM ➔ MD ➔ Accounts Posting)', icon: 'fa-rotate' },
+        'incomeEntry': { title: 'Direct Income Entry', subtitle: 'Record Non-Sales Revenue & Miscellaneous Inflows', icon: 'fa-sack-dollar' },
+        'incomeList': { title: 'All Income Records', subtitle: 'Detailed Ledger of All Revenue Disbursed', icon: 'fa-table-list' },
+        'expenseEntry': { title: 'Direct Expense Entry', subtitle: 'Record Operational Costs, Office Rent, Utilities & Bills', icon: 'fa-money-bill-transfer' },
+        'expenseList': { title: 'All Expense Records', subtitle: 'Detailed Ledger of Operational & Maintenance Costs', icon: 'fa-rectangle-list' },
+        'ledgers': { title: 'General & Specific Ledgers', subtitle: 'Double-Entry Transactional Posting Ledger with Live Filter', icon: 'fa-book-journal-whills' },
+        'bulkLedgerView': { title: 'Bulk Ledger & Journal Upload', subtitle: 'Upload Multi-row Journal Entries from Excel with Trial Balance Check', icon: 'fa-file-import' },
+        'cashBankFormView': { title: 'Cash & Bank Transaction', subtitle: 'Cash Deposits, Bank Withdrawals & Internal Transfers', icon: 'fa-building-columns' },
+        'cashAccountView': { title: 'Cash in Hand Daily Register', subtitle: 'Cash Flow Register & Drawer Balance Closing', icon: 'fa-cash-register' },
+        'bankAccountView': { title: 'Bank Accounts & Balances', subtitle: 'Active Company Bank Accounts & Book Balances', icon: 'fa-landmark' },
+        'reconciliationView': { title: 'Bank Account Reconciliation', subtitle: 'Reconcile Passbook with Bank Ledger Balances', icon: 'fa-scale-balanced' },
+        'reportsView': { title: 'Financial Statements & Reports', subtitle: 'Trial Balance, Profit & Loss, and Balance Sheet Summary', icon: 'fa-chart-column' },
+        'branchView': { title: 'Branch & Outlet Management', subtitle: 'Corporate Head Office & 15 Outlet Stores Monitor', icon: 'fa-store' },
+        'userView': { title: 'System Users Directory', subtitle: 'Manage ERP Operators, Roles & Access Logs', icon: 'fa-user-gear' },
+        'permissionsView': { title: 'Role & Permissions Matrix', subtitle: 'Role-Based Access Control (RBAC) Module Permissions', icon: 'fa-shield-halved' },
+        'auditView': { title: 'Audit Trail & Activity Logs', subtitle: 'System-wide Security & Transaction Audit Trail', icon: 'fa-file-shield' },
+        'settingsView': { title: 'Company Settings & API Config', subtitle: 'Configure Company Information & Google Apps Script Endpoints', icon: 'fa-sliders' }
+      };
+
       allTabs.forEach(t => {
         const v = document.getElementById(t.includes('View') ? t : `${t}View`);
-        if (v) v.classList.add('hidden');
+        if (v) {
+          v.classList.add('hidden');
+          v.classList.remove('page-enter-active');
+        }
       });
 
       const target = document.getElementById(tab.includes('View') ? tab : `${tab}View`);
-      if (target) target.classList.remove('hidden');
+      if (target) {
+        target.classList.remove('hidden');
+        target.classList.add('page-enter-active');
+      }
+
+      // Update Page Title and Subtitle dynamically
+      const meta = tabMeta[tab] || { title: 'Accounts Enterprise ERP', subtitle: 'Google Sheet Financial System', icon: 'fa-circle-dot' };
+      const titleEl = document.getElementById('pageTitle');
+      const subEl = document.getElementById('pageSubtitle');
+      if (titleEl) {
+        titleEl.innerHTML = `<i class="fa-solid ${meta.icon} text-emerald-600 mr-2 text-base"></i><span>${meta.title}</span>`;
+      }
+      if (subEl) {
+        subEl.innerText = meta.subtitle;
+      }
+
+      // Highlight active nav item
+      const navLinks = document.querySelectorAll('#sidebarNav a');
+      navLinks.forEach(a => {
+        if (a.getAttribute('onclick')?.includes(`'${tab}'`)) {
+          a.classList.add('bg-emerald-600', 'text-white', 'shadow-sm');
+          a.classList.remove('text-slate-700', 'text-slate-600');
+        } else if (!a.id || a.id !== 'nav-dashboard' || tab !== 'dashboard') {
+          a.classList.remove('bg-emerald-600', 'text-white', 'shadow-sm');
+        }
+      });
 
       if (tab === 'dashboard') loadDashboardData();
       if (tab === 'salesEntryView' || tab === 'customerListView' || tab === 'customerDueView' || tab === 'customerPaymentView' || tab === 'customerStatementView') loadCustomersData();
@@ -3307,6 +3639,713 @@
       document.body.innerHTML = `<div style="padding: 20px; background: white;">${printContents}</div>`;
       window.print();
       location.reload();
+    }
+
+    // ================= BULK LEDGER UPLOAD ENGINE =================
+    let parsedBulkLedgerEntries = [];
+
+    function downloadLedgerTemplate() {
+      const templateData = [
+        {
+          "Date": new Date().toISOString().split('T')[0],
+          "Ref": "JV-1001",
+          "Particulars": "Office Rent Expense",
+          "Debit": 35000,
+          "Credit": 0,
+          "Branch": "HEAD_OFFICE",
+          "Narration": "Head Office monthly office rent"
+        },
+        {
+          "Date": new Date().toISOString().split('T')[0],
+          "Ref": "JV-1001",
+          "Particulars": "Cash in Hand (প্রধান ক্যাশ)",
+          "Debit": 0,
+          "Credit": 35000,
+          "Branch": "HEAD_OFFICE",
+          "Narration": "Rent paid via cash drawer"
+        },
+        {
+          "Date": new Date().toISOString().split('T')[0],
+          "Ref": "JV-1002",
+          "Particulars": "Islami Bank Bangladesh (IBBL)",
+          "Debit": 50000,
+          "Credit": 0,
+          "Branch": "SHOP-01",
+          "Narration": "Cash deposited into bank"
+        },
+        {
+          "Date": new Date().toISOString().split('T')[0],
+          "Ref": "JV-1002",
+          "Particulars": "Sales Revenue (বিক্রয় আয়)",
+          "Debit": 0,
+          "Credit": 50000,
+          "Branch": "SHOP-01",
+          "Narration": "Direct bank customer sales deposit"
+        }
+      ];
+
+      const ws = XLSX.utils.json_to_sheet(templateData);
+      // Column width formatting
+      ws['!cols'] = [
+        { wch: 14 }, { wch: 14 }, { wch: 30 }, { wch: 14 }, { wch: 14 }, { wch: 16 }, { wch: 35 }
+      ];
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Ledger_Upload");
+      XLSX.writeFile(wb, "Ledger_Bulk_Upload_Template.xlsx");
+      showToast('success', 'এক্সেল স্যাম্পল টেমপ্লেট ডাউনলোড হয়েছে!');
+    }
+
+    function handleLedgerFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showApiLoading('Reading Excel / CSV file...');
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+          if (!jsonData || jsonData.length === 0) {
+            showToast('warning', 'এক্সেলে কোনো ডাটা পাওয়া যায়নি!');
+            hideApiLoading();
+            return;
+          }
+
+          processRawLedgerRows(jsonData);
+        } catch (err) {
+          console.error(err);
+          showToast('error', 'ফাইল পার্স করতে ব্যর্থ হয়েছে। সঠিক ফরম্যাটের ফাইল ব্যবহার করুন।');
+        } finally {
+          hideApiLoading();
+          event.target.value = '';
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function parsePastedLedgerData() {
+      const text = document.getElementById('ledgerPasteArea').value.trim();
+      if (!text) {
+        showToast('warning', 'অনুগ্রহ করে এক্সেল থেকে কপি করা টেক্সট বক্সে পেস্ট করুন');
+        return;
+      }
+
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) return;
+
+      const rows = [];
+      const delimiter = lines[0].includes('\t') ? '\t' : (lines[0].includes(',') ? ',' : '\t');
+      
+      const firstLineTokens = lines[0].split(delimiter).map(t => t.trim().toLowerCase());
+      const hasHeader = firstLineTokens.some(t => t.includes('date') || t.includes('particular') || t.includes('debit') || t.includes('credit'));
+      const startIndex = hasHeader ? 1 : 0;
+
+      for (let i = startIndex; i < lines.length; i++) {
+        const parts = lines[i].split(delimiter).map(p => p.trim());
+        if (parts.length >= 3) {
+          rows.push({
+            "Date": parts[0] || new Date().toISOString().split('T')[0],
+            "Ref": parts[1] || `JV-${1000 + i}`,
+            "Particulars": parts[2] || 'General Entry',
+            "Debit": Number(parts[3]) || 0,
+            "Credit": Number(parts[4]) || 0,
+            "Branch": parts[5] || 'HEAD_OFFICE',
+            "Narration": parts[6] || ''
+          });
+        }
+      }
+
+      if (rows.length === 0) {
+        showToast('warning', 'ডাটা পার্স করা সম্ভব হয়নি। ফরম্যাট চেক করুন।');
+        return;
+      }
+
+      processRawLedgerRows(rows);
+      document.getElementById('ledgerPasteArea').value = '';
+    }
+
+    function processRawLedgerRows(rawRows) {
+      const user = JSON.parse(localStorage.getItem('user_data') || '{}');
+      const defaultBranch = user.branch_id || user.branch || 'HEAD_OFFICE';
+
+      parsedBulkLedgerEntries = rawRows.map((r, idx) => {
+        // Flexible key matching
+        const findVal = (keys) => {
+          for (let k of Object.keys(r)) {
+            const clean = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+            for (let target of keys) {
+              if (clean.includes(target)) return r[k];
+            }
+          }
+          return null;
+        };
+
+        const rawDate = findVal(['date', 'tarikh']) || new Date().toISOString().split('T')[0];
+        let formattedDate = rawDate;
+        if (typeof rawDate === 'number') {
+          // Excel serial date conversion
+          const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+          const converted = new Date(excelEpoch.getTime() + rawDate * 86400000);
+          formattedDate = converted.toISOString().split('T')[0];
+        }
+
+        const ref = String(findVal(['ref', 'voucher', 'memo', 'inv']) || `BULK-${idx + 1}`);
+        const particulars = String(findVal(['particular', 'head', 'account', 'title']) || 'General Ledger Head');
+        const debit = Math.max(0, Number(findVal(['debit', 'dr', 'out', 'khoroch'])) || 0);
+        const credit = Math.max(0, Number(findVal(['credit', 'cr', 'in', 'ay', 'joma'])) || 0);
+        const branch = String(findVal(['branch', 'outlet', 'shop']) || defaultBranch);
+        const narration = String(findVal(['narration', 'note', 'remark', 'detail', 'desc']) || '');
+
+        return {
+          entry_id: `BL-${Date.now().toString().slice(-4)}-${idx + 1}`,
+          date: formattedDate,
+          ref: ref,
+          voucher_id: ref,
+          account_head: particulars,
+          particulars: particulars,
+          debit: debit,
+          credit: credit,
+          branch: branch,
+          narration: narration
+        };
+      }).filter(item => (item.debit > 0 || item.credit > 0) && item.account_head);
+
+      if (parsedBulkLedgerEntries.length === 0) {
+        showToast('warning', 'কোনো ভ্যালিড ডেবিট বা ক্রেডিট এন্ট্রি পাওয়া যায়নি!');
+        return;
+      }
+
+      renderBulkLedgerPreview();
+      showToast('success', `${parsedBulkLedgerEntries.length} টি লেজার এন্ট্রি পার্স সম্পন্ন হয়েছে!`);
+    }
+
+    function renderBulkLedgerPreview() {
+      const container = document.getElementById('bulkLedgerPreviewContainer');
+      const tbody = document.getElementById('bulkLedgerTableBody');
+      if (!container || !tbody) return;
+
+      if (parsedBulkLedgerEntries.length === 0) {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+
+      let totalDr = 0, totalCr = 0;
+
+      tbody.innerHTML = parsedBulkLedgerEntries.map((row, idx) => {
+        totalDr += Number(row.debit) || 0;
+        totalCr += Number(row.credit) || 0;
+
+        return `
+          <tr class="border-b hover:bg-slate-50 font-medium">
+            <td class="p-3 text-center text-slate-500 font-bold">${idx + 1}</td>
+            <td class="p-3 text-slate-700 font-mono">${formatDateDisplay(row.date)}</td>
+            <td class="p-3 font-semibold text-blue-600 font-mono">${row.ref}</td>
+            <td class="p-3 font-bold text-slate-900">${row.account_head}</td>
+            <td class="p-3 text-right font-bold text-rose-600">${row.debit > 0 ? '৳ ' + Number(row.debit).toLocaleString() : '-'}</td>
+            <td class="p-3 text-right font-bold text-emerald-600">${row.credit > 0 ? '৳ ' + Number(row.credit).toLocaleString() : '-'}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-700">${row.branch}</span></td>
+            <td class="p-3 text-slate-500 text-xs">${row.narration || '-'}</td>
+            <td class="p-3 text-center">
+              <button onclick="deleteBulkLedgerRow(${idx})" class="text-slate-400 hover:text-rose-600 p-1 text-xs transition" title="Delete Row">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('bulkTotalRows').innerText = parsedBulkLedgerEntries.length;
+      document.getElementById('bulkRowCountBadge').innerText = parsedBulkLedgerEntries.length;
+      document.getElementById('bulkTotalDebit').innerText = `৳ ${totalDr.toLocaleString()}`;
+      document.getElementById('bulkTotalCredit').innerText = `৳ ${totalCr.toLocaleString()}`;
+
+      const diff = Math.abs(totalDr - totalCr);
+      const badge = document.getElementById('bulkBalanceBadge');
+      if (diff === 0) {
+        badge.innerHTML = `<span class="text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Balanced (Dr = Cr)</span>`;
+      } else {
+        badge.innerHTML = `<span class="text-xs font-bold px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1"><i class="fa-solid fa-triangle-exclamation"></i> Diff: ৳${diff.toLocaleString()}</span>`;
+      }
+    }
+
+    function deleteBulkLedgerRow(idx) {
+      parsedBulkLedgerEntries.splice(idx, 1);
+      renderBulkLedgerPreview();
+    }
+
+    function clearBulkLedgerData() {
+      parsedBulkLedgerEntries = [];
+      renderBulkLedgerPreview();
+      showToast('info', 'আপলোড তালিকা ক্লিয়ার করা হয়েছে');
+    }
+
+    async function submitBulkLedgerUpload() {
+      if (!parsedBulkLedgerEntries || parsedBulkLedgerEntries.length === 0) {
+        showToast('warning', 'আপলোড করার মতো কোনো এন্ট্রি নেই');
+        return;
+      }
+
+      const totalDr = parsedBulkLedgerEntries.reduce((s, r) => s + (Number(r.debit) || 0), 0);
+      const totalCr = parsedBulkLedgerEntries.reduce((s, r) => s + (Number(r.credit) || 0), 0);
+      const diff = Math.abs(totalDr - totalCr);
+
+      if (diff > 0) {
+        const confirmDiff = await Swal.fire({
+          title: 'Trial Balance Discrepancy!',
+          html: `মোট ডেবিট (<b>৳${totalDr.toLocaleString()}</b>) এবং মোট ক্রেডিট (<b>৳${totalCr.toLocaleString()}</b>) এর মধ্যে <b>৳${diff.toLocaleString()}</b> পার্থক্য রয়েছে।<br>আপনি কি তবুও এটি পোস্ট করতে চান?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#4f46e5',
+          cancelButtonColor: '#64748b',
+          confirmButtonText: 'হ্যাঁ, পোস্ট করুন',
+          cancelButtonText: 'না, ঠিক করব'
+        });
+        if (!confirmDiff.isConfirmed) return;
+      }
+
+      const btn = document.getElementById('bulkUploadSubmitBtn');
+      btn.disabled = true;
+      showApiLoading(`Uploading ${parsedBulkLedgerEntries.length} entries to Google Sheet...`);
+
+      try {
+        const user = JSON.parse(localStorage.getItem('user_data') || '{}');
+        const res = await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'bulkUploadLedger',
+            payload: {
+              entries: parsedBulkLedgerEntries,
+              uploadedBy: user.name || 'Admin',
+              timestamp: new Date().toISOString()
+            }
+          })
+        });
+        
+        let r = {};
+        try { r = await res.json(); } catch(e) { r = { status: 'success' }; }
+
+        await Swal.fire({
+          icon: 'success',
+          title: 'বাল্ক লেজার আপলোড সম্পন্ন!',
+          text: `মোট ${parsedBulkLedgerEntries.length} টি জার্নাল এন্ট্রি সফলভাবে সিস্টেমে পোস্ট করা হয়েছে।`,
+          confirmButtonColor: '#10b981'
+        });
+
+        clearBulkLedgerData();
+        loadLedgersData('GENERAL', 'General Ledger Statement');
+        loadDashboardData();
+      } catch (err) {
+        console.error(err);
+        showToast('error', 'Google Sheet এ আপলোড করতে সমস্যা হয়েছে।');
+      } finally {
+        btn.disabled = false;
+        hideApiLoading();
+      }
+    }
+
+    // ================= BULK SUPPLIER LEDGER & PROFILES ENGINE =================
+    let currentSupplierUploadMode = 'PROFILES';
+    let parsedBulkSupplierEntries = [];
+
+    function setSupplierUploadMode(mode) {
+      currentSupplierUploadMode = mode;
+      const btnProfile = document.getElementById('suppModeBtnProfile');
+      const btnTxns = document.getElementById('suppModeBtnTxns');
+      const btnText = document.getElementById('suppTemplateBtnText');
+      const helpText = document.getElementById('suppUploadHelpText');
+      const pasteArea = document.getElementById('supplierPasteArea');
+
+      if (mode === 'PROFILES') {
+        btnProfile.className = "py-2.5 px-4 rounded-xl font-bold text-xs bg-teal-600 text-white shadow-sm transition";
+        btnTxns.className = "py-2.5 px-4 rounded-xl font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+        btnText.innerText = "Download Supplier Profiles Template (Excel)";
+        helpText.innerText = "Supports .xlsx, .xls, .csv files for Suppliers & Opening Dues";
+        pasteArea.placeholder = "Supplier Name\tCompany\tPhone\tAddress\tOpening Due BDT\nRahim Steel\tRahim Enterprise\t01711000000\tDhaka\t150000\nKarim Paper Mill\tKarim Brothers Ltd\t01811000000\tChittagong\t85000";
+      } else {
+        btnProfile.className = "py-2.5 px-4 rounded-xl font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+        btnTxns.className = "py-2.5 px-4 rounded-xl font-bold text-xs bg-teal-600 text-white shadow-sm transition";
+        btnText.innerText = "Download Purchase/Payment Ledger Template (Excel)";
+        helpText.innerText = "Supports .xlsx, .xls, .csv files for Supplier Bills, Purchases & Payments";
+        pasteArea.placeholder = "Date\tSupplier Name\tInvoice Ref\tParticulars\tPurchase BDT\tPayment BDT\tRemarks\n2026-08-01\tRahim Steel\tPUR-101\tRaw Steel Sheets\t80000\t0\tBill #8021\n2026-08-02\tRahim Steel\tPAY-201\tDue Payment\t0\t50000\tCheque #9021";
+      }
+
+      clearBulkSupplierData();
+    }
+
+    function downloadSupplierTemplate() {
+      let templateData = [];
+      let filename = "Supplier_Profiles_Bulk_Template.xlsx";
+
+      if (currentSupplierUploadMode === 'PROFILES') {
+        templateData = [
+          {
+            "Supplier Name": "Rahim Steel & Re-Rolling",
+            "Company": "Rahim Enterprise Ltd",
+            "Phone": "01711000001",
+            "Address": "Tejgaon I/A, Dhaka",
+            "Opening Due BDT": 150000
+          },
+          {
+            "Supplier Name": "Karim Paper Mills",
+            "Company": "Karim Brothers & Co",
+            "Phone": "01811000002",
+            "Address": "Agrabad, Chittagong",
+            "Opening Due BDT": 85000
+          },
+          {
+            "Supplier Name": "Jamuna Packaging Ltd",
+            "Company": "Jamuna Group",
+            "Phone": "01911000003",
+            "Address": "Gazipur",
+            "Opening Due BDT": 0
+          }
+        ];
+        filename = "Supplier_Profiles_Bulk_Template.xlsx";
+      } else {
+        templateData = [
+          {
+            "Date": new Date().toISOString().split('T')[0],
+            "Supplier Name": "Rahim Steel & Re-Rolling",
+            "Invoice Ref": "BILL-901",
+            "Particulars": "500kg Steel Raw Material",
+            "Purchase BDT": 120000,
+            "Payment BDT": 0,
+            "Remarks": "Delivered to Warehouse #01"
+          },
+          {
+            "Date": new Date().toISOString().split('T')[0],
+            "Supplier Name": "Rahim Steel & Re-Rolling",
+            "Invoice Ref": "PAY-801",
+            "Particulars": "Partial Supplier Payment",
+            "Purchase BDT": 0,
+            "Payment BDT": 70000,
+            "Remarks": "Paid via IBBL Cheque"
+          }
+        ];
+        filename = "Supplier_Ledger_Transactions_Template.xlsx";
+      }
+
+      const ws = XLSX.utils.json_to_sheet(templateData);
+      ws['!cols'] = [
+        { wch: 16 }, { wch: 28 }, { wch: 24 }, { wch: 20 }, { wch: 18 }, { wch: 18 }, { wch: 30 }
+      ];
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Suppliers");
+      XLSX.writeFile(wb, filename);
+      showToast('success', `${filename} ডাউনলোড হয়েছে!`);
+    }
+
+    function handleSupplierFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showApiLoading('Reading Supplier Excel / CSV file...');
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+          if (!jsonData || jsonData.length === 0) {
+            showToast('warning', 'এক্সেলে কোনো ডাটা পাওয়া যায়নি!');
+            hideApiLoading();
+            return;
+          }
+
+          processRawSupplierRows(jsonData);
+        } catch (err) {
+          console.error(err);
+          showToast('error', 'ফাইল পার্স করতে ব্যর্থ হয়েছে। সঠিক ফরম্যাটের ফাইল ব্যবহার করুন।');
+        } finally {
+          hideApiLoading();
+          event.target.value = '';
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function parsePastedSupplierData() {
+      const text = document.getElementById('supplierPasteArea').value.trim();
+      if (!text) {
+        showToast('warning', 'অনুগ্রহ করে এক্সেল থেকে কপি করা টেক্সট বক্সে পেস্ট করুন');
+        return;
+      }
+
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) return;
+
+      const rows = [];
+      const delimiter = lines[0].includes('\t') ? '\t' : (lines[0].includes(',') ? ',' : '\t');
+      
+      const firstLineTokens = lines[0].split(delimiter).map(t => t.trim().toLowerCase());
+      const hasHeader = firstLineTokens.some(t => t.includes('name') || t.includes('supplier') || t.includes('company') || t.includes('due') || t.includes('date'));
+      const startIndex = hasHeader ? 1 : 0;
+
+      for (let i = startIndex; i < lines.length; i++) {
+        const parts = lines[i].split(delimiter).map(p => p.trim());
+        if (parts.length >= 2) {
+          if (currentSupplierUploadMode === 'PROFILES') {
+            rows.push({
+              "Supplier Name": parts[0] || `Supplier ${i}`,
+              "Company": parts[1] || parts[0] || '',
+              "Phone": parts[2] || '',
+              "Address": parts[3] || '',
+              "Opening Due BDT": Number(parts[4]) || 0
+            });
+          } else {
+            rows.push({
+              "Date": parts[0] || new Date().toISOString().split('T')[0],
+              "Supplier Name": parts[1] || 'Supplier',
+              "Invoice Ref": parts[2] || `BILL-${1000 + i}`,
+              "Particulars": parts[3] || 'Purchased Goods',
+              "Purchase BDT": Number(parts[4]) || 0,
+              "Payment BDT": Number(parts[5]) || 0,
+              "Remarks": parts[6] || ''
+            });
+          }
+        }
+      }
+
+      if (rows.length === 0) {
+        showToast('warning', 'ডাটা পার্স করা সম্ভব হয়নি। ফরম্যাট চেক করুন।');
+        return;
+      }
+
+      processRawSupplierRows(rows);
+      document.getElementById('supplierPasteArea').value = '';
+    }
+
+    function processRawSupplierRows(rawRows) {
+      parsedBulkSupplierEntries = rawRows.map((r, idx) => {
+        const findVal = (keys) => {
+          for (let k of Object.keys(r)) {
+            const clean = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+            for (let target of keys) {
+              if (clean.includes(target)) return r[k];
+            }
+          }
+          return null;
+        };
+
+        if (currentSupplierUploadMode === 'PROFILES') {
+          const name = String(findVal(['suppliername', 'supplier', 'name', 'party']) || '').trim();
+          const company = String(findVal(['company', 'org', 'enterprise', 'firm']) || name).trim();
+          const phone = String(findVal(['phone', 'mobile', 'cell', 'contact']) || '').trim();
+          const address = String(findVal(['address', 'location', 'thana', 'city']) || '').trim();
+          const due = Math.max(0, Number(findVal(['due', 'payable', 'opening', 'balance', 'taka', 'amount'])) || 0);
+
+          return {
+            supplier_id: `SUPP-${Date.now().toString().slice(-4)}-${idx + 1}`,
+            name: name,
+            company: company,
+            phone: phone,
+            address: address,
+            due_amount: due
+          };
+        } else {
+          const rawDate = findVal(['date', 'tarikh']) || new Date().toISOString().split('T')[0];
+          let formattedDate = rawDate;
+          if (typeof rawDate === 'number') {
+            const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+            const converted = new Date(excelEpoch.getTime() + rawDate * 86400000);
+            formattedDate = converted.toISOString().split('T')[0];
+          }
+
+          const supplierName = String(findVal(['suppliername', 'supplier', 'name', 'party']) || 'General Supplier').trim();
+          const ref = String(findVal(['ref', 'invoice', 'bill', 'memo', 'voucher']) || `PUR-${idx + 1}`).trim();
+          const particulars = String(findVal(['particular', 'goods', 'item', 'desc', 'head']) || 'Supplied Materials').trim();
+          const purchase = Math.max(0, Number(findVal(['purchase', 'billamt', 'debit', 'dr'])) || 0);
+          const payment = Math.max(0, Number(findVal(['payment', 'paid', 'credit', 'cr'])) || 0);
+          const remarks = String(findVal(['remarks', 'narration', 'note', 'details']) || '').trim();
+
+          return {
+            date: formattedDate,
+            supplier_name: supplierName,
+            invoice_no: ref,
+            particulars: particulars,
+            purchase_amount: purchase,
+            payment_amount: payment,
+            remarks: remarks
+          };
+        }
+      }).filter(item => {
+        if (currentSupplierUploadMode === 'PROFILES') return item.name && item.name.length > 0;
+        return item.supplier_name && (item.purchase_amount > 0 || item.payment_amount > 0);
+      });
+
+      if (parsedBulkSupplierEntries.length === 0) {
+        showToast('warning', 'কোনো ভ্যালিড সাপ্লায়ার রেকর্ড পাওয়া যায়নি!');
+        return;
+      }
+
+      renderBulkSupplierPreview();
+      showToast('success', `${parsedBulkSupplierEntries.length} টি সাপ্লায়ার রেকর্ড সফলভাবে পার্স হয়েছে!`);
+    }
+
+    function renderBulkSupplierPreview() {
+      const container = document.getElementById('bulkSupplierPreviewContainer');
+      const tbody = document.getElementById('bulkSupplierTableBody');
+      const thead = document.getElementById('bulkSuppTableHead');
+      if (!container || !tbody) return;
+
+      if (parsedBulkSupplierEntries.length === 0) {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+
+      if (currentSupplierUploadMode === 'PROFILES') {
+        thead.innerHTML = `
+          <tr>
+            <th class="p-3 w-12 text-center">SL</th>
+            <th class="p-3">Supplier Name</th>
+            <th class="p-3">Company / Org</th>
+            <th class="p-3">Phone</th>
+            <th class="p-3">Address</th>
+            <th class="p-3 text-right text-rose-600 font-bold w-32">Opening Due (৳)</th>
+            <th class="p-3 text-center w-12">Action</th>
+          </tr>
+        `;
+
+        let totalDue = 0;
+        tbody.innerHTML = parsedBulkSupplierEntries.map((row, idx) => {
+          totalDue += Number(row.due_amount) || 0;
+          return `
+            <tr class="border-b hover:bg-slate-50 font-medium">
+              <td class="p-3 text-center text-slate-500 font-bold">${idx + 1}</td>
+              <td class="p-3 font-bold text-slate-900">${row.name}</td>
+              <td class="p-3 text-slate-600">${row.company || '-'}</td>
+              <td class="p-3 text-slate-600 font-mono">${row.phone || '-'}</td>
+              <td class="p-3 text-slate-500 text-xs">${row.address || '-'}</td>
+              <td class="p-3 text-right font-black text-rose-600">৳ ${Number(row.due_amount || 0).toLocaleString()}</td>
+              <td class="p-3 text-center">
+                <button onclick="deleteBulkSupplierRow(${idx})" class="text-slate-400 hover:text-rose-600 p-1 text-xs transition" title="Delete Row">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        document.getElementById('bulkSuppTotalRows').innerText = parsedBulkSupplierEntries.length;
+        document.getElementById('bulkSuppRowCountBadge').innerText = parsedBulkSupplierEntries.length;
+        document.getElementById('bulkSuppCol1Title').innerText = "Total Payable Due (BDT)";
+        document.getElementById('bulkSuppTotalDue').innerText = `৳ ${totalDue.toLocaleString()}`;
+        document.getElementById('bulkSuppModeBadge').innerText = "Supplier Profiles & Initial Dues";
+      } else {
+        thead.innerHTML = `
+          <tr>
+            <th class="p-3 w-12 text-center">SL</th>
+            <th class="p-3 w-28">Date</th>
+            <th class="p-3">Supplier Name</th>
+            <th class="p-3 w-28">Invoice Ref</th>
+            <th class="p-3">Particulars / Goods</th>
+            <th class="p-3 text-right text-blue-700 font-bold w-28">Purchase (৳)</th>
+            <th class="p-3 text-right text-emerald-700 font-bold w-28">Payment (৳)</th>
+            <th class="p-3">Remarks</th>
+            <th class="p-3 text-center w-12">Action</th>
+          </tr>
+        `;
+
+        let totalPur = 0, totalPay = 0;
+        tbody.innerHTML = parsedBulkSupplierEntries.map((row, idx) => {
+          totalPur += Number(row.purchase_amount) || 0;
+          totalPay += Number(row.payment_amount) || 0;
+          return `
+            <tr class="border-b hover:bg-slate-50 font-medium">
+              <td class="p-3 text-center text-slate-500 font-bold">${idx + 1}</td>
+              <td class="p-3 text-slate-700 font-mono">${formatDateDisplay(row.date)}</td>
+              <td class="p-3 font-bold text-slate-900">${row.supplier_name}</td>
+              <td class="p-3 font-semibold text-teal-600 font-mono">${row.invoice_no}</td>
+              <td class="p-3 text-slate-700">${row.particulars}</td>
+              <td class="p-3 text-right font-bold text-blue-700">${row.purchase_amount > 0 ? '৳ ' + Number(row.purchase_amount).toLocaleString() : '-'}</td>
+              <td class="p-3 text-right font-bold text-emerald-700">${row.payment_amount > 0 ? '৳ ' + Number(row.payment_amount).toLocaleString() : '-'}</td>
+              <td class="p-3 text-slate-500 text-xs">${row.remarks || '-'}</td>
+              <td class="p-3 text-center">
+                <button onclick="deleteBulkSupplierRow(${idx})" class="text-slate-400 hover:text-rose-600 p-1 text-xs transition" title="Delete Row">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        document.getElementById('bulkSuppTotalRows').innerText = parsedBulkSupplierEntries.length;
+        document.getElementById('bulkSuppRowCountBadge').innerText = parsedBulkSupplierEntries.length;
+        document.getElementById('bulkSuppCol1Title').innerText = "Total Net Purchase (BDT)";
+        document.getElementById('bulkSuppTotalDue').innerText = `৳ ${(totalPur - totalPay).toLocaleString()}`;
+        document.getElementById('bulkSuppModeBadge').innerText = "Purchase & Payment Ledger Entries";
+      }
+    }
+
+    function deleteBulkSupplierRow(idx) {
+      parsedBulkSupplierEntries.splice(idx, 1);
+      renderBulkSupplierPreview();
+    }
+
+    function clearBulkSupplierData() {
+      parsedBulkSupplierEntries = [];
+      renderBulkSupplierPreview();
+    }
+
+    async function submitBulkSupplierUpload() {
+      if (!parsedBulkSupplierEntries || parsedBulkSupplierEntries.length === 0) {
+        showToast('warning', 'আপলোড করার মতো কোনো সাপ্লায়ার ডাটা নেই');
+        return;
+      }
+
+      const btn = document.getElementById('bulkSuppUploadSubmitBtn');
+      btn.disabled = true;
+      const count = parsedBulkSupplierEntries.length;
+      showApiLoading(`Uploading ${count} supplier records to Google Sheet...`);
+
+      try {
+        const user = JSON.parse(localStorage.getItem('user_data') || '{}');
+        const actionName = currentSupplierUploadMode === 'PROFILES' ? 'bulkAddSuppliers' : 'bulkAddSupplierTxns';
+
+        const res = await fetch(CONFIG.API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: actionName,
+            payload: {
+              records: parsedBulkSupplierEntries,
+              uploadedBy: user.name || 'Admin',
+              timestamp: new Date().toISOString()
+            }
+          })
+        });
+
+        let r = {};
+        try { r = await res.json(); } catch(e) { r = { status: 'success' }; }
+
+        await Swal.fire({
+          icon: 'success',
+          title: 'সাপ্লায়ার ডাটা আপলোড সফল!',
+          text: `মোট ${count} টি সাপ্লায়ার রেকর্ড সফলভাবে সিস্টেমে এবং লেজারে যুক্ত হয়েছে।`,
+          confirmButtonColor: '#0d9488'
+        });
+
+        clearBulkSupplierData();
+        loadSuppliersData();
+        loadDashboardData();
+        switchTab('supplierListView');
+      } catch (err) {
+        console.error(err);
+        showToast('error', 'Google Sheet এ আপলোড করতে সমস্যা হয়েছে।');
+      } finally {
+        btn.disabled = false;
+        hideApiLoading();
+      }
     }
   </script>
 </body>
