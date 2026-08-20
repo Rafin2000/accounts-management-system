@@ -198,6 +198,7 @@
             </button>
             <div id="menuPurchase" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
               <a href="#" onclick="switchTab('purchaseEntryView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-bold">+ Purchase / Bill Entry</a>
+              <a href="#" onclick="openDatewisePurchaseModal()" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-800 font-bold"><i class="fa-solid fa-boxes-packing mr-1"></i> Date-wise Purchases (হিস্টোরি)</a>
               <a href="#" onclick="switchTab('bulkSupplierView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-bold"><i class="fa-solid fa-file-import mr-1"></i> Bulk Upload Supplier Ledger</a>
               <a href="#" onclick="switchTab('supplierPaymentView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-purple-700 font-medium">Pay Supplier Due</a>
               <a href="#" onclick="switchTab('supplierStatementView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-bold">Supplier Ledger Statement</a>
@@ -238,6 +239,7 @@
             </button>
             <div id="menuLedger" class="hidden pl-6 pr-2 py-1 space-y-1 bg-emerald-100/40 rounded-xl mt-1 border border-emerald-200/50">
               <a href="#" onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-800 font-bold">General Ledger</a>
+              <a href="#" onclick="openDatewisePurchaseModal()" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-teal-700 font-bold"><i class="fa-solid fa-boxes-packing mr-1"></i> Date-wise Purchases</a>
               <a href="#" onclick="switchTab('bulkLedgerView')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-emerald-700 font-bold"><i class="fa-solid fa-file-import mr-1"></i> Bulk Upload (Excel)</a>
               <a href="#" onclick="loadLedgersData('CASH', 'Cash Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">Cash Ledger</a>
               <a href="#" onclick="loadLedgersData('BANK', 'Bank Ledger Statement')" class="block py-1.5 px-2.5 rounded-lg hover:text-emerald-950 hover:bg-emerald-200/70 text-slate-700">Bank Ledger</a>
@@ -1422,6 +1424,9 @@
               <p class="text-xs text-slate-400">Complete double-entry transactional posting ledger</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
+              <button onclick="openDatewisePurchaseModal()" class="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1.5 shadow-sm shadow-teal-600/25 transition">
+                <i class="fa-solid fa-boxes-packing"></i> <span>তারিখভিত্তিক পারচেজ হিস্টোরি</span>
+              </button>
               <button onclick="switchTab('bulkLedgerView')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1.5 shadow-sm shadow-indigo-600/30">
                 <i class="fa-solid fa-file-import"></i> <span>Bulk Upload (Excel)</span>
               </button>
@@ -1440,7 +1445,15 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead class="bg-slate-50 uppercase border-b text-[11px] font-extrabold text-slate-400">
-                <tr><th class="p-3">Entry ID</th><th class="p-3">Ref/Voucher</th><th class="p-3">Date</th><th class="p-3">Particulars / Head</th><th class="p-3 text-right text-rose-600 font-bold">Debit (Dr)</th><th class="p-3 text-right text-emerald-600 font-bold">Credit (Cr)</th></tr>
+                <tr>
+                  <th class="p-3">Entry ID</th>
+                  <th class="p-3">Ref/Voucher</th>
+                  <th class="p-3">Date</th>
+                  <th class="p-3">Particulars / Head</th>
+                  <th class="p-3 text-right text-rose-600 font-bold">Debit (Dr)</th>
+                  <th class="p-3 text-right text-emerald-600 font-bold">Credit (Cr)</th>
+                  <th class="p-3 text-right">Purchase / Action</th>
+                </tr>
               </thead>
               <tbody id="ledgerTableBody"></tbody>
             </table>
@@ -2173,6 +2186,104 @@
     </div>
   </div>
 
+  <!-- DATE-WISE PURCHASE HISTORY & BILL BREAKDOWN MODAL -->
+  <div id="purchaseHistoryModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-5xl w-full p-6 shadow-2xl border border-slate-200 flex flex-col max-h-[92vh]">
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-200">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center font-black text-xl shadow-inner">
+            <i class="fa-solid fa-boxes-packing"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
+              <span>তারিখভিত্তিক পারচেজ হিস্টোরি</span>
+              <span class="text-xs px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full font-bold">Purchase Logs</span>
+            </h3>
+            <p class="text-xs text-slate-500">কোন দিন কার কাছ থেকে কী কী পণ্য কেনা হয়েছে এবং চালানের মূল ছবি</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="exportPurchaseHistoryToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 shadow-sm transition">
+            <i class="fa-solid fa-file-excel mr-1"></i> Excel Export
+          </button>
+          <button onclick="togglePurchaseHistoryModal(false)" class="text-slate-400 hover:text-slate-700 text-lg p-1.5 rounded-xl hover:bg-slate-100 transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Metrics -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+        <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl">
+          <span class="text-[10px] uppercase font-bold text-slate-400 block">মোট পারচেজ বিল</span>
+          <span class="text-xl font-black text-slate-800" id="histPurchaseCount">0</span>
+        </div>
+        <div class="bg-teal-50/60 border border-teal-200 p-3.5 rounded-2xl">
+          <span class="text-[10px] uppercase font-bold text-teal-700 block">মোট ক্রয় মূল্য (BDT)</span>
+          <span class="text-xl font-black text-teal-700" id="histPurchaseTotalAmt">৳ 0.00</span>
+        </div>
+        <div class="bg-blue-50/60 border border-blue-200 p-3.5 rounded-2xl">
+          <span class="text-[10px] uppercase font-bold text-blue-700 block">সংযুক্ত বিলের ছবি</span>
+          <span class="text-xl font-black text-blue-700" id="histPurchasePhotoCount">0</span>
+        </div>
+        <div class="bg-purple-50/60 border border-purple-200 p-3.5 rounded-2xl">
+          <span class="text-[10px] uppercase font-bold text-purple-700 block">ফিল্টার স্ট্যাটাস</span>
+          <span class="text-xs font-bold text-purple-700 truncate block mt-1" id="histPurchaseFilterStatus">All Suppliers</span>
+        </div>
+      </div>
+
+      <!-- Filters Row -->
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 mb-4 bg-slate-50/80 p-3 rounded-2xl border border-slate-200">
+        <div class="sm:col-span-4">
+          <label class="block text-[11px] font-bold text-slate-600 mb-1">সাপ্লায়ার ফিল্টার</label>
+          <select id="histPurFilterSupplier" onchange="filterPurchaseHistoryData()" class="w-full py-2 px-3 bg-white border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="ALL">-- সকল সাপ্লায়ার (All Suppliers) --</option>
+          </select>
+        </div>
+        <div class="sm:col-span-3">
+          <label class="block text-[11px] font-bold text-slate-600 mb-1">শুরুর তারিখ (From)</label>
+          <input type="date" id="histPurDateFrom" onchange="filterPurchaseHistoryData()" class="w-full py-2 px-3 bg-white border border-slate-200 rounded-xl text-xs">
+        </div>
+        <div class="sm:col-span-3">
+          <label class="block text-[11px] font-bold text-slate-600 mb-1">শেষ তারিখ (To)</label>
+          <input type="date" id="histPurDateTo" onchange="filterPurchaseHistoryData()" class="w-full py-2 px-3 bg-white border border-slate-200 rounded-xl text-xs">
+        </div>
+        <div class="sm:col-span-2 flex items-end">
+          <button onclick="resetPurchaseHistoryFilters()" class="w-full py-2 px-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+            <i class="fa-solid fa-rotate-left"></i> রিসেট
+          </button>
+        </div>
+      </div>
+
+      <!-- Table Area -->
+      <div class="flex-1 overflow-auto border border-slate-200 rounded-2xl shadow-inner">
+        <table class="w-full text-left text-xs border-collapse" id="purchaseHistoryTable">
+          <thead class="bg-slate-100 text-slate-700 uppercase text-[11px] font-extrabold sticky top-0 border-b border-slate-200 z-10">
+            <tr>
+              <th class="p-3 w-12 text-center">SL</th>
+              <th class="p-3 w-28">তারিখ (Date)</th>
+              <th class="p-3">সাপ্লায়ার (Supplier)</th>
+              <th class="p-3 font-mono">চালান / ইনভয়েস নং</th>
+              <th class="p-3">পণ্য / মালামালের বিবরণ</th>
+              <th class="p-3 text-right w-28">পরিমাণ (৳)</th>
+              <th class="p-3 text-center w-28">বিলের ছবি</th>
+            </tr>
+          </thead>
+          <tbody id="purchaseHistoryTableBody" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-4 pt-3 border-t flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span class="text-xs text-slate-500 font-medium">💡 যেকোনো চালানের ছবিতে ক্লিক করলে বড় করে পূর্ণ রেজুলেশনে দেখতে পাবেন।</span>
+        <button onclick="togglePurchaseHistoryModal(false)" class="px-5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+          বন্ধ করুন (Close)
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- JAVASCRIPT ENGINE WITH GOOGLE SHEET API CALLS -->
   <script>
     const CONFIG = {
@@ -2613,6 +2724,9 @@
                     <button onclick="event.stopPropagation(); viewSupplierStatement('${safeName}')" class="bg-blue-50 text-blue-600 font-bold text-xs px-2.5 py-1 rounded hover:bg-blue-100 mr-1" title="স্টেটমেন্ট দেখুন">
                       <i class="fa-solid fa-file-lines mr-1"></i>Statement
                     </button>
+                    <button onclick="event.stopPropagation(); openSupplierSpecificPurchases('${safeName}')" class="bg-indigo-50 text-indigo-700 font-bold text-xs px-2.5 py-1 rounded hover:bg-indigo-100 mr-1" title="পারচেজ হিস্টোরি দেখুন">
+                      <i class="fa-solid fa-boxes-packing mr-1"></i>Purchases
+                    </button>
                     <button onclick="event.stopPropagation(); paySpecificSupplier('${s.supplier_id}')" class="bg-teal-50 text-teal-600 font-bold text-xs px-2.5 py-1 rounded hover:bg-teal-100 mr-1" title="বকেয়া পরিশোধ">
                       <i class="fa-solid fa-hand-holding-dollar mr-1"></i>Pay
                     </button>
@@ -2956,6 +3070,182 @@
       if (modal) modal.classList.toggle('hidden', !show);
     }
 
+    // ================= DATE-WISE PURCHASE HISTORY ENGINE =================
+    let globalPurchasesHistory = [];
+
+    function initSeedPurchasesIfEmpty() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('erp_purchases_log') || '[]');
+        if (saved && saved.length > 0) {
+          globalPurchasesHistory = saved;
+          return;
+        }
+      } catch(e) {}
+
+      // Seed Initial Sample Purchases
+      const today = new Date().toISOString().split('T')[0];
+      globalPurchasesHistory = [
+        {
+          id: "PUR-8801",
+          invoice_no: "INV-STL-901",
+          date: today,
+          supplier_name: "Rahim Steel & Hardware",
+          supplier_id: "SUPP-001",
+          amount: 85000,
+          item_details: "500 Bags 60Grade Deformed Steel Rods (16mm, 12mm)",
+          bill_image: "",
+          created_at: new Date().toISOString()
+        },
+        {
+          id: "PUR-8802",
+          invoice_no: "INV-CEM-442",
+          date: today,
+          supplier_name: "Shah Cement Industries Ltd",
+          supplier_id: "SUPP-002",
+          amount: 145000,
+          item_details: "300 Bags Portland Composite Cement (PCC)",
+          bill_image: "",
+          created_at: new Date().toISOString()
+        },
+        {
+          id: "PUR-8803",
+          invoice_no: "INV-ELC-109",
+          date: "2026-08-15",
+          supplier_name: "Rahim Electronics Ltd",
+          supplier_id: "SUPP-003",
+          amount: 42000,
+          item_details: "Office Network Switch, Cat6 Cable Rolls & Router",
+          bill_image: "",
+          created_at: "2026-08-15T10:30:00.000Z"
+        }
+      ];
+      localStorage.setItem('erp_purchases_log', JSON.stringify(globalPurchasesHistory));
+    }
+
+    function togglePurchaseHistoryModal(show) {
+      const modal = document.getElementById('purchaseHistoryModal');
+      if (modal) modal.classList.toggle('hidden', !show);
+    }
+
+    function openDatewisePurchaseModal(supplierFilter = 'ALL') {
+      initSeedPurchasesIfEmpty();
+
+      // Populate supplier select
+      const suppSelect = document.getElementById('histPurFilterSupplier');
+      if (suppSelect) {
+        suppSelect.innerHTML = `<option value="ALL">-- সকল সাপ্লায়ার (All Suppliers) --</option>` + (globalSuppliers || []).map(s => `
+          <option value="${s.name}">${s.name} (${s.company || ''})</option>
+        `).join('');
+
+        if (supplierFilter && supplierFilter !== 'ALL') {
+          suppSelect.value = supplierFilter;
+        } else {
+          suppSelect.value = 'ALL';
+        }
+      }
+
+      filterPurchaseHistoryData();
+      togglePurchaseHistoryModal(true);
+    }
+
+    function openSupplierSpecificPurchases(supplierName) {
+      openDatewisePurchaseModal(supplierName);
+    }
+
+    function resetPurchaseHistoryFilters() {
+      const suppSelect = document.getElementById('histPurFilterSupplier');
+      const fromEl = document.getElementById('histPurDateFrom');
+      const toEl = document.getElementById('histPurDateTo');
+      if (suppSelect) suppSelect.value = 'ALL';
+      if (fromEl) fromEl.value = '';
+      if (toEl) toEl.value = '';
+      filterPurchaseHistoryData();
+    }
+
+    function filterPurchaseHistoryData() {
+      initSeedPurchasesIfEmpty();
+      const suppFilter = document.getElementById('histPurFilterSupplier')?.value || 'ALL';
+      const fromDate = document.getElementById('histPurDateFrom')?.value;
+      const toDate = document.getElementById('histPurDateTo')?.value;
+
+      let filtered = [...globalPurchasesHistory];
+
+      if (suppFilter !== 'ALL') {
+        filtered = filtered.filter(p => (p.supplier_name || '').toLowerCase() === suppFilter.toLowerCase());
+      }
+
+      if (fromDate) {
+        filtered = filtered.filter(p => p.date >= fromDate);
+      }
+      if (toDate) {
+        filtered = filtered.filter(p => p.date <= toDate);
+      }
+
+      renderPurchaseHistoryTable(filtered, suppFilter);
+    }
+
+    function renderPurchaseHistoryTable(purchases = [], currentFilterName = 'ALL') {
+      const tbody = document.getElementById('purchaseHistoryTableBody');
+      if (!tbody) return;
+
+      // Update KPI metrics
+      let totalAmt = 0, photoCount = 0;
+      purchases.forEach(p => {
+        totalAmt += Number(p.amount) || 0;
+        if (p.bill_image) photoCount++;
+      });
+
+      if (document.getElementById('histPurchaseCount')) document.getElementById('histPurchaseCount').innerText = purchases.length;
+      if (document.getElementById('histPurchaseTotalAmt')) document.getElementById('histPurchaseTotalAmt').innerText = `৳ ${totalAmt.toLocaleString()}`;
+      if (document.getElementById('histPurchasePhotoCount')) document.getElementById('histPurchasePhotoCount').innerText = photoCount;
+      if (document.getElementById('histPurchaseFilterStatus')) {
+        document.getElementById('histPurchaseFilterStatus').innerText = currentFilterName === 'ALL' ? 'সকল সাপ্লায়ার' : currentFilterName;
+      }
+
+      if (purchases.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="p-8 text-center text-slate-400 font-medium">
+              <i class="fa-solid fa-box-open text-3xl mb-2 block text-slate-300"></i>
+              নির্বাচিত ফিল্টারে কোনো পারচেজ রেকর্ড পাওয়া যায়নি।
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = purchases.map((p, idx) => {
+        const photoBtn = p.bill_image ? `
+          <button type="button" onclick="openImageViewerModal('${p.bill_image}', 'Purchase Bill: ${p.invoice_no || p.supplier_name}')" class="bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold px-2.5 py-1 rounded-xl text-xs inline-flex items-center gap-1 border border-teal-200 transition shadow-xs">
+            <i class="fa-solid fa-camera text-teal-600"></i> ছবি দেখুন
+          </button>
+        ` : `<span class="text-[10px] text-slate-400">ছবি নেই</span>`;
+
+        return `
+          <tr class="hover:bg-slate-50/80 font-medium transition">
+            <td class="p-3 text-center font-bold text-slate-500">${idx + 1}</td>
+            <td class="p-3 font-mono font-bold text-slate-800">${formatDateDisplay(p.date)}</td>
+            <td class="p-3">
+              <span class="font-bold text-teal-800 block">${p.supplier_name}</span>
+              <span class="text-[10px] font-mono text-slate-400">${p.supplier_id || '-'}</span>
+            </td>
+            <td class="p-3 font-mono font-bold text-blue-600">${p.invoice_no || p.id || '-'}</td>
+            <td class="p-3 text-slate-700 max-w-xs text-xs">${p.item_details || 'Raw Materials / Goods'}</td>
+            <td class="p-3 text-right font-black text-slate-900 text-sm">৳ ${Number(p.amount).toLocaleString()}</td>
+            <td class="p-3 text-center">${photoBtn}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function exportPurchaseHistoryToExcel() {
+      const table = document.getElementById('purchaseHistoryTable');
+      if (!table) return;
+      const wb = XLSX.utils.table_to_book(table, { sheet: "Purchases_History" });
+      XLSX.writeFile(wb, `Purchases_History_${new Date().toISOString().split('T')[0]}.xlsx`);
+      showToast('success', 'পারচেজ হিস্টোরি এক্সেল ফাইলে ডাউনলোড হয়েছে!');
+    }
+
     function viewSupplierStatement(supplierName) {
       switchTab('supplierStatementView');
       const statSelect = document.getElementById('statementSupplierSelect');
@@ -3027,8 +3317,14 @@
               const attachedImage = t.bill_image || savedBillsCache[refKey] || savedBillsCache[`${supplierName}_${t.date}_${purchaseAmt}`];
 
               const imageButtonHTML = attachedImage ? `
-                <button type="button" onclick="openImageViewerModal('${attachedImage}', 'Bill Photo: ${refKey || t.particulars}')" class="ml-2 bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded text-[10px] inline-flex items-center gap-1 border border-teal-200 shadow-xs transition" title="বিলের আসল ছবি দেখুন">
+                <button type="button" onclick="openImageViewerModal('${attachedImage}', 'Bill Photo: ${refKey || t.particulars}')" class="ml-1 bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded text-[10px] inline-flex items-center gap-1 border border-teal-200 shadow-xs transition" title="বিলের আসল ছবি দেখুন">
                   <i class="fa-solid fa-camera text-teal-600"></i> বিল কপি
+                </button>
+              ` : '';
+
+              const purchaseHistoryBtnHTML = purchaseAmt > 0 ? `
+                <button type="button" onclick="openSupplierSpecificPurchases('${supplierName.replace(/'/g, "\\'")}')" class="ml-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-1.5 py-0.5 rounded text-[10px] inline-flex items-center gap-0.5 border border-indigo-200 transition" title="পারচেজ বিবরণ দেখুন">
+                  <i class="fa-solid fa-boxes-packing"></i> পারচেজ
                 </button>
               ` : '';
 
@@ -3038,7 +3334,10 @@
                   <td class="p-2 border-r border-slate-300 font-medium text-slate-800">
                     <div class="flex items-center justify-between">
                       <span>${t.particulars}</span>
-                      ${imageButtonHTML}
+                      <div class="flex items-center">
+                        ${purchaseHistoryBtnHTML}
+                        ${imageButtonHTML}
+                      </div>
                     </div>
                   </td>
                   <td class="p-2 border-r border-slate-300 text-center text-slate-600">${formatDateDisplay(t.date)}</td>
@@ -3097,6 +3396,22 @@
             localStorage.setItem('erp_purchase_bills_cache', JSON.stringify(savedBillsCache));
           } catch(e) {}
         }
+
+        // Add to Purchases Log
+        const purchaseRecord = {
+          id: invoiceNo,
+          invoice_no: invoiceNo,
+          supplier_name: suppName,
+          supplier_id: suppId,
+          amount: amount,
+          date: purDate,
+          item_details: itemDetails,
+          bill_image: billImage || '',
+          created_at: new Date().toISOString()
+        };
+        initSeedPurchasesIfEmpty();
+        globalPurchasesHistory.unshift(purchaseRecord);
+        localStorage.setItem('erp_purchases_log', JSON.stringify(globalPurchasesHistory));
 
         // Record in Audit Trail
         recordAuditLog({
@@ -3979,16 +4294,34 @@
         const r = await res.json();
         const lBody = document.getElementById('ledgerTableBody');
         if (lBody && r.data) {
-          lBody.innerHTML = r.data.map(l => `
-            <tr class="border-b font-medium">
-              <td class="p-3 font-semibold text-blue-600">${l.entry_id || '-'}</td>
-              <td class="p-3">${l.voucher_id || '-'}</td>
-              <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
-              <td class="p-3 font-bold">${l.account_head || '-'}</td>
-              <td class="p-3 text-right text-rose-600 font-bold">৳ ${Number(l.debit || 0).toLocaleString()}</td>
-              <td class="p-3 text-right text-emerald-600 font-bold">৳ ${Number(l.credit || 0).toLocaleString()}</td>
-            </tr>
-          `).join('');
+          lBody.innerHTML = r.data.map(l => {
+            const head = (l.account_head || '').toLowerCase();
+            const vId = (l.voucher_id || '').toLowerCase();
+            const isPurchase = head.includes('purchase') || head.includes('সাপ্লায়ার') || head.includes('supplier') || vId.includes('pur');
+            const safeHead = (l.account_head || '').replace(/'/g, "\\'");
+
+            const actionBtn = isPurchase ? `
+              <button onclick="openDatewisePurchaseModal('${safeHead.includes('office') ? 'ALL' : safeHead}')" class="bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold px-2.5 py-1 rounded-xl text-xs inline-flex items-center gap-1 border border-teal-200 transition shadow-xs">
+                <i class="fa-solid fa-boxes-packing text-teal-600"></i> পারচেজ দেখুন
+              </button>
+            ` : `
+              <button onclick="showVoucherHistoryModal('${l.voucher_id || l.entry_id}')" class="text-slate-500 hover:text-blue-600 px-2 py-1 rounded-xl text-xs font-semibold">
+                <i class="fa-solid fa-circle-info"></i> হিস্টোরি
+              </button>
+            `;
+
+            return `
+              <tr class="border-b hover:bg-slate-50 font-medium transition">
+                <td class="p-3 font-semibold text-blue-600">${l.entry_id || '-'}</td>
+                <td class="p-3 font-mono font-bold">${l.voucher_id || '-'}</td>
+                <td class="p-3 text-slate-500">${formatDateDisplay(l.date)}</td>
+                <td class="p-3 font-bold text-slate-800">${l.account_head || '-'}</td>
+                <td class="p-3 text-right text-rose-600 font-bold">৳ ${Number(l.debit || 0).toLocaleString()}</td>
+                <td class="p-3 text-right text-emerald-600 font-bold">৳ ${Number(l.credit || 0).toLocaleString()}</td>
+                <td class="p-3 text-right whitespace-nowrap">${actionBtn}</td>
+              </tr>
+            `;
+          }).join('');
         }
       } catch (err) {}
       finally { hideApiLoading(); }
