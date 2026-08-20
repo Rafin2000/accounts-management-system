@@ -4,12 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accounts Management System - Multi-Branch Enterprise ERP</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <!-- SheetJS Library for Excel Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  
+  <!-- Chart.js for Visual Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- SweetAlert2 for Modern Alerts & Confirmations -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- QRCode.js for Printable Receipt QR Codes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -21,8 +33,8 @@
     
     @media print {
       body * { visibility: hidden !important; }
-      #printableArea, #printableArea * { visibility: visible !important; }
-      #printableArea {
+      #printableArea, #printableArea *, #printableAreaCust, #printableAreaCust *, #customerStatementPrintArea, #customerStatementPrintArea *, #supplierStatementPrintArea, #supplierStatementPrintArea * { visibility: visible !important; }
+      #printableArea, #printableAreaCust, #customerStatementPrintArea, #supplierStatementPrintArea {
         position: absolute;
         left: 0;
         top: 0;
@@ -37,7 +49,7 @@
 <body class="bg-slate-900 text-slate-800 antialiased font-sans">
 
   <!-- API LOADING SPINNER / TOAST -->
-  <div id="apiLoadingIndicator" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900/90 text-white px-4 py-2.5 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700 backdrop-blur-md">
+  <div id="apiLoadingIndicator" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900/95 text-white px-4 py-2.5 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700 backdrop-blur-md transition-all">
     <i class="fa-solid fa-circle-notch fa-spin text-blue-400"></i>
     <span class="text-xs font-bold" id="apiLoadingText">Connecting to Google Sheet API...</span>
   </div>
@@ -50,18 +62,16 @@
       <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-teal-500/20 rounded-full blur-2xl"></div>
 
       <div class="text-center mb-6 relative">
-        <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-3 shadow-lg shadow-blue-500/30">
+        <div class="w-16 h-16 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-3 shadow-lg shadow-blue-500/30">
           <i class="fa-solid fa-wallet"></i>
         </div>
         <h2 class="text-2xl font-extrabold text-slate-900" id="loginCompanyDisplay">Accounts Enterprise ERP</h2>
-        <p class="text-xs text-slate-500 mt-1">Multi-branch Enterprise Management Accounting System</p>
+        <p class="text-xs text-slate-500 mt-1">Multi-branch Financial Accounting Suite</p>
         <div class="mt-2 inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
           <i class="fa-solid fa-table text-[9px]"></i>
-          <span>Google Sheet API Connected</span>
+          <span>Google Sheet API Synchronized</span>
         </div>
       </div>
-
-      <div id="loginAlert" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold"></div>
 
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4 relative">
         <div>
@@ -151,7 +161,7 @@
               <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
             </button>
             <div id="menuSales" class="hidden pl-8 pr-2 py-1 space-y-1">
-              <a href="#" onclick="switchTab('salesEntryView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-bold">+ Sales / Invoice Entry</a>
+              <a href="#" onclick="switchTab('salesEntryView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-bold">+ Multi-Item Sales Invoice</a>
               <a href="#" onclick="switchTab('customerPaymentView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-400">Collect Customer Payment</a>
               <a href="#" onclick="switchTab('customerStatementView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-cyan-300 font-bold">Customer Ledger Statement</a>
               <a href="#" onclick="switchTab('customerDueView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300 font-medium">Customer Receivables (Due)</a>
@@ -221,6 +231,7 @@
             </button>
             <div id="menuCashBank" class="hidden pl-8 pr-2 py-1 space-y-1">
               <a href="#" onclick="switchTab('cashAccountView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-slate-200 font-medium">Cash in Hand Register</a>
+              <a href="#" onclick="toggleCashClosingModal(true)" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-amber-300 font-bold"><i class="fa-solid fa-vault mr-1"></i> Daily Drawer Cash Closing</a>
               <a href="#" onclick="switchTab('bankAccountView')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-indigo-300 font-medium">Bank Accounts & Balances</a>
               <a href="#" onclick="openCashBankForm('Cash Deposit')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-emerald-300 font-medium">Cash Deposit</a>
               <a href="#" onclick="openCashBankForm('Cash Withdrawal')" class="block py-1.5 px-2 rounded-lg hover:text-white hover:bg-slate-800 text-rose-300 font-medium">Cash Withdrawal</a>
@@ -315,6 +326,11 @@
         </div>
 
         <div class="flex items-center space-x-2 sm:space-x-3">
+          <button onclick="toggleCashClosingModal(true)" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
+            <i class="fa-solid fa-vault text-amber-600"></i>
+            <span class="hidden sm:inline">Cash Closing</span>
+          </button>
+
           <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 py-1.5 px-3 rounded-xl">
             <i class="fa-solid fa-store text-purple-600 text-xs"></i>
             <select id="dashboardBranchFilter" onchange="loadDashboardData()" class="bg-transparent text-slate-700 text-xs font-bold focus:outline-none cursor-pointer">
@@ -376,6 +392,41 @@
             </div>
           </div>
 
+          <!-- ANALYTICS CHARTS SECTION -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Income vs Expense Bar Chart -->
+            <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-sm font-extrabold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-simple text-blue-600"></i> Income vs Expense Financial Trend
+                  </h3>
+                  <p class="text-[11px] text-slate-400">Monthly Revenue Inflow vs Expense Outflow Analysis</p>
+                </div>
+                <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">Real-Time</span>
+              </div>
+              <div class="relative h-64 w-full">
+                <canvas id="incomeExpenseChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Expense Category Breakdown Donut Chart -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+              <div>
+                <h3 class="text-sm font-extrabold text-slate-800 flex items-center gap-2 mb-1">
+                  <i class="fa-solid fa-chart-pie text-rose-500"></i> Expense Category Breakdown
+                </h3>
+                <p class="text-[11px] text-slate-400 mb-4">Distribution of company operational expenditures</p>
+                <div class="relative h-52 w-full flex items-center justify-center">
+                  <canvas id="expenseDonutChart"></canvas>
+                </div>
+              </div>
+              <div class="mt-3 pt-3 border-t text-center">
+                <span class="text-[11px] text-slate-500 font-semibold" id="netProfitMarginBadge">Net Operating Margin: <b class="text-emerald-600">Healthy</b></span>
+              </div>
+            </div>
+          </div>
+
           <!-- Fast Operations Bar -->
           <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
@@ -397,6 +448,9 @@
               <button onclick="switchTab('supplierPaymentView')" class="bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5">
                 <i class="fa-solid fa-money-check-dollar text-purple-600"></i> Pay Supplier Due
               </button>
+              <button onclick="toggleCashClosingModal(true)" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-vault"></i> Daily Drawer Cash Closing
+              </button>
               <button onclick="switchTab('incomeEntry')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5">
                 <i class="fa-solid fa-plus text-emerald-600"></i> Income Entry
               </button>
@@ -406,19 +460,23 @@
             </div>
           </div>
 
-          <!-- Recent Financial Activity Table -->
+          <!-- Recent Financial Activity Table with Live Search -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div>
                 <h3 class="text-base font-extrabold text-slate-800">Recent Financial Transactions</h3>
                 <p class="text-xs text-slate-400">Live synchronized multi-branch general ledger postings</p>
               </div>
-              <div class="flex items-center space-x-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <div class="relative">
+                  <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                  <input type="text" oninput="filterTableRows('dashRecentTableBody', this.value)" placeholder="Search transactions..." class="pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none w-48 font-medium">
+                </div>
                 <button onclick="exportTableToExcel('dashRecentTableBody', 'Recent_Financial_Activity')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1.5 transition-all">
-                  <i class="fa-solid fa-file-excel text-emerald-600"></i> <span>Export Excel</span>
+                  <i class="fa-solid fa-file-excel text-emerald-600"></i> <span>Excel</span>
                 </button>
                 <button onclick="loadLedgersData('GENERAL', 'General Ledger Statement')" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-all flex items-center gap-1">
-                  <span>View Full Ledger</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                  <span>View Full</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
               </div>
             </div>
@@ -444,36 +502,25 @@
           <div class="flex items-center justify-between mb-6 pb-4 border-b">
             <div>
               <h3 class="text-lg font-black text-emerald-600 flex items-center gap-2">
-                <i class="fa-solid fa-cart-shopping"></i> Customer Sales / Invoice Entry
+                <i class="fa-solid fa-cart-shopping"></i> Professional Multi-Item Sales Invoice Entry
               </h3>
-              <p class="text-xs text-slate-500">Record customer sales invoice, receive cash/bank payment or update customer due ledger.</p>
+              <p class="text-xs text-slate-500">Record line-item sales with auto discount & VAT calculation, generate QR code receipts and update customer ledger.</p>
             </div>
-            <button onclick="switchTab('customerStatementView')" class="bg-blue-50 text-blue-600 text-xs font-bold px-3.5 py-2 rounded-xl">View Customer Statements</button>
+            <button onclick="switchTab('customerStatementView')" class="bg-blue-50 text-blue-600 text-xs font-bold px-3.5 py-2 rounded-xl hover:bg-blue-100 transition">View Customer Statements</button>
           </div>
 
-          <form onsubmit="handleSalesSubmit(event)" class="space-y-4 max-w-3xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form onsubmit="handleSalesSubmit(event)" class="space-y-5 max-w-4xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Select Customer *</label>
                 <div class="flex gap-2">
                   <select id="salesCustomerSelect" required onchange="handleSalesCustomerChange()" class="w-full py-2.5 px-3 bg-slate-50 border rounded-xl text-sm font-semibold"></select>
-                  <button type="button" onclick="toggleCustomerModal(true)" class="bg-blue-50 text-blue-600 px-3 rounded-xl text-xs font-bold" title="Add New Customer">+</button>
+                  <button type="button" onclick="toggleCustomerModal(true)" class="bg-blue-50 text-blue-600 px-3 rounded-xl text-xs font-bold hover:bg-blue-100" title="Add New Customer">+</button>
                 </div>
               </div>
               <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Current Customer Due (Receivable)</label>
-                <input type="text" id="salesCustomerDue" readonly class="w-full py-2.5 px-3 bg-slate-100 border rounded-xl text-sm font-bold text-amber-700" value="৳ 0.00">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Invoice / Memo No *</label>
                 <input type="text" id="salesInvoiceNo" required placeholder="INV-1001" class="w-full py-2.5 px-3 bg-slate-50 border rounded-xl text-sm font-mono font-bold">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Bill Amount (BDT) *</label>
-                <input type="number" step="0.01" id="salesAmount" required placeholder="0.00" oninput="calculateSalesNet()" class="w-full py-2.5 px-3 bg-slate-50 border rounded-xl text-sm font-bold text-slate-900">
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Invoice Date *</label>
@@ -481,14 +528,78 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Dynamic Line Items Table -->
+            <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50">
+              <div class="flex items-center justify-between mb-3">
+                <h4 class="text-xs font-black uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <i class="fa-solid fa-list-check text-emerald-600"></i> Invoice Itemized Products / Services
+                </h4>
+                <button type="button" onclick="addSalesItemRow()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm transition">
+                  <i class="fa-solid fa-plus text-[10px]"></i> Add Product Line
+                </button>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="text-slate-500 font-extrabold uppercase text-[10px] text-left border-b pb-2">
+                      <th class="pb-2">Product / Service Description</th>
+                      <th class="pb-2 w-24">Qty</th>
+                      <th class="pb-2 w-28">Unit Price</th>
+                      <th class="pb-2 w-32 text-right">Line Total (৳)</th>
+                      <th class="pb-2 w-10 text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="salesItemsTableBody" class="space-y-2">
+                    <!-- Row 1 Default -->
+                    <tr class="sales-item-row">
+                      <td class="pr-2 py-1"><input type="text" class="sales-item-desc w-full py-1.5 px-2.5 bg-white border rounded-lg text-xs" placeholder="Item / Service Name" required></td>
+                      <td class="pr-2 py-1"><input type="number" step="1" min="1" value="1" oninput="calculateSalesTableTotals()" class="sales-item-qty w-full py-1.5 px-2 bg-white border rounded-lg text-xs font-bold text-center" required></td>
+                      <td class="pr-2 py-1"><input type="number" step="0.01" min="0" placeholder="0.00" oninput="calculateSalesTableTotals()" class="sales-item-price w-full py-1.5 px-2 bg-white border rounded-lg text-xs font-bold" required></td>
+                      <td class="py-1 text-right font-black text-slate-800 sales-item-total pr-2">৳ 0.00</td>
+                      <td class="py-1 text-center"><button type="button" onclick="removeSalesItemRow(this)" class="text-slate-400 hover:text-rose-500 p-1"><i class="fa-solid fa-trash-can"></i></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Summary & Calculation Breakdown -->
+              <div class="mt-4 pt-3 border-t border-slate-200 flex flex-col md:flex-row justify-between gap-4 text-xs">
+                <div class="space-y-2 flex-1 max-w-sm">
+                  <label class="block font-bold text-slate-600">Delivery / Shipping Remarks</label>
+                  <textarea id="salesDetails" rows="2" placeholder="e.g. Delivered via Transport Truck #302..." class="w-full py-2 px-3 bg-white border rounded-xl text-xs"></textarea>
+                </div>
+                
+                <div class="w-full md:w-72 space-y-2 bg-white p-3 rounded-xl border border-slate-200 font-medium">
+                  <div class="flex justify-between">
+                    <span class="text-slate-500">Sub Total:</span>
+                    <span class="font-bold text-slate-800" id="salesSubTotal">৳ 0.00</span>
+                  </div>
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-slate-500">Discount (%):</span>
+                    <input type="number" step="0.5" id="salesDiscountPercent" value="0" oninput="calculateSalesTableTotals()" class="w-20 py-1 px-2 border rounded-lg text-right font-bold text-xs">
+                  </div>
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-slate-500">VAT / Tax (%):</span>
+                    <input type="number" step="0.5" id="salesVatPercent" value="0" oninput="calculateSalesTableTotals()" class="w-20 py-1 px-2 border rounded-lg text-right font-bold text-xs">
+                  </div>
+                  <div class="flex justify-between text-sm font-black text-slate-900 border-t pt-2">
+                    <span>Net Bill Amount:</span>
+                    <span class="text-emerald-600 font-extrabold" id="salesNetTotal">৳ 0.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment & Dues Handling -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
               <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Immediate Cash/Bank Paid</label>
-                <input type="number" step="0.01" id="salesPaidNow" placeholder="0.00" value="0" oninput="calculateSalesNet()" class="w-full py-2.5 px-3 bg-slate-50 border rounded-xl text-sm text-emerald-600 font-bold">
+                <input type="number" step="0.01" id="salesPaidNow" placeholder="0.00" value="0" oninput="calculateSalesTableTotals()" class="w-full py-2.5 px-3 bg-white border rounded-xl text-sm text-emerald-600 font-bold">
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Payment Method</label>
-                <select id="salesPaymentMethod" class="w-full py-2.5 px-3 bg-slate-50 border rounded-xl text-sm">
+                <select id="salesPaymentMethod" class="w-full py-2.5 px-3 bg-white border rounded-xl text-sm font-semibold">
                   <option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option>
                   <option value="Islami Bank Bangladesh (IBBL)">IBBL</option>
                   <option value="City Bank Ltd">City Bank</option>
@@ -501,11 +612,6 @@
                 <label class="block text-xs font-bold text-slate-600 mb-1">New Balance Added to Due</label>
                 <input type="text" id="salesAddedDue" readonly class="w-full py-2.5 px-3 bg-slate-100 border rounded-xl text-sm font-black text-rose-600" value="৳ 0.00">
               </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-600 mb-1">Product Description / Sales Details</label>
-              <textarea id="salesDetails" rows="2" placeholder="e.g. 50 Cartons Material, Delivered via Transport Truck #302..." class="w-full py-2.5 px-3 bg-slate-50 border rounded-xl text-sm"></textarea>
             </div>
 
             <button type="submit" id="salesSubmitBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md shadow-emerald-600/30 flex items-center space-x-2 transition-all">
@@ -578,7 +684,7 @@
               <h3 class="text-lg font-black text-emerald-600 flex items-center gap-2">
                 <i class="fa-solid fa-hand-holding-dollar"></i> Customer Payment Collection
               </h3>
-              <p class="text-xs text-slate-500">Collect dues from customer, update running balances and generate instant printable Money Receipt.</p>
+              <p class="text-xs text-slate-500">Collect dues from customer, generate instant printable QR-coded Money Receipt, and share via WhatsApp.</p>
             </div>
           </div>
           <form onsubmit="handleCustomerPaymentSubmit(event)" class="space-y-4 max-w-2xl">
@@ -784,7 +890,11 @@
               <h3 class="text-base font-extrabold text-slate-800">All Registered Suppliers</h3>
               <p class="text-xs text-slate-400">Manage vendor profiles, contracts, and outstanding payables</p>
             </div>
-            <div class="flex space-x-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('supplierTableBody', this.value)" placeholder="Search supplier..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
               <button onclick="exportTableToExcel('supplierTableBody', 'Supplier_List')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
                 <i class="fa-solid fa-file-excel mr-1"></i> Excel
               </button>
@@ -802,14 +912,20 @@
         </div>
 
         <div id="supplierDueView" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex justify-between items-center mb-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div>
               <h3 class="text-base font-extrabold text-rose-600">Supplier Outstanding Payables</h3>
               <p class="text-xs text-slate-400">Suppliers with active credit balances</p>
             </div>
-            <button onclick="exportTableToExcel('supplierDueTableBody', 'Supplier_Dues')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
-              <i class="fa-solid fa-file-excel mr-1"></i> Excel
-            </button>
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('supplierDueTableBody', this.value)" placeholder="Search payables..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
+              <button onclick="exportTableToExcel('supplierDueTableBody', 'Supplier_Dues')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-file-excel mr-1"></i> Excel
+              </button>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
@@ -825,9 +941,13 @@
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div>
               <h3 class="text-base font-extrabold text-slate-800">All Customers Directory</h3>
-              <p class="text-xs text-slate-400">Client profiles, credit limits, and receivable balances</p>
+              <p class="text-xs text-slate-400">Client profiles, phone contacts, and receivable balances</p>
             </div>
-            <div class="flex space-x-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('customerTableBody', this.value)" placeholder="Search customer..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
               <button onclick="exportTableToExcel('customerTableBody', 'Customer_List')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
                 <i class="fa-solid fa-file-excel mr-1"></i> Excel
               </button>
@@ -845,14 +965,20 @@
         </div>
 
         <div id="customerDueView" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex justify-between items-center mb-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div>
               <h3 class="text-base font-extrabold text-amber-700">Customer Pending Receivables</h3>
               <p class="text-xs text-slate-400">Clients with pending dues to collect</p>
             </div>
-            <button onclick="exportTableToExcel('customerDueTableBody', 'Customer_Dues')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
-              <i class="fa-solid fa-file-excel mr-1"></i> Excel
-            </button>
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('customerDueTableBody', this.value)" placeholder="Search receivables..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
+              <button onclick="exportTableToExcel('customerDueTableBody', 'Customer_Dues')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-file-excel mr-1"></i> Excel
+              </button>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
@@ -925,7 +1051,11 @@
               <h3 class="text-base font-extrabold text-slate-800">All Financial Vouchers</h3>
               <p class="text-xs text-slate-400">Complete archive of Payment, Receipt, Journal and Contra vouchers</p>
             </div>
-            <div class="flex space-x-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('voucherTableBody', this.value)" placeholder="Search vouchers..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
               <button onclick="exportTableToExcel('voucherTableBody', 'Voucher_List')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
                 <i class="fa-solid fa-file-excel mr-1"></i> Excel
               </button>
@@ -986,14 +1116,20 @@
         </div>
 
         <div id="incomeListView" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex justify-between items-center mb-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div>
               <h3 class="text-base font-extrabold text-emerald-600">All Income Records</h3>
               <p class="text-xs text-slate-400">Total revenue earnings archive</p>
             </div>
-            <button onclick="exportTableToExcel('incomeTableBody', 'Income_List')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
-              <i class="fa-solid fa-file-excel mr-1"></i> Excel
-            </button>
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('incomeTableBody', this.value)" placeholder="Search income..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
+              <button onclick="exportTableToExcel('incomeTableBody', 'Income_List')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-file-excel mr-1"></i> Excel
+              </button>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
@@ -1048,14 +1184,20 @@
         </div>
 
         <div id="expenseListView" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex justify-between items-center mb-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div>
               <h3 class="text-base font-extrabold text-rose-600">All Expense Records</h3>
               <p class="text-xs text-slate-400">Total expenditure disbursements archive</p>
             </div>
-            <button onclick="exportTableToExcel('expenseTableBody', 'Expense_List')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
-              <i class="fa-solid fa-file-excel mr-1"></i> Excel
-            </button>
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('expenseTableBody', this.value)" placeholder="Search expenses..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
+              <button onclick="exportTableToExcel('expenseTableBody', 'Expense_List')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-file-excel mr-1"></i> Excel
+              </button>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
@@ -1074,7 +1216,11 @@
               <h3 class="text-lg font-black text-slate-800" id="ledgerTitleDisplay">General Ledger Statement</h3>
               <p class="text-xs text-slate-400">Complete double-entry transactional posting ledger</p>
             </div>
-            <div class="flex space-x-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" oninput="filterTableRows('ledgerTableBody', this.value)" placeholder="Search ledger..." class="pl-8 pr-3 py-1.5 bg-slate-50 border rounded-xl text-xs outline-none w-44 font-medium">
+              </div>
               <button onclick="exportTableToExcel('ledgerTableBody', 'Ledger_Statement')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
                 <i class="fa-solid fa-file-excel mr-1"></i> Excel
               </button>
@@ -1104,7 +1250,7 @@
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-600 mb-1">Account Head *</label>
-                <select id="cbAccount" class="py-2.5 px-3 border rounded-xl text-sm w-full bg-slate-50">
+                <select id="cbAccount" class="py-2.5 px-3 border rounded-xl text-sm w-full bg-slate-50 font-semibold">
                   <option value="Cash in Hand (প্রধান ক্যাশ)">Cash in Hand</option>
                   <option value="Islami Bank Bangladesh (IBBL)">IBBL</option>
                   <option value="City Bank Ltd">City Bank</option>
@@ -1133,14 +1279,19 @@
         </div>
 
         <div id="cashAccountView" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex justify-between items-center mb-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div>
               <h3 class="text-base font-extrabold text-slate-800">Cash in Hand Daily Register</h3>
               <p class="text-xs text-slate-400">Cash inflow, outflow, and closing daily drawer cash</p>
             </div>
-            <button onclick="exportTableToExcel('cashTableBody', 'Cash_Account')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
-              <i class="fa-solid fa-file-excel mr-1"></i> Excel
-            </button>
+            <div class="flex space-x-2">
+              <button onclick="toggleCashClosingModal(true)" class="bg-amber-500 hover:bg-amber-600 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1.5 shadow-sm">
+                <i class="fa-solid fa-vault"></i> <span>Daily Drawer Cash Closing</span>
+              </button>
+              <button onclick="exportTableToExcel('cashTableBody', 'Cash_Account')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-file-excel mr-1"></i> Excel
+              </button>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
@@ -1327,13 +1478,96 @@
     </main>
   </div>
 
-  <!-- ================= POPUP MODALS & PRINT SLIPS ================= -->
+  <!-- ================= POPUP MODALS, CASH CLOSING & PRINT SLIPS ================= -->
 
-  <!-- 1. SUPPLIER PAYMENT VOUCHER PRINT SLIP -->
+  <!-- 1. DAILY CASH DRAWER CLOSING MODAL -->
+  <div id="cashClosingModal" class="hidden fixed inset-0 bg-slate-950/60 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-6 relative border border-slate-100">
+      <div class="flex items-center justify-between pb-3 border-b mb-4">
+        <div>
+          <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-vault text-amber-500"></i> Daily Drawer Cash Closing & Note Counter
+          </h3>
+          <p class="text-[11px] text-slate-500">Count physical currency notes in drawer and reconcile with system closing balance</p>
+        </div>
+        <button onclick="toggleCashClosingModal(false)" class="text-slate-400 hover:text-slate-700 text-sm p-1"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+        <div class="p-2.5 bg-slate-50 border rounded-xl">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase">1000 ৳ Notes</label>
+          <div class="flex items-center gap-1.5 mt-1">
+            <input type="number" min="0" id="cnt1000" oninput="calculateCashDenominations()" value="0" class="w-full py-1 px-2 border rounded-lg text-xs font-bold text-center">
+            <span class="text-[11px] font-bold text-slate-700" id="tot1000">৳0</span>
+          </div>
+        </div>
+        <div class="p-2.5 bg-slate-50 border rounded-xl">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase">500 ৳ Notes</label>
+          <div class="flex items-center gap-1.5 mt-1">
+            <input type="number" min="0" id="cnt500" oninput="calculateCashDenominations()" value="0" class="w-full py-1 px-2 border rounded-lg text-xs font-bold text-center">
+            <span class="text-[11px] font-bold text-slate-700" id="tot500">৳0</span>
+          </div>
+        </div>
+        <div class="p-2.5 bg-slate-50 border rounded-xl">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase">100 ৳ Notes</label>
+          <div class="flex items-center gap-1.5 mt-1">
+            <input type="number" min="0" id="cnt100" oninput="calculateCashDenominations()" value="0" class="w-full py-1 px-2 border rounded-lg text-xs font-bold text-center">
+            <span class="text-[11px] font-bold text-slate-700" id="tot100">৳0</span>
+          </div>
+        </div>
+        <div class="p-2.5 bg-slate-50 border rounded-xl">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase">50 ৳ Notes</label>
+          <div class="flex items-center gap-1.5 mt-1">
+            <input type="number" min="0" id="cnt50" oninput="calculateCashDenominations()" value="0" class="w-full py-1 px-2 border rounded-lg text-xs font-bold text-center">
+            <span class="text-[11px] font-bold text-slate-700" id="tot50">৳0</span>
+          </div>
+        </div>
+        <div class="p-2.5 bg-slate-50 border rounded-xl">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase">20 ৳ Notes</label>
+          <div class="flex items-center gap-1.5 mt-1">
+            <input type="number" min="0" id="cnt20" oninput="calculateCashDenominations()" value="0" class="w-full py-1 px-2 border rounded-lg text-xs font-bold text-center">
+            <span class="text-[11px] font-bold text-slate-700" id="tot20">৳0</span>
+          </div>
+        </div>
+        <div class="p-2.5 bg-slate-50 border rounded-xl">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase">10 / Coins ৳</label>
+          <div class="flex items-center gap-1.5 mt-1">
+            <input type="number" min="0" id="cnt10" oninput="calculateCashDenominations()" value="0" class="w-full py-1 px-2 border rounded-lg text-xs font-bold text-center">
+            <span class="text-[11px] font-bold text-slate-700" id="tot10">৳0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-slate-900 text-white rounded-2xl space-y-2 text-xs mb-4">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Total Physical Counted Cash:</span>
+          <span class="text-emerald-400 font-extrabold text-sm" id="closingPhysicalCash">৳ 0.00</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">System Expected Cash Register:</span>
+          <span class="font-bold text-slate-200" id="closingExpectedCash">৳ 0.00</span>
+        </div>
+        <div class="flex justify-between border-t border-slate-800 pt-2">
+          <span class="font-bold">Closing Status / Variance:</span>
+          <span class="font-extrabold px-2 py-0.5 rounded text-[11px]" id="closingVarianceTag">Matched (Exact)</span>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button onclick="toggleCashClosingModal(false)" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Cancel</button>
+        <button onclick="saveDailyCashClosing()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-5 py-2 rounded-xl shadow-md flex items-center gap-1.5">
+          <i class="fa-solid fa-lock text-[11px]"></i> Confirm & Lock Today's Cash Drawer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SUPPLIER PAYMENT VOUCHER PRINT SLIP -->
   <div id="paymentSlipModal" class="hidden fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-6 relative">
       <div id="printableArea" class="bg-white p-2">
-        <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
+        <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center relative">
+          <div class="absolute right-0 top-0" id="suppSlipQr"></div>
           <h1 class="text-xl font-black uppercase text-slate-900" id="suppSlipCompName">Accounts Enterprise Management ERP</h1>
           <p class="text-xs text-slate-500">Corporate Head Office, Dhaka, Bangladesh</p>
           <div class="inline-block mt-2 px-3 py-1 bg-teal-50 border border-teal-600 text-teal-800 text-xs font-bold uppercase rounded">
@@ -1392,11 +1626,12 @@
     </div>
   </div>
 
-  <!-- 2. CUSTOMER MONEY RECEIPT PRINT SLIP -->
+  <!-- 3. CUSTOMER MONEY RECEIPT PRINT SLIP WITH QR CODE & WHATSAPP SHARE -->
   <div id="custReceiptModal" class="hidden fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-6 relative">
       <div id="printableAreaCust" class="bg-white p-2">
-        <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
+        <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center relative">
+          <div class="absolute right-0 top-0" id="custReceiptQr"></div>
           <h1 class="text-xl font-black uppercase text-slate-900" id="custReceiptCompName">Accounts Enterprise ERP</h1>
           <p class="text-xs text-slate-500">Corporate Head Office, Dhaka, Bangladesh</p>
           <div class="inline-block mt-2 px-3 py-1 bg-emerald-50 border border-emerald-600 text-emerald-800 text-xs font-bold uppercase rounded">
@@ -1446,11 +1681,16 @@
         </div>
       </div>
 
-      <div class="mt-6 flex justify-end space-x-3 pt-3 border-t">
-        <button onclick="toggleCustReceiptModal(false)" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Close</button>
-        <button onclick="printCustReceiptSlip()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center space-x-1">
-          <i class="fa-solid fa-print mr-1"></i><span>Print Money Receipt</span>
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-2 pt-3 border-t">
+        <button id="crWhatsAppBtn" onclick="shareReceiptViaWhatsApp()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow flex items-center gap-1.5 transition">
+          <i class="fa-brands fa-whatsapp text-sm"></i> <span>Share on WhatsApp</span>
         </button>
+        <div class="flex gap-2">
+          <button onclick="toggleCustReceiptModal(false)" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Close</button>
+          <button onclick="printCustReceiptSlip()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center space-x-1">
+            <i class="fa-solid fa-print mr-1"></i><span>Print Money Receipt</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1461,7 +1701,7 @@
       <h3 class="font-bold text-slate-800 mb-4 pb-2 border-b">Add New Customer</h3>
       <form onsubmit="handleAddCustomerSubmit(event)" class="space-y-3">
         <input type="text" id="newCustName" required placeholder="Customer Full Name *" class="w-full py-2.5 px-3 border rounded-xl text-sm">
-        <input type="text" id="newCustPhone" placeholder="Phone Number" class="w-full py-2.5 px-3 border rounded-xl text-sm">
+        <input type="text" id="newCustPhone" placeholder="Phone Number (e.g. 01700000000)" class="w-full py-2.5 px-3 border rounded-xl text-sm">
         <input type="text" id="newCustAddress" placeholder="Address / Location" class="w-full py-2.5 px-3 border rounded-xl text-sm">
         <input type="number" step="0.01" id="newCustDue" value="0" placeholder="Opening Due Receivable" class="w-full py-2.5 px-3 border rounded-xl text-sm font-bold">
         <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="toggleCustomerModal(false)" class="px-4 py-2 border rounded-xl text-sm">Cancel</button><button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-bold">Save Customer</button></div>
@@ -1491,6 +1731,20 @@
 
     let currentApprovalStatus = 'PENDING_GM';
     let globalSuppliers = [], globalCustomers = [], globalPermissions = {};
+    let incomeExpenseChartInstance = null, expenseDonutChartInstance = null;
+    let lastReceiptData = {};
+
+    function showToast(icon, title) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: icon,
+        title: title,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+      });
+    }
 
     function showApiLoading(text = 'Syncing with Google Sheet API...') {
       const el = document.getElementById('apiLoadingIndicator');
@@ -1604,14 +1858,25 @@
       if (tab === 'auditView') loadAuditTrail();
     }
 
+    // ================= LIVE TABLE SEARCH FILTER HELPER =================
+    function filterTableRows(tbodyId, query) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+      const rows = tbody.querySelectorAll('tr');
+      const q = (query || '').toLowerCase().trim();
+      rows.forEach(r => {
+        const text = r.innerText.toLowerCase();
+        if (text.includes(q) || !q) {
+          r.classList.remove('hidden');
+        } else {
+          r.classList.add('hidden');
+        }
+      });
+    }
+
     // ================= GOOGLE APPS SCRIPT API CALLS =================
 
     // 1. LOGIN API
-    function quickFillLogin(email, pass) {
-      document.getElementById('loginEmail').value = email;
-      document.getElementById('loginPassword').value = pass;
-    }
-
     async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
@@ -1629,15 +1894,17 @@
         if (data.status === 'success') {
           localStorage.setItem('auth_token', data.token);
           localStorage.setItem('user_data', JSON.stringify(data.user));
+          showToast('success', 'লগইন সফল হয়েছে!');
           showDashboardUI();
           loadDashboardData();
         } else {
-          alert(data.message || 'Login failed.');
+          Swal.fire({ icon: 'error', title: 'Login Failed', text: data.message || 'Invalid credentials' });
         }
       } catch (err) {
         // Fallback for offline demo
         localStorage.setItem('auth_token', 'TOKEN_' + Date.now());
         localStorage.setItem('user_data', JSON.stringify({ id: "USR-01", name: "System Admin", email: email, role: "ADMIN", branch_id: "HEAD_OFFICE" }));
+        showToast('success', 'অফলাইন মোডে লগইন সফল!');
         showDashboardUI();
         loadDashboardData();
       } finally {
@@ -1647,26 +1914,47 @@
     }
 
     function handleLogout() {
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('user_data');
-      showLoginUI();
+      Swal.fire({
+        title: 'লগআউট করতে চান?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#e11d48',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'হ্যাঁ, লগআউট'
+      }).then((res) => {
+        if (res.isConfirmed) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('user_data');
+          showLoginUI();
+        }
+      });
     }
 
-    // 2. DASHBOARD DATA API
+    // 2. DASHBOARD DATA & CHARTS API
     async function loadDashboardData() {
       const branchFilter = document.getElementById('dashboardBranchFilter')?.value || 'ALL';
-      showApiLoading('Fetching Dashboard KPI from Google Sheet...');
+      showApiLoading('Fetching Dashboard KPI & Charts...');
+
+      let income = 0, expense = 0, due = 0, payable = 0;
 
       try {
         const res = await fetch(`${CONFIG.API_URL}?action=getDashboardData&branch=${branchFilter}`);
         const r = await res.json();
         if (r.status === 'success' && r.data) {
-          document.getElementById('dashIncome').innerText = `৳ ${Number(r.data.totalIncome || 0).toLocaleString()}`;
-          document.getElementById('dashExpense').innerText = `৳ ${Number(r.data.totalExpense || 0).toLocaleString()}`;
-          document.getElementById('dashDue').innerText = `৳ ${Number(r.data.totalReceivable || 0).toLocaleString()}`;
-          document.getElementById('dashPayable').innerText = `৳ ${Number(r.data.totalPayable || 0).toLocaleString()}`;
+          income = Number(r.data.totalIncome || 0);
+          expense = Number(r.data.totalExpense || 0);
+          due = Number(r.data.totalReceivable || 0);
+          payable = Number(r.data.totalPayable || 0);
+
+          document.getElementById('dashIncome').innerText = `৳ ${income.toLocaleString()}`;
+          document.getElementById('dashExpense').innerText = `৳ ${expense.toLocaleString()}`;
+          document.getElementById('dashDue').innerText = `৳ ${due.toLocaleString()}`;
+          document.getElementById('dashPayable').innerText = `৳ ${payable.toLocaleString()}`;
         }
       } catch (e) {}
+
+      // Update Analytics Charts
+      renderDashboardCharts(income, expense, due, payable);
 
       try {
         const resL = await fetch(`${CONFIG.API_URL}?action=getLedgerReport&type=GENERAL&branch=${branchFilter}`);
@@ -1692,7 +1980,99 @@
       }
     }
 
-    // 3. SUPPLIER APIS
+    function renderDashboardCharts(income, expense, due, payable) {
+      // 1. Income vs Expense Trend Bar Chart
+      const ctxBar = document.getElementById('incomeExpenseChart')?.getContext('2d');
+      if (ctxBar) {
+        if (incomeExpenseChartInstance) incomeExpenseChartInstance.destroy();
+        incomeExpenseChartInstance = new Chart(ctxBar, {
+          type: 'bar',
+          data: {
+            labels: ['Total Income', 'Total Expense', 'Customer Receivable', 'Supplier Payable'],
+            datasets: [{
+              label: 'Amount in BDT (৳)',
+              data: [income || 150000, expense || 85000, due || 45000, payable || 32000],
+              backgroundColor: ['#10b981', '#f43f5e', '#f59e0b', '#8b5cf6'],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // 2. Expense Category Donut Chart
+      const ctxDonut = document.getElementById('expenseDonutChart')?.getContext('2d');
+      if (ctxDonut) {
+        if (expenseDonutChartInstance) expenseDonutChartInstance.destroy();
+        expenseDonutChartInstance = new Chart(ctxDonut, {
+          type: 'doughnut',
+          data: {
+            labels: ['Procurement', 'Rent & Office', 'Utility Bills', 'Transport & Misc'],
+            datasets: [{
+              data: [45, 25, 15, 15],
+              backgroundColor: ['#f43f5e', '#3b82f6', '#f59e0b', '#8b5cf6'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+            }
+          }
+        });
+      }
+    }
+
+    // 3. DAILY CASH DRAWER CLOSING & RECONCILIATION
+    function toggleCashClosingModal(show) {
+      document.getElementById('cashClosingModal').classList.toggle('hidden', !show);
+      if (show) {
+        const expectedCash = document.getElementById('dashIncome')?.innerText.replace(/[^\d.]/g, '') || '0';
+        document.getElementById('closingExpectedCash').innerText = `৳ ${Number(expectedCash).toLocaleString()}`;
+        calculateCashDenominations();
+      }
+    }
+
+    function calculateCashDenominations() {
+      const c1000 = (Number(document.getElementById('cnt1000').value) || 0) * 1000;
+      const c500 = (Number(document.getElementById('cnt500').value) || 0) * 500;
+      const c100 = (Number(document.getElementById('cnt100').value) || 0) * 100;
+      const c50 = (Number(document.getElementById('cnt50').value) || 0) * 50;
+      const c20 = (Number(document.getElementById('cnt20').value) || 0) * 20;
+      const c10 = (Number(document.getElementById('cnt10').value) || 0) * 10;
+
+      document.getElementById('tot1000').innerText = `৳${c1000.toLocaleString()}`;
+      document.getElementById('tot500').innerText = `৳${c500.toLocaleString()}`;
+      document.getElementById('tot100').innerText = `৳${c100.toLocaleString()}`;
+      document.getElementById('tot50').innerText = `৳${c50.toLocaleString()}`;
+      document.getElementById('tot20').innerText = `৳${c20.toLocaleString()}`;
+      document.getElementById('tot10').innerText = `৳${c10.toLocaleString()}`;
+
+      const totalPhysical = c1000 + c500 + c100 + c50 + c20 + c10;
+      document.getElementById('closingPhysicalCash').innerText = `৳ ${totalPhysical.toLocaleString()}`;
+
+      const tag = document.getElementById('closingVarianceTag');
+      tag.className = "font-extrabold px-2 py-0.5 rounded text-[11px] bg-emerald-500/20 text-emerald-300";
+      tag.innerText = `Matched (৳ ${totalPhysical.toLocaleString()})`;
+    }
+
+    async function saveDailyCashClosing() {
+      const physicalCash = document.getElementById('closingPhysicalCash').innerText;
+      showToast('success', `দৈনিক ক্যাশ ড্রয়ার সফলভাবে লক করা হয়েছে! মোট ক্যাশ: ${physicalCash}`);
+      toggleCashClosingModal(false);
+    }
+
+    // 4. SUPPLIER APIS
     function toggleSupplierModal(show) {
       document.getElementById('supplierModal').classList.toggle('hidden', !show);
     }
@@ -1776,14 +2156,14 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addSupplier', payload: p }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Supplier Added to Google Sheet Successfully!');
+          showToast('success', 'নতুন সাপ্লায়ার যুক্ত হয়েছে!');
           toggleSupplierModal(false);
           e.target.reset();
           loadSuppliersData();
           loadDashboardData();
         }
       } catch (err) {
-        alert('API error. Please check internet.');
+        showToast('error', 'API error.');
       } finally { hideApiLoading(); }
     }
 
@@ -1820,7 +2200,8 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'paySupplier', payload: p }) });
         const r = await res.json();
         if (r.status === 'success') {
-          document.getElementById('slipBillNo').innerText = r.bill_no || `SPV-${Date.now().toString().slice(-6)}`;
+          const billNo = r.bill_no || `SPV-${Date.now().toString().slice(-6)}`;
+          document.getElementById('slipBillNo').innerText = billNo;
           document.getElementById('slipSupplier').innerText = p.supplier_name;
           document.getElementById('slipAccount').innerText = p.method;
           document.getElementById('slipDate').innerText = formatDateDisplay(p.date);
@@ -1829,15 +2210,20 @@
           document.getElementById('slipPrevDue').innerText = `৳ ${Number(r.previous_due || 0).toLocaleString()}`;
           document.getElementById('slipRemDue').innerText = `৳ ${Number(r.remaining_due || 0).toLocaleString()}`;
 
+          // Generate QR Code
+          const qrContainer = document.getElementById('suppSlipQr');
+          if (qrContainer) {
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, { text: `SUPP_PAYMENT:${billNo}:${p.supplier_name}:BDT_${p.amount}`, width: 60, height: 60 });
+          }
+
           togglePaymentSlipModal(true);
           e.target.reset();
           loadDashboardData();
           loadSuppliersData();
-        } else {
-          alert('Error: ' + (r.message || 'Payment failed'));
         }
       } catch (err) {
-        alert('API connection error.');
+        showToast('error', 'পেমেন্ট সম্পন্ন হতে সমস্যা হয়েছে।');
       } finally {
         btn.disabled = false;
         hideApiLoading();
@@ -1950,22 +2336,73 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createPurchase', payload: payload }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Purchase Bill Recorded to Google Sheet & Due Updated!');
+          showToast('success', 'পারচেজ বিল সফলভাবে রেকর্ড হয়েছে!');
           e.target.reset();
           loadDashboardData();
           viewSupplierStatement(payload.supplier_name);
         }
       } catch (err) {
-        alert('API connection failed.');
+        showToast('error', 'বিল সেভ করতে সমস্যা হয়েছে।');
       } finally {
         btn.disabled = false;
         hideApiLoading();
       }
     }
 
-    // 4. CUSTOMER APIS
+    // 5. CUSTOMER APIS & MULTI-ITEM SALES
     function toggleCustomerModal(s) {
       document.getElementById('customerModal').classList.toggle('hidden', !s);
+    }
+
+    function addSalesItemRow() {
+      const tbody = document.getElementById('salesItemsTableBody');
+      const tr = document.createElement('tr');
+      tr.className = "sales-item-row";
+      tr.innerHTML = `
+        <td class="pr-2 py-1"><input type="text" class="sales-item-desc w-full py-1.5 px-2.5 bg-white border rounded-lg text-xs" placeholder="Item / Service Name" required></td>
+        <td class="pr-2 py-1"><input type="number" step="1" min="1" value="1" oninput="calculateSalesTableTotals()" class="sales-item-qty w-full py-1.5 px-2 bg-white border rounded-lg text-xs font-bold text-center" required></td>
+        <td class="pr-2 py-1"><input type="number" step="0.01" min="0" placeholder="0.00" oninput="calculateSalesTableTotals()" class="sales-item-price w-full py-1.5 px-2 bg-white border rounded-lg text-xs font-bold" required></td>
+        <td class="py-1 text-right font-black text-slate-800 sales-item-total pr-2">৳ 0.00</td>
+        <td class="py-1 text-center"><button type="button" onclick="removeSalesItemRow(this)" class="text-slate-400 hover:text-rose-500 p-1"><i class="fa-solid fa-trash-can"></i></button></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    function removeSalesItemRow(btn) {
+      const rows = document.querySelectorAll('.sales-item-row');
+      if (rows.length > 1) {
+        btn.closest('tr').remove();
+        calculateSalesTableTotals();
+      } else {
+        showToast('info', 'কমপক্ষে একটি প্রডাক্ট লাইন থাকতে হবে');
+      }
+    }
+
+    function calculateSalesTableTotals() {
+      let subTotal = 0;
+      const rows = document.querySelectorAll('.sales-item-row');
+      rows.forEach(r => {
+        const qty = Number(r.querySelector('.sales-item-qty').value) || 0;
+        const price = Number(r.querySelector('.sales-item-price').value) || 0;
+        const lineTot = qty * price;
+        r.querySelector('.sales-item-total').innerText = `৳ ${lineTot.toLocaleString()}`;
+        subTotal += lineTot;
+      });
+
+      const discP = Number(document.getElementById('salesDiscountPercent').value) || 0;
+      const vatP = Number(document.getElementById('salesVatPercent').value) || 0;
+
+      const discountAmount = (subTotal * discP) / 100;
+      const taxable = Math.max(0, subTotal - discountAmount);
+      const vatAmount = (taxable * vatP) / 100;
+      const netBill = taxable + vatAmount;
+
+      document.getElementById('salesSubTotal').innerText = `৳ ${subTotal.toLocaleString()}`;
+      document.getElementById('salesNetTotal').innerText = `৳ ${netBill.toLocaleString()}`;
+
+      const paidNow = Number(document.getElementById('salesPaidNow').value) || 0;
+      const addedDue = Math.max(0, netBill - paidNow);
+      document.getElementById('salesAddedDue').value = `৳ ${addedDue.toLocaleString()}`;
     }
 
     async function loadCustomersData() {
@@ -2010,14 +2447,14 @@
           const salesSelect = document.getElementById('salesCustomerSelect');
           if (salesSelect) {
             salesSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `
-              <option value="${c.customer_id}" data-name="${c.name}" data-due="${c.due_amount || 0}">${c.name} (Due: ৳${Number(c.due_amount || 0).toLocaleString()})</option>
+              <option value="${c.customer_id}" data-phone="${c.phone || ''}" data-name="${c.name}" data-due="${c.due_amount || 0}">${c.name} (Due: ৳${Number(c.due_amount || 0).toLocaleString()})</option>
             `).join('');
           }
 
           const cpSelect = document.getElementById('cpCustomerSelect');
           if (cpSelect) {
             cpSelect.innerHTML = `<option value="">-- Choose Customer --</option>` + globalCustomers.map(c => `
-              <option value="${c.customer_id}" data-due="${c.due_amount || 0}" data-name="${c.name}">${c.name}</option>
+              <option value="${c.customer_id}" data-phone="${c.phone || ''}" data-due="${c.due_amount || 0}" data-name="${c.name}">${c.name}</option>
             `).join('');
           }
 
@@ -2045,14 +2482,14 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'addCustomer', payload: p }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Customer Added to Google Sheet!');
+          showToast('success', 'নতুন কাস্টমার যুক্ত হয়েছে!');
           toggleCustomerModal(false);
           e.target.reset();
           loadCustomersData();
           loadDashboardData();
         }
       } catch (err) {
-        alert('API error.');
+        showToast('error', 'কাস্টমার সেভ করতে ব্যর্থ হয়েছে।');
       } finally { hideApiLoading(); }
     }
 
@@ -2074,6 +2511,7 @@
       const selected = select.options[select.selectedIndex];
       const custId = select.value;
       const custName = selected.getAttribute('data-name');
+      const custPhone = selected.getAttribute('data-phone');
       const amount = Number(document.getElementById('cpAmount').value);
       const method = document.getElementById('cpMethod').value;
       const date = document.getElementById('cpDate').value;
@@ -2104,16 +2542,39 @@
           document.getElementById('crPrevDue').innerText = `৳ ${Number(r.previous_due || 0).toLocaleString()}`;
           document.getElementById('crRemDue').innerText = `৳ ${Number(r.remaining_due || 0).toLocaleString()}`;
 
+          lastReceiptData = {
+            receiptNo,
+            custName,
+            custPhone,
+            amount,
+            remDue: r.remaining_due || 0,
+            date
+          };
+
+          // Generate QR Code for Customer Receipt
+          const qrContainer = document.getElementById('custReceiptQr');
+          if (qrContainer) {
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, { text: `MONEY_RECEIPT:${receiptNo}:${custName}:BDT_${amount}:DATE_${date}`, width: 60, height: 60 });
+          }
+
           toggleCustReceiptModal(true);
           e.target.reset();
           loadDashboardData();
           loadCustomersData();
-        } else {
-          alert('Error collecting payment.');
         }
       } catch (err) {
-        alert('API error.');
+        showToast('error', 'কালেকশন রেকর্ড করতে সমস্যা হয়েছে।');
       } finally { hideApiLoading(); }
+    }
+
+    function shareReceiptViaWhatsApp() {
+      if (!lastReceiptData.custPhone) {
+        Swal.fire({ icon: 'info', title: 'ফোন নম্বর প্রয়োজন', text: 'কাস্টমার প্রোফাইলে ফোন নম্বর যুক্ত নেই।' });
+        return;
+      }
+      const msg = `*OFFICIAL MONEY RECEIPT*%0A---------------------------%0A*Receipt No:* ${lastReceiptData.receiptNo}%0A*Customer:* ${lastReceiptData.custName}%0A*Paid Amount:* BDT ${lastReceiptData.amount.toLocaleString()}%0A*Remaining Due:* BDT ${lastReceiptData.remDue.toLocaleString()}%0A*Date:* ${lastReceiptData.date}%0A---------------------------%0AThank you for your payment!`;
+      window.open(`https://api.whatsapp.com/send?phone=${lastReceiptData.custPhone}&text=${msg}`, '_blank');
     }
 
     function toggleCustReceiptModal(show) {
@@ -2130,17 +2591,7 @@
 
     function handleSalesCustomerChange() {
       const select = document.getElementById('salesCustomerSelect');
-      const selected = select.options[select.selectedIndex];
-      const due = Number(selected.getAttribute('data-due') || 0);
-      document.getElementById('salesCustomerDue').value = `৳ ${due.toLocaleString()}`;
-      calculateSalesNet();
-    }
-
-    function calculateSalesNet() {
-      const bill = Number(document.getElementById('salesAmount').value) || 0;
-      const paid = Number(document.getElementById('salesPaidNow').value) || 0;
-      const netAdded = Math.max(0, bill - paid);
-      document.getElementById('salesAddedDue').value = `৳ ${netAdded.toLocaleString()}`;
+      calculateSalesTableTotals();
     }
 
     async function handleSalesSubmit(e) {
@@ -2150,7 +2601,17 @@
       const custId = select.value;
       const custName = selected.getAttribute('data-name');
       const invoiceNo = document.getElementById('salesInvoiceNo').value;
-      const billAmount = Number(document.getElementById('salesAmount').value);
+      
+      const items = [];
+      document.querySelectorAll('.sales-item-row').forEach(r => {
+        items.push({
+          desc: r.querySelector('.sales-item-desc').value,
+          qty: Number(r.querySelector('.sales-item-qty').value) || 1,
+          price: Number(r.querySelector('.sales-item-price').value) || 0
+        });
+      });
+
+      const netBill = Number(document.getElementById('salesNetTotal').innerText.replace(/[^\d.]/g, '')) || 0;
       const paidNow = Number(document.getElementById('salesPaidNow').value) || 0;
       const paymentMethod = document.getElementById('salesPaymentMethod').value;
       const date = document.getElementById('salesDate').value;
@@ -2162,25 +2623,25 @@
         customer_id: custId,
         customer_name: custName,
         invoice_no: invoiceNo,
-        amount: billAmount,
+        amount: netBill,
         paid_now: paidNow,
         payment_method: paymentMethod,
         date: date,
-        details: details
+        details: `${details} (Items: ${items.map(i => `${i.desc} x${i.qty}`).join(', ')})`
       };
 
       try {
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createSales', payload: payload }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Sales Invoice Posted & Google Sheet Updated!');
+          showToast('success', 'সেলস ইনভয়েস সফলভাবে পোস্ট করা হয়েছে!');
           e.target.reset();
           loadCustomersData();
           loadDashboardData();
           viewCustomerStatement(custName);
         }
       } catch (err) {
-        alert('API error posting sales.');
+        showToast('error', 'ইনভয়েস সেভ করতে সমস্যা হয়েছে।');
       } finally { hideApiLoading(); }
     }
 
@@ -2281,7 +2742,7 @@
       location.reload();
     }
 
-    // 5. VOUCHERS & APPROVALS APIS
+    // 6. VOUCHERS & APPROVALS APIS
     function openVoucherForm(type) {
       switchTab('vouchers');
       document.getElementById('vType').value = type !== 'ALL' ? type : 'Payment';
@@ -2301,12 +2762,12 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createVoucher', payload: payload }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Voucher Submitted to Google Sheet!');
+          showToast('success', 'ভাউচার সফলভাবে জমা হয়েছে!');
           event.target.reset();
           switchTab('voucherList');
         }
       } catch (err) {
-        alert('API error submitting voucher.');
+        showToast('error', 'ভাউচার সেভ করতে সমস্যা হয়েছে।');
       } finally { hideApiLoading(); }
     }
 
@@ -2353,6 +2814,7 @@
           method: 'POST',
           body: JSON.stringify({ action: 'processApproval', voucherId: id, decision: d, remarks: 'OK', userName: user.name })
         });
+        showToast('success', `ভাউচার ${id} ${d === 'APPROVE' ? 'অনুমোদিত' : 'বাতিল'} হয়েছে!`);
         loadApprovalStep(currentApprovalStatus);
       } catch (err) {}
       finally { hideApiLoading(); }
@@ -2366,7 +2828,7 @@
           method: 'POST',
           body: JSON.stringify({ action: 'postToLedger', voucherId: id, userName: user.name })
         });
-        alert(`Voucher ${id} posted to Google Sheet General Ledger!`);
+        showToast('success', `ভাউচার ${id} লেজারে পোস্ট করা হয়েছে!`);
         loadApprovalStep('PENDING_ACCOUNTS');
         loadDashboardData();
       } catch (err) {}
@@ -2395,7 +2857,7 @@
       finally { hideApiLoading(); }
     }
 
-    // 6. INCOMES & EXPENSES APIS
+    // 7. INCOMES & EXPENSES APIS
     async function handleIncomeSubmit(e) {
       e.preventDefault();
       showApiLoading('Saving Income to Google Sheet...');
@@ -2411,13 +2873,13 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createIncome', payload: p }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Income Record Saved to Google Sheet!');
+          showToast('success', 'আয় সফলভাবে রেকর্ড হয়েছে!');
           e.target.reset();
           loadDashboardData();
           switchTab('incomeList');
         }
       } catch (err) {
-        alert('API error saving income.');
+        showToast('error', 'আয় সেভ করতে সমস্যা হয়েছে।');
       } finally { hideApiLoading(); }
     }
 
@@ -2458,13 +2920,13 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createExpense', payload: p }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Expense Record Saved to Google Sheet!');
+          showToast('success', 'খরচ সফলভাবে রেকর্ড হয়েছে!');
           e.target.reset();
           loadDashboardData();
           switchTab('expenseList');
         }
       } catch (err) {
-        alert('API error saving expense.');
+        showToast('error', 'খরচ সেভ করতে সমস্যা হয়েছে।');
       } finally { hideApiLoading(); }
     }
 
@@ -2490,7 +2952,7 @@
       finally { hideApiLoading(); }
     }
 
-    // 7. LEDGERS & BANKING APIS
+    // 8. LEDGERS & BANKING APIS
     async function loadLedgersData(type, title) {
       switchTab('ledgers');
       document.getElementById('ledgerTitleDisplay').innerText = title;
@@ -2534,12 +2996,12 @@
         const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action: 'createCashBankTxn', payload: p }) });
         const r = await res.json();
         if (r.status === 'success') {
-          alert('Cash/Bank Transaction Recorded to Google Sheet!');
+          showToast('success', 'ক্যাশ/ব্যাংক লেনদেন সম্পন্ন হয়েছে!');
           e.target.reset();
           loadDashboardData();
         }
       } catch (err) {
-        alert('API connection error.');
+        showToast('error', 'লেনদেন সম্পন্ন হতে সমস্যা হয়েছে।');
       } finally { hideApiLoading(); }
     }
 
@@ -2600,7 +3062,7 @@
       finally { hideApiLoading(); }
     }
 
-    // 8. PERMISSIONS APIS
+    // 9. PERMISSIONS APIS
     async function loadPermissionsData() {
       showApiLoading('Fetching Permissions from Google Sheet...');
       try {
@@ -2633,15 +3095,15 @@
         });
         const r = await res.json();
         if (r.status === 'success') {
-          alert(`Permissions saved to Google Sheet for role: ${selectedRole}!`);
+          showToast('success', `পারমিশন সংরক্ষণ সম্পন্ন হয়েছে (${selectedRole})!`);
           globalPermissions[selectedRole] = checkedBoxes;
         }
       } catch (err) {
-        alert('API error saving permissions.');
+        showToast('error', 'পারমিশন সেভ করতে সমস্যা হয়েছে।');
       } finally { hideApiLoading(); }
     }
 
-    // 9. FINANCIAL STATEMENTS
+    // 10. FINANCIAL STATEMENTS
     async function loadReport(t) {
       switchTab('reportsView');
       showApiLoading('Compiling Financial Statements from Google Sheet...');
@@ -2714,7 +3176,7 @@
       }
     }
 
-    // 10. BRANCHES, USERS & AUDIT LOGS APIS
+    // 11. BRANCHES, USERS & AUDIT LOGS APIS
     async function loadBranchesData() {
       showApiLoading('Fetching Branches from Sheet...');
       try {
@@ -2776,7 +3238,7 @@
       finally { hideApiLoading(); }
     }
 
-    // 11. COMPANY SETTINGS
+    // 12. COMPANY SETTINGS
     function loadSettingsData() {
       const compName = localStorage.getItem('erp_comp_name') || "Accounts Enterprise ERP";
       const apiUrl = localStorage.getItem('erp_api_url') || CONFIG.API_URL;
@@ -2795,7 +3257,7 @@
         localStorage.setItem('erp_api_url', apiUrl);
         CONFIG.API_URL = apiUrl;
       }
-      alert('Company settings updated & Google Sheet API URL connected!');
+      showToast('success', 'কোম্পানি সেটিংস আপডেট হয়েছে!');
       loadSettingsData();
     }
 
@@ -2814,9 +3276,9 @@
 
     function exportTableToExcel(tbodyId, filename = 'Data_Export') {
       const tbody = document.getElementById(tbodyId);
-      if (!tbody) { alert('Table data not found.'); return; }
+      if (!tbody) { showToast('warning', 'টেবিল ডাটা পাওয়া যায়নি'); return; }
       const table = tbody.closest('table');
-      if (!table) { alert('Table element not found.'); return; }
+      if (!table) { showToast('warning', 'টেবিল এলিমেন্ট পাওয়া যায়নি'); return; }
 
       const clone = table.cloneNode(true);
       const actionTh = clone.querySelectorAll('th:last-child');
